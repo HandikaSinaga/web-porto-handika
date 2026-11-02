@@ -121,16 +121,16 @@ export default function Skills() {
                         key={skill.name}
                         className="p-3 rounded-xl bg-slate-50/70 dark:bg-slate-900/50 border border-slate-200/60 dark:border-slate-800/60 flex items-center justify-between gap-2.5 group hover:border-blue-400/60 dark:hover:border-blue-600/60 transition-colors"
                       >
-                        <div className="flex items-center gap-2.5 min-w-0">
+                        <div className="flex items-center gap-2.5 min-w-0 flex-1">
                           <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
                             <IconComponent className="w-4 h-4" />
                           </div>
-                          <div className="min-w-0">
-                            <div className="text-xs sm:text-sm font-semibold text-slate-900 dark:text-slate-100 truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                          <div className="min-w-0 flex-1">
+                            <div className="text-xs sm:text-sm font-semibold text-slate-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                               {skill.name}
                             </div>
                             {skill.details && (
-                              <div className="text-[10px] text-slate-500 dark:text-slate-400 truncate">
+                              <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-normal">
                                 {skill.details}
                               </div>
                             )}

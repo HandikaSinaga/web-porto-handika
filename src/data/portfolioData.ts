@@ -23,7 +23,7 @@ export const contactData: ContactInfo = {
   location: "Serpong, Kota Tangerang Selatan, Indonesia",
   linkedin: "https://linkedin.com/in/handikasinaga",
   github: "https://github.com/handikasinaga",
-  cvUrl: "https://s.id/cv-handika",
+  cvUrl: "https://s.id/cv_handika",
   summary:
     "Lulusan S1 Teknik Informatika Universitas Pamulang yang memiliki minat dan kompetensi mendalam di bidang DevOps Engineering, Cloud Computing, serta pengelolaan infrastruktur dan aplikasi berbasis cloud modern. Berpengalaman dalam merancang dan mengimplementasikan infrastruktur AWS, containerization menggunakan Docker, automasi CI/CD dengan GitLab CI, serta pemantauan sistem menggunakan Prometheus dan Grafana. Berkomitmen membangun arsitektur infrastruktur IT yang scalable, reliable, and high-performing.",
 };

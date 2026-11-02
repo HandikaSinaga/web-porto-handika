@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useTheme } from "@/context/ThemeContext";
+import { contactData } from "@/data/portfolioData";
 import {
   Sun,
   Moon,
@@ -125,7 +126,7 @@ export default function Navbar() {
             </button>
 
             <a
-              href="https://s.id/cv-handika"
+              href={contactData.cvUrl || "https://s.id/cv_handika"}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-md shadow-blue-500/20 hover:shadow-blue-500/35 transition-all transform hover:-translate-y-0.5"
@@ -225,7 +226,7 @@ export default function Navbar() {
               </button>
 
               <a
-                href="https://s.id/cv-handika"
+                href={contactData.cvUrl || "https://s.id/cv_handika"}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setIsOpen(false)}

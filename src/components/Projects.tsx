@@ -25,6 +25,7 @@ import {
   Network,
   Crown,
   ChevronRight,
+  ChevronLeft,
   Image as ImageIcon,
   ZoomIn,
   Briefcase,
@@ -39,12 +40,35 @@ export default function Projects() {
   const [lightboxImage, setLightboxImage] = useState<ProjectImage | null>(null);
   const [galleryCategory, setGalleryCategory] = useState<string>("Semua");
   const modalBodyRef = useRef<HTMLDivElement>(null);
+  const tabsContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (modalBodyRef.current) {
       modalBodyRef.current.scrollTop = 0;
     }
   }, [activeTab, selectedProject]);
+
+  useEffect(() => {
+    if (tabsContainerRef.current) {
+      const activeBtn = tabsContainerRef.current.querySelector<HTMLButtonElement>(
+        `[data-tab="${activeTab}"]`
+      );
+      if (activeBtn) {
+        activeBtn.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "center",
+        });
+      }
+    }
+  }, [activeTab, selectedProject]);
+
+  const scrollTabs = (direction: "left" | "right") => {
+    if (tabsContainerRef.current) {
+      const offset = direction === "left" ? -220 : 220;
+      tabsContainerRef.current.scrollBy({ left: offset, behavior: "smooth" });
+    }
+  };
 
   useEffect(() => {
     const handleOpenProjectModal = (e: any) => {
@@ -181,7 +205,7 @@ export default function Projects() {
                   <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-800/80 flex items-center justify-between gap-2.5">
                     <div className="flex items-center gap-2 min-w-0 text-xs">
                       <Briefcase className="w-3.5 h-3.5 text-blue-500 shrink-0" />
-                      <div className="truncate">
+                      <div className="break-words">
                         <span className="text-slate-500">Terkait: </span>
                         <strong className="text-slate-800 dark:text-slate-200 font-semibold">
                           {project.relatedExperienceCompany}
@@ -258,7 +282,7 @@ export default function Projects() {
       {/* Modal Dialog for Deep Project Inspection & Presentation Dossier */}
       {selectedProject && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/75 backdrop-blur-md animate-fadeIn">
-          <div className="relative w-full max-w-4xl rounded-3xl bg-white dark:bg-[#0c1220] border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden max-h-[92vh] flex flex-col">
+          <div className="relative w-full max-w-5xl rounded-3xl bg-white dark:bg-[#0c1220] border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden max-h-[92vh] flex flex-col">
             {/* Modal Header */}
             <div className="p-4 sm:p-6 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#090e1a] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 shrink-0">
               <div className="space-y-1">
@@ -275,7 +299,7 @@ export default function Projects() {
                 <h3 className="text-lg sm:text-2xl font-extrabold text-slate-900 dark:text-white leading-tight">
                   {selectedProject.title}
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium line-clamp-2 sm:line-clamp-none">
+                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium">
                   {selectedProject.subtitle}
                 </p>
               </div>
@@ -305,85 +329,108 @@ export default function Projects() {
 
             {/* Modal Navigation Tabs (If rich presentation data exists) */}
             {selectedProject.timelinePhases && (
-              <div className="shrink-0 flex items-center border-b border-slate-200 dark:border-slate-800 bg-slate-100/70 dark:bg-slate-900/50 px-4 sm:px-6 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+              <div className="relative shrink-0 border-b border-slate-200 dark:border-slate-800 bg-slate-100/70 dark:bg-slate-900/50 flex items-center">
                 <button
-                  onClick={() => setActiveTab("overview")}
-                  data-tab="overview"
-                  className={`py-3 px-3 sm:px-4 text-xs sm:text-sm font-semibold border-b-2 whitespace-nowrap transition-colors flex items-center gap-1.5 shrink-0 ${
-                    activeTab === "overview"
-                      ? "border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400 bg-white/60 dark:bg-slate-800/60 rounded-t-lg"
-                      : "border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-                  }`}
+                  type="button"
+                  onClick={() => scrollTabs("left")}
+                  className="hidden sm:flex items-center justify-center p-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors shrink-0 z-10"
+                  aria-label="Scroll tabs left"
                 >
-                  <Users className="w-4 h-4" />
-                  <span>Ikhtisar & Tim</span>
+                  <ChevronLeft className="w-4 h-4" />
                 </button>
 
-                {selectedProject.gallery && selectedProject.gallery.length > 0 && (
+                <div
+                  ref={tabsContainerRef}
+                  className="flex-1 flex items-center px-3 sm:px-2 overflow-x-auto scrollbar-thin py-0.5 gap-1"
+                >
                   <button
-                    onClick={() => setActiveTab("gallery")}
-                    data-tab="gallery"
+                    onClick={() => setActiveTab("overview")}
+                    data-tab="overview"
                     className={`py-3 px-3 sm:px-4 text-xs sm:text-sm font-semibold border-b-2 whitespace-nowrap transition-colors flex items-center gap-1.5 shrink-0 ${
-                      activeTab === "gallery"
-                        ? "border-sky-600 text-sky-600 dark:border-sky-400 dark:text-sky-400 bg-white/60 dark:bg-slate-800/60 rounded-t-lg"
+                      activeTab === "overview"
+                        ? "border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400 bg-white/70 dark:bg-slate-800/80 rounded-t-lg shadow-xs"
                         : "border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                     }`}
                   >
-                    <ImageIcon className="w-4 h-4" />
-                    <span>Dokumentasi Foto ({selectedProject.gallery.length})</span>
+                    <Users className="w-4 h-4 shrink-0" />
+                    <span>Ikhtisar & Tim</span>
                   </button>
-                )}
+
+                  {selectedProject.gallery && selectedProject.gallery.length > 0 && (
+                    <button
+                      onClick={() => setActiveTab("gallery")}
+                      data-tab="gallery"
+                      className={`py-3 px-3 sm:px-4 text-xs sm:text-sm font-semibold border-b-2 whitespace-nowrap transition-colors flex items-center gap-1.5 shrink-0 ${
+                        activeTab === "gallery"
+                          ? "border-sky-600 text-sky-600 dark:border-sky-400 dark:text-sky-400 bg-white/70 dark:bg-slate-800/80 rounded-t-lg shadow-xs"
+                          : "border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                      }`}
+                    >
+                      <ImageIcon className="w-4 h-4 shrink-0" />
+                      <span>Dokumentasi ({selectedProject.gallery.length})</span>
+                    </button>
+                  )}
+
+                  <button
+                    onClick={() => setActiveTab("background")}
+                    data-tab="background"
+                    className={`py-3 px-3 sm:px-4 text-xs sm:text-sm font-semibold border-b-2 whitespace-nowrap transition-colors flex items-center gap-1.5 shrink-0 ${
+                      activeTab === "background"
+                        ? "border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400 bg-white/70 dark:bg-slate-800/80 rounded-t-lg shadow-xs"
+                        : "border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    }`}
+                  >
+                    <AlertTriangle className="w-4 h-4 shrink-0" />
+                    <span>Latar Belakang & Masalah</span>
+                  </button>
+
+                  <button
+                    onClick={() => setActiveTab("architecture")}
+                    data-tab="architecture"
+                    className={`py-3 px-3 sm:px-4 text-xs sm:text-sm font-semibold border-b-2 whitespace-nowrap transition-colors flex items-center gap-1.5 shrink-0 ${
+                      activeTab === "architecture"
+                        ? "border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400 bg-white/70 dark:bg-slate-800/80 rounded-t-lg shadow-xs"
+                        : "border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    }`}
+                  >
+                    <Cloud className="w-4 h-4 shrink-0" />
+                    <span>Arsitektur & Jaringan</span>
+                  </button>
+
+                  <button
+                    onClick={() => setActiveTab("timeline")}
+                    data-tab="timeline"
+                    className={`py-3 px-3 sm:px-4 text-xs sm:text-sm font-semibold border-b-2 whitespace-nowrap transition-colors flex items-center gap-1.5 shrink-0 ${
+                      activeTab === "timeline"
+                        ? "border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400 bg-white/70 dark:bg-slate-800/80 rounded-t-lg shadow-xs"
+                        : "border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    }`}
+                  >
+                    <Calendar className="w-4 h-4 shrink-0" />
+                    <span>Timeline 6 Minggu</span>
+                  </button>
+
+                  <button
+                    onClick={() => setActiveTab("challenges")}
+                    data-tab="challenges"
+                    className={`py-3 px-3 sm:px-4 text-xs sm:text-sm font-semibold border-b-2 whitespace-nowrap transition-colors flex items-center gap-1.5 shrink-0 ${
+                      activeTab === "challenges"
+                        ? "border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400 bg-white/70 dark:bg-slate-800/80 rounded-t-lg shadow-xs"
+                        : "border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    }`}
+                  >
+                    <Shield className="w-4 h-4 shrink-0" />
+                    <span>Kebutuhan & Kriteria</span>
+                  </button>
+                </div>
 
                 <button
-                  onClick={() => setActiveTab("background")}
-                  data-tab="background"
-                  className={`py-3 px-3 sm:px-4 text-xs sm:text-sm font-semibold border-b-2 whitespace-nowrap transition-colors flex items-center gap-1.5 shrink-0 ${
-                    activeTab === "background"
-                      ? "border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400 bg-white/60 dark:bg-slate-800/60 rounded-t-lg"
-                      : "border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-                  }`}
+                  type="button"
+                  onClick={() => scrollTabs("right")}
+                  className="hidden sm:flex items-center justify-center p-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors shrink-0 z-10"
+                  aria-label="Scroll tabs right"
                 >
-                  <AlertTriangle className="w-4 h-4" />
-                  <span>Latar Belakang & Masalah</span>
-                </button>
-
-                <button
-                  onClick={() => setActiveTab("architecture")}
-                  data-tab="architecture"
-                  className={`py-3 px-3 sm:px-4 text-xs sm:text-sm font-semibold border-b-2 whitespace-nowrap transition-colors flex items-center gap-1.5 shrink-0 ${
-                    activeTab === "architecture"
-                      ? "border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400 bg-white/60 dark:bg-slate-800/60 rounded-t-lg"
-                      : "border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-                  }`}
-                >
-                  <Cloud className="w-4 h-4" />
-                  <span>Arsitektur AWS & Jaringan</span>
-                </button>
-
-                <button
-                  onClick={() => setActiveTab("timeline")}
-                  data-tab="timeline"
-                  className={`py-3 px-3 sm:px-4 text-xs sm:text-sm font-semibold border-b-2 whitespace-nowrap transition-colors flex items-center gap-1.5 shrink-0 ${
-                    activeTab === "timeline"
-                      ? "border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400 bg-white/60 dark:bg-slate-800/60 rounded-t-lg"
-                      : "border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-                  }`}
-                >
-                  <Calendar className="w-4 h-4" />
-                  <span>Timeline 6 Minggu</span>
-                </button>
-
-                <button
-                  onClick={() => setActiveTab("challenges")}
-                  data-tab="challenges"
-                  className={`py-3 px-3 sm:px-4 text-xs sm:text-sm font-semibold border-b-2 whitespace-nowrap transition-colors flex items-center gap-1.5 shrink-0 ${
-                    activeTab === "challenges"
-                      ? "border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400 bg-white/60 dark:bg-slate-800/60 rounded-t-lg"
-                      : "border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-                  }`}
-                >
-                  <Shield className="w-4 h-4" />
-                  <span>Kebutuhan & Kriteria</span>
+                  <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
             )}
@@ -502,8 +549,8 @@ export default function Projects() {
                                   .join("")
                               )}
                             </div>
-                            <div className="min-w-0">
-                              <div className="text-xs font-bold text-slate-900 dark:text-white truncate flex items-center gap-1.5">
+                            <div className="min-w-0 flex-1">
+                              <div className="text-xs font-bold text-slate-900 dark:text-white flex flex-wrap items-center gap-1.5">
                                 <span>{member.name}</span>
                                 {member.isLeader && (
                                   <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-amber-500/20 text-amber-600 dark:text-amber-300 border border-amber-500/30">
@@ -511,7 +558,7 @@ export default function Projects() {
                                   </span>
                                 )}
                               </div>
-                              <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
+                              <div className="text-[11px] text-slate-500 dark:text-slate-400 leading-normal">
                                 {member.role}
                               </div>
                             </div>
@@ -631,7 +678,7 @@ export default function Projects() {
                             <h5 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-sky-500 transition-colors">
                               {img.title}
                             </h5>
-                            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-2">
+                            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                               {img.caption}
                             </p>
                           </div>
@@ -836,7 +883,7 @@ export default function Projects() {
                             </ul>
                           </div>
 
-                          <div className="mt-3 pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center gap-2 text-xs">
+                          <div className="mt-3 pt-2 border-t border-slate-100 dark:border-slate-800 flex flex-wrap items-center gap-2 text-xs">
                             <span className="font-semibold text-slate-500 dark:text-slate-400">
                               Deliverable:
                             </span>

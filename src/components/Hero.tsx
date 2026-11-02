@@ -88,7 +88,7 @@ export default function Hero() {
             {/* Action Buttons */}
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2 w-full sm:w-auto">
               <a
-                href={contactData.cvUrl || "https://s.id/cv-handika"}
+                href={contactData.cvUrl || "https://s.id/cv_handika"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-blue-600 hover:bg-blue-500 shadow-sm transition-all transform hover:-translate-y-0.5 active:translate-y-0"

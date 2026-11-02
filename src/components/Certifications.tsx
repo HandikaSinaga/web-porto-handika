@@ -74,7 +74,7 @@ export default function Certifications() {
                       <Award className="w-5 h-5 text-amber-400" />
                     </div>
                     <div className="min-w-0">
-                      <div className="text-xs font-mono uppercase text-blue-300 font-semibold truncate">
+                      <div className="text-xs font-mono uppercase text-blue-300 font-semibold break-words leading-tight">
                         {cert.issuer}
                       </div>
                       <div className="text-xs text-slate-400">
@@ -135,7 +135,7 @@ export default function Certifications() {
       {/* Modal View for Certificate */}
       {activeCert && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
-          <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl bg-white dark:bg-[#0c1220] border border-slate-200 dark:border-slate-800 shadow-2xl p-6 sm:p-8 space-y-6">
+          <div className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-3xl bg-white dark:bg-[#0c1220] border border-slate-200 dark:border-slate-800 shadow-2xl p-6 sm:p-8 space-y-6">
             <div className="flex items-start justify-between gap-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
