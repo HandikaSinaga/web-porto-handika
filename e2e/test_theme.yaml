@@ -1,0 +1,11 @@
+url: http://localhost:3000
+name: test_theme
+---
+- launchApp
+- takeScreenshot: "initial_theme"
+- tapOn:
+    css: "button[aria-label='Toggle Dark Mode']"
+- takeScreenshot: "toggled_theme"
+- tapOn:
+    css: "button[aria-label='Toggle Dark Mode']"
+- takeScreenshot: "toggled_back"

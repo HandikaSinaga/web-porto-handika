@@ -1,0 +1,7 @@
+url: http://localhost:3000
+name: test_cv_link
+---
+- launchApp
+- assertVisible:
+    css: "a[href='https://s.id/cv-handika']"
+- takeScreenshot: "cv_button_visible"

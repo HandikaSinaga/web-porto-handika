@@ -1,0 +1,120 @@
+{
+  "runId": "bd51dc71-b268-483c-8f91-25cdd76407f9",
+  "workspace": "8d2c1f5e-ed22-486a-a066-d4d1f9c41dae",
+  "trigger": "agent",
+  "status": "passed",
+  "jobs": [
+    {
+      "flowPath": "e2e/test_gazebo_presentation.yaml",
+      "flowName": "test_gazebo_presentation",
+      "status": "passed",
+      "steps": [
+        {
+          "index": 0,
+          "label": "launchApp",
+          "sourceLine": 5,
+          "status": "success",
+          "workedMs": 9553
+        },
+        {
+          "index": 1,
+          "label": "assertVisible css=\"a[data-doc-link='gazebo-samasta-reservation']\"",
+          "sourceLine": 6,
+          "status": "success",
+          "workedMs": 21
+        },
+        {
+          "index": 2,
+          "label": "tapOn css=\"button[data-project='gazebo-samasta-reservation']\"",
+          "sourceLine": 8,
+          "status": "success",
+          "workedMs": 225
+        },
+        {
+          "index": 3,
+          "label": "assertVisible \"Ringkasan Eksekutif Proyek\"",
+          "sourceLine": 10,
+          "status": "success",
+          "workedMs": 23
+        },
+        {
+          "index": 4,
+          "label": "tapOn css=\"button[data-tab='architecture']\"",
+          "sourceLine": 12,
+          "status": "success",
+          "workedMs": 131
+        },
+        {
+          "index": 5,
+          "label": "assertVisible \"Topologi Arsitektur 3-Tier Multi-AZ AWS\"",
+          "sourceLine": 14,
+          "status": "success",
+          "workedMs": 11
+        },
+        {
+          "index": 6,
+          "label": "tapOn css=\"button[data-tab='timeline']\"",
+          "sourceLine": 16,
+          "status": "success",
+          "workedMs": 116
+        },
+        {
+          "index": 7,
+          "label": "assertVisible \"Project Team Management\"",
+          "sourceLine": 18,
+          "status": "success",
+          "workedMs": 6
+        },
+        {
+          "index": 8,
+          "label": "tapOn css=\"button[data-tab='background']\"",
+          "sourceLine": 20,
+          "status": "success",
+          "workedMs": 81
+        },
+        {
+          "index": 9,
+          "label": "assertVisible \"Solusi yang Kami Hadirkan\"",
+          "sourceLine": 22,
+          "status": "success",
+          "workedMs": 15
+        },
+        {
+          "index": 10,
+          "label": "tapOn css=\"button[data-tab='challenges']\"",
+          "sourceLine": 24,
+          "status": "success",
+          "workedMs": 109
+        },
+        {
+          "index": 11,
+          "label": "assertVisible \"Tantangan Teknis & Solusi yang Diterapkan\"",
+          "sourceLine": 26,
+          "status": "success",
+          "workedMs": 16
+        },
+        {
+          "index": 12,
+          "label": "assertVisible css=\"a[href='https://s.id/28vAD']\"",
+          "sourceLine": 28,
+          "status": "success",
+          "workedMs": 89
+        },
+        {
+          "index": 13,
+          "label": "takeScreenshot \"gazebo_presentation_modal\"",
+          "sourceLine": 30,
+          "status": "success",
+          "workedMs": 170,
+          "screenshotPath": "C:\\laragon\\www\\web-porto\\.sokudo\\e2e\\bd51dc71-b268-483c-8f91-25cdd76407f9\\test-gazebo-presentation\\gazebo-presentation-modal.png"
+        }
+      ],
+      "startedMs": 1793628610027,
+      "endedMs": 1793628620615
+    }
+  ],
+  "startedMs": 1793628610021,
+  "endedMs": 1793628620621,
+  "tabOnEnd": "close",
+  "pageCommitted": true
+}

@@ -1,0 +1,43 @@
+{
+  "runId": "619d6536-ca01-4bad-baf8-0cb19c90aba9",
+  "workspace": "8d2c1f5e-ed22-486a-a066-d4d1f9c41dae",
+  "trigger": "agent",
+  "status": "passed",
+  "jobs": [
+    {
+      "flowPath": "e2e/test_ipk.yaml",
+      "flowName": "test_ipk",
+      "status": "passed",
+      "steps": [
+        {
+          "index": 0,
+          "label": "launchApp",
+          "sourceLine": 4,
+          "status": "success",
+          "workedMs": 3005
+        },
+        {
+          "index": 1,
+          "label": "assertVisible \"3.59\"",
+          "sourceLine": 5,
+          "status": "success",
+          "workedMs": 33
+        },
+        {
+          "index": 2,
+          "label": "takeScreenshot \"ipk_visible\"",
+          "sourceLine": 6,
+          "status": "success",
+          "workedMs": 366,
+          "screenshotPath": "C:\\laragon\\www\\web-porto\\.sokudo\\e2e\\619d6536-ca01-4bad-baf8-0cb19c90aba9\\test-ipk\\ipk-visible.png"
+        }
+      ],
+      "startedMs": 1793626380294,
+      "endedMs": 1793626383823
+    }
+  ],
+  "startedMs": 1793626380267,
+  "endedMs": 1793626383834,
+  "tabOnEnd": "close",
+  "pageCommitted": true
+}

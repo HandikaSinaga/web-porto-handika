@@ -1,0 +1,66 @@
+{
+  "runId": "41fc41d4-3eee-4580-a8bb-285ea75e6ea2",
+  "workspace": "8d2c1f5e-ed22-486a-a066-d4d1f9c41dae",
+  "trigger": "agent",
+  "status": "passed",
+  "jobs": [
+    {
+      "flowPath": "e2e/test_theme.yaml",
+      "flowName": "test_theme",
+      "status": "passed",
+      "steps": [
+        {
+          "index": 0,
+          "label": "launchApp",
+          "sourceLine": 4,
+          "status": "success",
+          "workedMs": 2541
+        },
+        {
+          "index": 1,
+          "label": "takeScreenshot \"initial_theme\"",
+          "sourceLine": 5,
+          "status": "success",
+          "workedMs": 742,
+          "screenshotPath": "C:\\laragon\\www\\web-porto\\.sokudo\\e2e\\41fc41d4-3eee-4580-a8bb-285ea75e6ea2\\test-theme\\initial-theme.png"
+        },
+        {
+          "index": 2,
+          "label": "tapOn css=\"button[aria-label='Toggle Dark Mode']\"",
+          "sourceLine": 6,
+          "status": "success",
+          "workedMs": 231
+        },
+        {
+          "index": 3,
+          "label": "takeScreenshot \"toggled_theme\"",
+          "sourceLine": 8,
+          "status": "success",
+          "workedMs": 925,
+          "screenshotPath": "C:\\laragon\\www\\web-porto\\.sokudo\\e2e\\41fc41d4-3eee-4580-a8bb-285ea75e6ea2\\test-theme\\toggled-theme.png"
+        },
+        {
+          "index": 4,
+          "label": "tapOn css=\"button[aria-label='Toggle Dark Mode']\"",
+          "sourceLine": 9,
+          "status": "success",
+          "workedMs": 606
+        },
+        {
+          "index": 5,
+          "label": "takeScreenshot \"toggled_back\"",
+          "sourceLine": 11,
+          "status": "success",
+          "workedMs": 946,
+          "screenshotPath": "C:\\laragon\\www\\web-porto\\.sokudo\\e2e\\41fc41d4-3eee-4580-a8bb-285ea75e6ea2\\test-theme\\toggled-back.png"
+        }
+      ],
+      "startedMs": 1793625222800,
+      "endedMs": 1793625228982
+    }
+  ],
+  "startedMs": 1793625222766,
+  "endedMs": 1793625228999,
+  "tabOnEnd": "close",
+  "pageCommitted": true
+}

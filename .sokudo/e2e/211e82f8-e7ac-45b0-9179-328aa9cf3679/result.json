@@ -1,0 +1,131 @@
+{
+  "runId": "211e82f8-e7ac-45b0-9179-328aa9cf3679",
+  "workspace": "8d2c1f5e-ed22-486a-a066-d4d1f9c41dae",
+  "trigger": "agent",
+  "status": "failed",
+  "jobs": [
+    {
+      "flowPath": "e2e/test_gazebo_presentation.yaml",
+      "flowName": "test_gazebo_presentation",
+      "status": "failed",
+      "steps": [
+        {
+          "index": 0,
+          "label": "launchApp",
+          "sourceLine": 5,
+          "status": "success",
+          "workedMs": 4047
+        },
+        {
+          "index": 1,
+          "label": "assertVisible css=\"a[data-doc-link='gazebo-samasta-reservation']\"",
+          "sourceLine": 6,
+          "status": "success",
+          "workedMs": 22
+        },
+        {
+          "index": 2,
+          "label": "tapOn css=\"button[data-project='gazebo-samasta-reservation']\"",
+          "sourceLine": 8,
+          "status": "success",
+          "workedMs": 703
+        },
+        {
+          "index": 3,
+          "label": "assertVisible \"Ringkasan Eksekutif Proyek\"",
+          "sourceLine": 10,
+          "status": "success",
+          "workedMs": 45
+        },
+        {
+          "index": 4,
+          "label": "tapOn css=\"button[data-tab='architecture']\"",
+          "sourceLine": 12,
+          "status": "success",
+          "workedMs": 101
+        },
+        {
+          "index": 5,
+          "label": "assertVisible \"Topologi Arsitektur 3-Tier Multi-AZ AWS\"",
+          "sourceLine": 14,
+          "status": "success",
+          "workedMs": 6
+        },
+        {
+          "index": 6,
+          "label": "tapOn css=\"button[data-tab='timeline']\"",
+          "sourceLine": 16,
+          "status": "success",
+          "workedMs": 194
+        },
+        {
+          "index": 7,
+          "label": "assertVisible \"Project Team Management\"",
+          "sourceLine": 18,
+          "status": "success",
+          "workedMs": 15
+        },
+        {
+          "index": 8,
+          "label": "tapOn css=\"button[data-tab='background']\"",
+          "sourceLine": 20,
+          "status": "success",
+          "workedMs": 130
+        },
+        {
+          "index": 9,
+          "label": "assertVisible \"Solusi yang Kami Hadirkan\"",
+          "sourceLine": 22,
+          "status": "success",
+          "workedMs": 18
+        },
+        {
+          "index": 10,
+          "label": "tapOn css=\"button[data-tab='challenges']\"",
+          "sourceLine": 24,
+          "status": "success",
+          "workedMs": 118
+        },
+        {
+          "index": 11,
+          "label": "assertVisible \"Tantangan Teknis & Solusi yang Diterapkan\"",
+          "sourceLine": 26,
+          "status": "failed",
+          "workedMs": 17006,
+          "error": {
+            "kind": "not-found",
+            "message": "no element matched within 17000ms",
+            "sourceLine": 26,
+            "screenshotPath": "C:\\laragon\\www\\web-porto\\.sokudo\\e2e\\211e82f8-e7ac-45b0-9179-328aa9cf3679\\test-gazebo-presentation\\step-11-fail.png",
+            "consoleTail": [
+              "info: %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold",
+              "log: [HMR] connected"
+            ],
+            "domExcerpt": "<body class=\"geist_a71539c9-module__T19VSG__variable geist_mono_8d43a2aa-module__8Li5zG__variable min-h-screen flex flex-col font-sans antialiased selection:bg-blue-600 selection:text-white light\" data-theme=\"light\"><div hidden=\"\"><!--$--><!--/$--></div><!--&--><div class=\"flex flex-col min-h-screen\"><header class=\"fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/85 dark:bg-[#070b12]/85 backdrop-blur-md shadow-sm border-b border-blue-100/60 dark:border-blue-950/40 py-3\"><div class=\"max-w-7xl mx-auto px-4 sm:px-6 lg:px-8\"><div class=\"flex items-center justify-between\"><a href=\"#home\" class=\"group flex items-center gap-2.5 font-mono text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white\"><div class=\"flex items-center justify-center w-9 h-9 rounded-xl bg-blue-600 text-white shadow-md shadow-blue-500/25 group-hover:scale-105 transition-transform\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-terminal w-5 h-5 text-white\" aria-hidden=\"true\"><path d=\"M12 19h8\"></path><path d=\"m4 17 6-6-6-6\"></path></svg></div><span class=\"flex items-center gap-1\"><span class=\"text-blue-600 dark:text-blue-400\">handika</span><span class=\"text-slate-400\">.</span><span class=\"text-slate-700 dark:text-slate-200\">cloud</span><span class=\"inline-block w-2 h-4 bg-blue-500 animate-pulse ml-0.5\"></span></span></a><nav class=\"hidden md:flex items-center gap-1 bg-slate-100/70 dark:bg-slate-900/60 p-1.5 rounded-full border border-slate-200/60 dark:border-slate-800\"><a href=\"#home\" class=\"px-3.5 py-1.5 rounded-full text-sm font-medium transition-all duration-200 text-slate-600 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 hover:bg-white/60 dark:hover:bg-slate-800/50\">Home</a><a href=\"#about\" class=\"px-3.5 py-1.5 rounded-full text-sm font-medium transition-all duration-200 text-slate-600 hov…"
+          },
+          "screenshotPath": "C:\\laragon\\www\\web-porto\\.sokudo\\e2e\\211e82f8-e7ac-45b0-9179-328aa9cf3679\\test-gazebo-presentation\\step-11-fail.png"
+        },
+        {
+          "index": 12,
+          "label": "assertVisible css=\"a[href='https://s.id/28vAD']\"",
+          "sourceLine": 28,
+          "status": "skipped",
+          "workedMs": 0
+        },
+        {
+          "index": 13,
+          "label": "takeScreenshot \"gazebo_presentation_modal\"",
+          "sourceLine": 30,
+          "status": "skipped",
+          "workedMs": 0
+        }
+      ],
+      "startedMs": 1793628525355,
+      "endedMs": 1793628547924
+    }
+  ],
+  "startedMs": 1793628525331,
+  "endedMs": 1793628547929,
+  "tabOnEnd": "keep",
+  "pageCommitted": true
+}

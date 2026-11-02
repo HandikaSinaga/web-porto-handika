@@ -1,0 +1,30 @@
+url: http://localhost:3000
+name: test_gazebo_presentation
+clearState: true
+---
+- launchApp
+- assertVisible:
+    css: "a[data-doc-link='gazebo-samasta-reservation']"
+- tapOn:
+    css: "button[data-project='gazebo-samasta-reservation']"
+- assertVisible:
+    text: "Ringkasan Eksekutif Proyek"
+- tapOn:
+    css: "button[data-tab='architecture']"
+- assertVisible:
+    text: "Topologi Arsitektur 3-Tier Multi-AZ AWS"
+- tapOn:
+    css: "button[data-tab='timeline']"
+- assertVisible:
+    text: "Project Team Management"
+- tapOn:
+    css: "button[data-tab='background']"
+- assertVisible:
+    text: "Solusi yang Kami Hadirkan"
+- tapOn:
+    css: "button[data-tab='challenges']"
+- assertVisible:
+    text: "Tantangan Teknis & Solusi yang Diterapkan"
+- assertVisible:
+    css: "a[href='https://s.id/28vAD']"
+- takeScreenshot: "gazebo_presentation_modal"
