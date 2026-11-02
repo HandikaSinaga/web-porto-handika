@@ -2,8 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import { useTheme } from "@/context/ThemeContext";
-import { usePageTransition } from "@/context/PageTransitionContext";
-import { contactData } from "@/data/portfolioData";
 import {
   Sun,
   Moon,
@@ -11,7 +9,6 @@ import {
   X,
   FileDown,
   Terminal,
-  Cloud,
   ChevronRight,
 } from "lucide-react";
 
@@ -26,16 +23,9 @@ const NAV_ITEMS = [
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
-  const { navigateTo } = usePageTransition();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
-
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, label: string) => {
-    e.preventDefault();
-    navigateTo(href, label);
-    setIsOpen(false);
-  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,8 +65,6 @@ export default function Navbar() {
           {/* Brand Logo */}
           <a
             href="#home"
-            onClick={(e) => handleNavClick(e, "#home", "Beranda Utama")}
-            data-nav-label="Beranda Utama"
             className="group flex items-center gap-2.5 font-mono text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white"
           >
             <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-blue-600 text-white shadow-md shadow-blue-500/25 group-hover:scale-105 transition-transform">
@@ -98,8 +86,6 @@ export default function Navbar() {
                 <a
                   key={item.href}
                   href={item.href}
-                  onClick={(e) => handleNavClick(e, item.href, item.label)}
-                  data-nav-label={item.label}
                   className={`px-3.5 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
                     isActive
                       ? "bg-blue-600 text-white shadow-sm shadow-blue-500/30"
@@ -118,56 +104,57 @@ export default function Navbar() {
               onClick={toggleTheme}
               aria-label="Toggle Dark Mode"
               className="relative p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-300 dark:hover:border-blue-700 active:scale-90 transition-all shadow-sm overflow-hidden"
+              title={theme === "dark" ? "Aktifkan Mode Terang" : "Aktifkan Mode Gelap"}
             >
-              <div className="relative w-4 h-4 flex items-center justify-center">
+              <div className="relative w-5 h-5 flex items-center justify-center">
                 <Sun
-                  className={`w-4 h-4 text-amber-500 transition-all duration-300 transform absolute inset-0 m-auto ${
-                    theme === "dark"
-                      ? "rotate-0 scale-100 opacity-100"
-                      : "-rotate-90 scale-0 opacity-0"
-                  }`}
-                />
-                <Moon
-                  className={`w-4 h-4 text-blue-600 transition-all duration-300 transform absolute inset-0 m-auto ${
+                  className={`w-5 h-5 text-amber-500 transition-all duration-300 transform absolute ${
                     theme === "dark"
                       ? "rotate-90 scale-0 opacity-0"
                       : "rotate-0 scale-100 opacity-100"
+                  }`}
+                />
+                <Moon
+                  className={`w-5 h-5 text-blue-400 transition-all duration-300 transform absolute ${
+                    theme === "dark"
+                      ? "rotate-0 scale-100 opacity-100"
+                      : "-rotate-90 scale-0 opacity-0"
                   }`}
                 />
               </div>
             </button>
 
             <a
-              href={contactData.cvUrl || "https://s.id/cv_handika"}
+              href="https://s.id/cv_handika"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-md shadow-blue-500/20 hover:shadow-blue-500/35 transition-all transform hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 active:scale-95 transition-all shadow-md shadow-blue-500/20"
             >
               <FileDown className="w-4 h-4" />
-              <span>Download CV</span>
+              <span>Unduh CV</span>
             </a>
           </div>
 
-          {/* Mobile Hamburger & Theme Toggle Button */}
-          <div className="flex md:hidden items-center gap-2">
+          {/* Mobile Menu Button */}
+          <div className="flex sm:hidden items-center gap-2">
             <button
               onClick={toggleTheme}
               aria-label="Toggle Dark Mode"
-              className="relative p-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 active:scale-90 transition-all"
+              className="p-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 text-slate-700 dark:text-slate-200 active:scale-90 transition-all shadow-sm"
             >
               <div className="relative w-4 h-4 flex items-center justify-center">
                 <Sun
-                  className={`w-4 h-4 text-amber-500 transition-all duration-300 transform absolute inset-0 m-auto ${
-                    theme === "dark"
-                      ? "rotate-0 scale-100 opacity-100"
-                      : "-rotate-90 scale-0 opacity-0"
-                  }`}
-                />
-                <Moon
-                  className={`w-4 h-4 text-blue-600 transition-all duration-300 transform absolute inset-0 m-auto ${
+                  className={`w-4 h-4 text-amber-500 transition-all duration-300 transform absolute ${
                     theme === "dark"
                       ? "rotate-90 scale-0 opacity-0"
                       : "rotate-0 scale-100 opacity-100"
+                  }`}
+                />
+                <Moon
+                  className={`w-4 h-4 text-blue-400 transition-all duration-300 transform absolute ${
+                    theme === "dark"
+                      ? "rotate-0 scale-100 opacity-100"
+                      : "-rotate-90 scale-0 opacity-0"
                   }`}
                 />
               </div>
@@ -175,8 +162,8 @@ export default function Navbar() {
 
             <button
               onClick={() => setIsOpen(!isOpen)}
-              aria-label="Toggle Menu"
-              className="p-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+              aria-label="Toggle navigation menu"
+              className="p-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 text-slate-700 dark:text-slate-200"
             >
               {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -194,8 +181,7 @@ export default function Navbar() {
                 <a
                   key={item.href}
                   href={item.href}
-                  onClick={(e) => handleNavClick(e, item.href, item.label)}
-                  data-nav-label={item.label}
+                  onClick={() => setIsOpen(false)}
                   className={`flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-medium ${
                     isActive
                       ? "bg-blue-600 text-white"
@@ -219,34 +205,34 @@ export default function Navbar() {
                     <Sun
                       className={`w-4 h-4 text-amber-500 transition-all duration-300 transform absolute inset-0 m-auto ${
                         theme === "dark"
-                          ? "rotate-0 scale-100 opacity-100"
-                          : "-rotate-90 scale-0 opacity-0"
-                      }`}
-                    />
-                    <Moon
-                      className={`w-4 h-4 text-blue-600 transition-all duration-300 transform absolute inset-0 m-auto ${
-                        theme === "dark"
                           ? "rotate-90 scale-0 opacity-0"
                           : "rotate-0 scale-100 opacity-100"
                       }`}
                     />
+                    <Moon
+                      className={`w-4 h-4 text-blue-400 transition-all duration-300 transform absolute inset-0 m-auto ${
+                        theme === "dark"
+                          ? "rotate-0 scale-100 opacity-100"
+                          : "-rotate-90 scale-0 opacity-0"
+                      }`}
+                    />
                   </div>
-                  <span>Ganti ke Mode {theme === "dark" ? "Terang" : "Gelap"}</span>
+                  <span>{theme === "dark" ? "Mode Terang" : "Mode Gelap"}</span>
                 </span>
-                <span className="text-xs px-2 py-0.5 rounded bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 font-mono">
-                  {theme === "dark" ? "Dark" : "Light"}
+                <span className="text-xs uppercase font-mono px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+                  {theme}
                 </span>
               </button>
 
               <a
-                href={contactData.cvUrl || "https://s.id/cv_handika"}
+                href="https://s.id/cv_handika"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-500/25"
+                className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-all shadow-md shadow-blue-500/20"
               >
                 <FileDown className="w-4 h-4" />
-                <span>Download CV (PDF)</span>
+                <span>Unduh CV (PDF)</span>
               </a>
             </div>
           </nav>

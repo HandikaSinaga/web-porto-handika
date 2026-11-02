@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import SectionNavigator from "@/components/SectionNavigator";
 import { contactData } from "@/data/portfolioData";
 import { GithubIcon, LinkedinIcon } from "@/components/icons/SocialIcons";
 import {
@@ -12,7 +11,6 @@ import {
   Copy,
   Check,
   MessageSquare,
-  Sparkles,
   ExternalLink,
 } from "lucide-react";
 
@@ -46,7 +44,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-28 relative overflow-hidden">
+    <section id="contact" className="py-28 relative overflow-hidden scroll-mt-16">
       {/* Background radial glow */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-gradient-to-t from-blue-600/5 to-transparent blur-3xl -z-10 pointer-events-none" />
 
@@ -54,7 +52,7 @@ export default function Contact() {
         {/* Header */}
         <div className="max-w-3xl mb-16 space-y-3">
           <div className="text-xs font-mono font-semibold tracking-wider text-blue-600 dark:text-blue-400 uppercase">
-            // 05. KONTAK & DISKUSI
+            {"// 05. KONTAK & DISKUSI"}
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white tracking-tight">
             Hubungi <span className="text-blue-600 dark:text-blue-400">Saya</span>
@@ -286,14 +284,6 @@ export default function Contact() {
             </div>
           </div>
         </div>
-
-        {/* Section Bridge: Next Page / Back to Top */}
-        <SectionNavigator
-          nextSection="home"
-          nextTitle="Kembali ke Beranda Utama"
-          sectionNumber="00"
-          isBackToTop
-        />
       </div>
     </section>
   );

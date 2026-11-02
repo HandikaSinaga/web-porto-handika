@@ -167,19 +167,6 @@ html.theme-transitioning *::after {
   );
 }
 
-/* Loading progress bar animation */
-@keyframes loading-progress {
-  0% {
-    transform: translateX(-100%);
-  }
-  50% {
-    transform: translateX(-20%);
-  }
-  100% {
-    transform: translateX(0%);
-  }
-}
-
 /* Pulse glow keyframe */
 @keyframes pulse-subtle {
   0%, 100% {

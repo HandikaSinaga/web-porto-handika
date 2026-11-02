@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import SectionNavigator from "@/components/SectionNavigator";
+import Image from "next/image";
 import {
   contactData,
   educationData,
@@ -23,7 +23,6 @@ import {
   X,
   ExternalLink,
   ArrowRight,
-  CheckCircle2,
 } from "lucide-react";
 
 export default function About() {
@@ -42,8 +41,9 @@ export default function About() {
   }, []);
 
   useEffect(() => {
-    const handleOpenExperience = (e: any) => {
-      const expId = e.detail?.expId;
+    const handleOpenExperience = (e: Event) => {
+      const customEvent = e as CustomEvent<{ expId?: string }>;
+      const expId = customEvent.detail?.expId;
       if (!expId) return;
 
       setActiveTab("experience");
@@ -83,7 +83,7 @@ export default function About() {
   };
 
   return (
-    <section id="about" className="py-28 relative overflow-hidden">
+    <section id="about" className="py-28 relative overflow-hidden scroll-mt-16">
       {/* Background decoration */}
       <div className="absolute top-1/2 left-0 w-80 h-80 bg-blue-500/5 dark:bg-blue-600/5 rounded-full blur-3xl -z-10 pointer-events-none" />
       <div className="absolute bottom-10 right-0 w-80 h-80 bg-indigo-500/5 dark:bg-indigo-600/5 rounded-full blur-3xl -z-10 pointer-events-none" />
@@ -92,7 +92,7 @@ export default function About() {
         {/* Section Header */}
         <div className="max-w-3xl mb-16 space-y-3">
           <div className="text-xs font-mono font-semibold tracking-wider text-blue-600 dark:text-blue-400 uppercase">
-            // 01. PENGALAMAN & LATAR BELAKANG
+            {"// 01. PENGALAMAN & LATAR BELAKANG"}
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white tracking-tight">
             Rekam Jejak <span className="text-blue-600 dark:text-blue-400">Profesional</span>
@@ -407,13 +407,6 @@ export default function About() {
             </div>
           </div>
         )}
-
-        {/* Section Bridge: Next Page */}
-        <SectionNavigator
-          nextSection="skills"
-          nextTitle="Keahlian & Ekosistem Teknologi"
-          sectionNumber="02"
-        />
       </div>
 
       {/* High-Resolution Certificate Modal */}
@@ -466,9 +459,11 @@ export default function About() {
             <div className="overflow-y-auto p-4 sm:p-6 space-y-5">
               {/* Full Image */}
               <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-950 flex items-center justify-center p-2 sm:p-4">
-                <img
+                <Image
                   src={selectedCert.imageUrl}
                   alt={selectedCert.title}
+                  width={1200}
+                  height={800}
                   className="w-auto h-auto max-h-[58vh] object-contain rounded-lg shadow-lg"
                 />
               </div>

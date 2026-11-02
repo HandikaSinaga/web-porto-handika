@@ -1,6 +1,3 @@
-import { Suspense } from "react";
-import Loading from "./loading";
-import InitialLoader from "@/components/InitialLoader";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
@@ -12,21 +9,17 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <InitialLoader>
-      <Suspense fallback={<Loading />}>
-        <div className="flex flex-col min-h-screen">
-          <Navbar />
-          <main className="flex-1">
-            <Hero />
-            <About />
-            <Skills />
-            <Projects />
-            <Certifications />
-            <Contact />
-          </main>
-          <Footer />
-        </div>
-      </Suspense>
-    </InitialLoader>
+    <div className="flex flex-col min-h-screen">
+      <Navbar />
+      <main className="flex-1">
+        <Hero />
+        <About />
+        <Skills />
+        <Projects />
+        <Certifications />
+        <Contact />
+      </main>
+      <Footer />
+    </div>
   );
 }

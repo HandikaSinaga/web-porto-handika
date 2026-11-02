@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import SectionNavigator from "@/components/SectionNavigator";
 import { skillCategoriesData } from "@/data/portfolioData";
 import {
   Server,
@@ -57,12 +56,12 @@ export default function Skills() {
       : skillCategoriesData.filter((c) => c.categoryName === selectedCategory);
 
   return (
-    <section id="skills" className="py-28 relative overflow-hidden bg-slate-50/50 dark:bg-[#080d17]/40">
+    <section id="skills" className="py-28 relative overflow-hidden bg-slate-50/50 dark:bg-[#080d17]/40 scroll-mt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="max-w-3xl mb-14 space-y-3">
           <div className="text-xs font-mono font-semibold tracking-wider text-blue-600 dark:text-blue-400 uppercase">
-            // 02. KEAHLIAN TEKNIS
+            {"// 02. KEAHLIAN TEKNIS"}
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white tracking-tight">
             Tech Stack & <span className="text-blue-600 dark:text-blue-400">Tools DevOps</span>
@@ -155,13 +154,6 @@ export default function Skills() {
             </div>
           ))}
         </div>
-
-        {/* Section Bridge: Next Page */}
-        <SectionNavigator
-          nextSection="projects"
-          nextTitle="Portofolio Proyek Terpilih"
-          sectionNumber="03"
-        />
       </div>
     </section>
   );

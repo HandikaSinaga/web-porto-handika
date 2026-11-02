@@ -1,27 +1,19 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import SectionNavigator from "@/components/SectionNavigator";
+import Image from "next/image";
 import { projectsData } from "@/data/portfolioData";
 import { Project, ProjectImage } from "@/types/portfolio";
 import {
-  Server,
   Cloud,
   CheckCircle2,
   ExternalLink,
   Shield,
-  Activity,
-  Layers,
-  Sparkles,
-  Maximize2,
   X,
-  Database,
   Users,
   Calendar,
   AlertTriangle,
   FileText,
-  Lock,
-  Cpu,
   Bell,
   Network,
   Crown,
@@ -72,9 +64,10 @@ export default function Projects() {
   };
 
   useEffect(() => {
-    const handleOpenProjectModal = (e: any) => {
-      const projectId = e.detail?.projectId;
-      const tab = e.detail?.tab || "overview";
+    const handleOpenProjectModal = (e: Event) => {
+      const customEvent = e as CustomEvent<{ projectId?: string; tab?: typeof activeTab }>;
+      const projectId = customEvent.detail?.projectId;
+      const tab = customEvent.detail?.tab || "overview";
       if (!projectId) return;
 
       const found = projectsData.find((p) => p.id === projectId);
@@ -85,9 +78,9 @@ export default function Projects() {
       }
     };
 
-    window.addEventListener("open-project-modal", handleOpenProjectModal as EventListener);
+    window.addEventListener("open-project-modal", handleOpenProjectModal);
     return () => {
-      window.removeEventListener("open-project-modal", handleOpenProjectModal as EventListener);
+      window.removeEventListener("open-project-modal", handleOpenProjectModal);
     };
   }, []);
 
@@ -111,25 +104,19 @@ export default function Projects() {
     }
   };
 
-  const [isModalLoading, setIsModalLoading] = useState(false);
-
   const openModal = (project: Project, tab: typeof activeTab = "overview") => {
-    setIsModalLoading(true);
     setSelectedProject(project);
     setActiveTab(tab);
     setGalleryCategory("Semua");
-    setTimeout(() => {
-      setIsModalLoading(false);
-    }, 280);
   };
 
   return (
-    <section id="projects" className="py-28 relative overflow-hidden">
+    <section id="projects" className="py-28 relative overflow-hidden scroll-mt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="max-w-3xl mb-16 space-y-3">
           <div className="text-xs font-mono font-semibold tracking-wider text-blue-600 dark:text-blue-400 uppercase">
-            // 03. PROYEK UNGGULAN
+            {"// 03. PROYEK UNGGULAN"}
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white tracking-tight">
             Arsitektur Cloud & <span className="text-blue-600 dark:text-blue-400">Proyek Pilihan</span>
@@ -282,26 +269,12 @@ export default function Projects() {
             </div>
           ))}
         </div>
-
-        {/* Section Bridge: Next Page */}
-        <SectionNavigator
-          nextSection="certifications"
-          nextTitle="Sertifikasi & Kredensial Industri"
-          sectionNumber="04"
-        />
       </div>
 
       {/* Modal Dialog for Deep Project Inspection & Presentation Dossier */}
       {selectedProject && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/75 backdrop-blur-md animate-fadeIn">
           <div className="relative w-full max-w-5xl rounded-3xl bg-white dark:bg-[#0c1220] border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden max-h-[92vh] flex flex-col">
-            {/* Top Modal Shimmer Loader */}
-            {isModalLoading && (
-              <div className="absolute top-0 left-0 right-0 h-[3px] z-30 overflow-hidden bg-slate-200/50 dark:bg-slate-800/50">
-                <div className="h-full w-full bg-gradient-to-r from-blue-600 via-cyan-400 to-indigo-500 animate-[loading-progress_0.35s_ease-in-out_forwards]" />
-              </div>
-            )}
-
             {/* Modal Header */}
             <div className="p-4 sm:p-6 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#090e1a] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 shrink-0">
               <div className="space-y-1">
@@ -674,11 +647,11 @@ export default function Projects() {
                           className="group cursor-pointer rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-md hover:border-sky-500 dark:hover:border-sky-500 transition-all flex flex-col justify-between"
                         >
                           <div className="relative aspect-video bg-slate-950 overflow-hidden">
-                            <img
+                            <Image
                               src={img.url}
                               alt={img.title}
-                              className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
-                              loading="lazy"
+                              fill
+                              className="object-cover object-top group-hover:scale-105 transition-transform duration-300"
                             />
                             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5 text-white">
                               <span className="px-3 py-1.5 rounded-xl bg-black/70 backdrop-blur-sm flex items-center gap-1.5 text-xs font-semibold">
@@ -782,7 +755,7 @@ export default function Projects() {
                       <div className="flex items-center gap-2">
                         <Cloud className="w-5 h-5 text-sky-400" />
                         <h4 className="text-base font-bold text-white">
-                          Topologi Arsitektur Cloud AWS
+                          Topologi Arsitektur 3-Tier Multi-AZ AWS
                         </h4>
                       </div>
                       <span className="text-xs font-mono text-slate-400 bg-slate-800 px-2.5 py-1 rounded-md self-start sm:self-auto">
@@ -1043,9 +1016,11 @@ export default function Projects() {
             </div>
 
             <div className="p-2 sm:p-4 bg-black flex items-center justify-center max-h-[70vh] overflow-hidden">
-              <img
+              <Image
                 src={lightboxImage.url}
                 alt={lightboxImage.title}
+                width={1400}
+                height={900}
                 className="max-h-[68vh] w-auto max-w-full object-contain rounded-lg"
               />
             </div>

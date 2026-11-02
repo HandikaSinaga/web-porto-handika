@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useSyncExternalStore } from "react";
 
 type Theme = "light" | "dark";
 
@@ -13,69 +13,80 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("dark");
-  const [mounted, setMounted] = useState(false);
+const emptySubscribe = () => () => {};
 
-  const applyTheme = (newTheme: Theme) => {
-    if (typeof document === "undefined") return;
-    const root = document.documentElement;
-    const body = document.body;
-
-    if (newTheme === "dark") {
-      root.classList.add("dark");
-      root.classList.remove("light");
-      root.setAttribute("data-theme", "dark");
-      root.style.colorScheme = "dark";
-      if (body) {
-        body.classList.add("dark");
-        body.classList.remove("light");
-        body.setAttribute("data-theme", "dark");
-      }
-    } else {
-      root.classList.add("light");
-      root.classList.remove("dark");
-      root.setAttribute("data-theme", "light");
-      root.style.colorScheme = "light";
-      if (body) {
-        body.classList.add("light");
-        body.classList.remove("dark");
-        body.setAttribute("data-theme", "light");
-      }
-    }
+const subscribeTheme = (callback: () => void) => {
+  if (typeof window === "undefined") return () => {};
+  window.addEventListener("storage", callback);
+  window.addEventListener("theme-change", callback);
+  return () => {
+    window.removeEventListener("storage", callback);
+    window.removeEventListener("theme-change", callback);
   };
+};
+
+const getThemeSnapshot = (): Theme => {
+  try {
+    const saved = localStorage.getItem("portfolio_theme");
+    return saved === "light" ? "light" : "dark";
+  } catch {
+    return "dark";
+  }
+};
+
+const getThemeServerSnapshot = (): Theme => "dark";
+
+const applyTheme = (newTheme: Theme) => {
+  if (typeof document === "undefined") return;
+  const root = document.documentElement;
+  const body = document.body;
+
+  if (newTheme === "dark") {
+    root.classList.add("dark");
+    root.classList.remove("light");
+    root.setAttribute("data-theme", "dark");
+    root.style.colorScheme = "dark";
+    if (body) {
+      body.classList.add("dark");
+      body.classList.remove("light");
+      body.setAttribute("data-theme", "dark");
+    }
+  } else {
+    root.classList.add("light");
+    root.classList.remove("dark");
+    root.setAttribute("data-theme", "light");
+    root.style.colorScheme = "light";
+    if (body) {
+      body.classList.add("light");
+      body.classList.remove("dark");
+      body.setAttribute("data-theme", "light");
+    }
+  }
+};
+
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const theme = useSyncExternalStore(subscribeTheme, getThemeSnapshot, getThemeServerSnapshot);
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
 
   useEffect(() => {
-    setMounted(true);
-    try {
-      const saved = localStorage.getItem("portfolio_theme") as Theme | null;
-      if (saved === "light" || saved === "dark") {
-        setThemeState(saved);
-        applyTheme(saved);
-      } else {
-        setThemeState("dark");
-        applyTheme("dark");
-      }
-    } catch {
-      setThemeState("dark");
-      applyTheme("dark");
-    }
-  }, []);
+    applyTheme(theme);
+  }, [theme]);
 
   const setTheme = (newTheme: Theme) => {
-    if (typeof document === "undefined") {
-      setThemeState(newTheme);
-      return;
-    }
+    if (typeof document === "undefined") return;
 
     const executeChange = () => {
-      setThemeState(newTheme);
       try {
         localStorage.setItem("portfolio_theme", newTheme);
       } catch {
-        // Ignore localStorage failure
+        // Ignore localStorage error
       }
       applyTheme(newTheme);
+      window.dispatchEvent(new Event("theme-change"));
     };
 
     // Use standard View Transitions API for GPU-accelerated smooth crossfade if supported

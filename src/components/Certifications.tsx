@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import SectionNavigator from "@/components/SectionNavigator";
+import Image from "next/image";
 import { certificationsData } from "@/data/portfolioData";
 import { Certification } from "@/types/portfolio";
 import {
@@ -18,12 +18,12 @@ export default function Certifications() {
   const [activeCert, setActiveCert] = useState<Certification | null>(null);
 
   return (
-    <section id="certifications" className="py-28 relative overflow-hidden bg-slate-50/50 dark:bg-[#080d17]/40">
+    <section id="certifications" className="py-28 relative overflow-hidden bg-slate-50/50 dark:bg-[#080d17]/40 scroll-mt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="max-w-3xl mb-16 space-y-3">
           <div className="text-xs font-mono font-semibold tracking-wider text-blue-600 dark:text-blue-400 uppercase">
-            // 04. SERTIFIKASI & KREDENSIAL
+            {"// 04. SERTIFIKASI & KREDENSIAL"}
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white tracking-tight">
             Sertifikasi <span className="text-blue-600 dark:text-blue-400">Industri</span>
@@ -49,10 +49,11 @@ export default function Certifications() {
                 >
                   {cert.imageUrl ? (
                     <>
-                      <img
+                      <Image
                         src={cert.imageUrl}
                         alt={cert.title}
-                        className="absolute inset-0 w-full h-full object-cover object-top opacity-30 group-hover/header:opacity-45 transition-all duration-300"
+                        fill
+                        className="object-cover object-top opacity-30 group-hover/header:opacity-45 transition-all duration-300"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-slate-950/40" />
                     </>
@@ -131,13 +132,6 @@ export default function Certifications() {
             </div>
           ))}
         </div>
-
-        {/* Section Bridge: Next Page */}
-        <SectionNavigator
-          nextSection="contact"
-          nextTitle="Kontak & Saluran Kolaborasi"
-          sectionNumber="05"
-        />
       </div>
 
       {/* Modal View for Certificate */}
@@ -171,9 +165,11 @@ export default function Certifications() {
             {/* Visual Certificate Preview if image exists */}
             {activeCert.imageUrl && (
               <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-950 p-2 sm:p-3 group">
-                <img
+                <Image
                   src={activeCert.imageUrl}
                   alt={activeCert.title}
+                  width={1200}
+                  height={800}
                   className="w-full h-auto max-h-[55vh] object-contain mx-auto rounded-lg shadow-md"
                 />
                 <div className="absolute top-4 right-4 flex items-center gap-2">
