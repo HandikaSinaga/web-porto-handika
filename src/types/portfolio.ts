@@ -43,6 +43,7 @@ export interface Project {
   githubUrl?: string;
   liveUrl?: string;
   presentationUrl?: string;
+  presentationFileUrl?: string;
   documentationUrl?: string;
   teamName?: string;
   teamMembers?: ProjectTeamMember[];
@@ -167,5 +168,6 @@ export interface ContactInfo {
   linkedin: string;
   github: string;
   cvUrl?: string;
+  avatarUrl?: string;
   summary: string;
 }

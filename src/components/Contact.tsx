@@ -1,20 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
-import { contactData } from "@/data/portfolioData";
-import { GithubIcon, LinkedinIcon } from "@/components/icons/SocialIcons";
-import {
-  Mail,
-  Phone,
-  MapPin,
-  Send,
-  Copy,
-  Check,
-  MessageSquare,
-  ExternalLink,
-} from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
+import { getContactData } from "@/data/portfolioData";
+import { uiTranslations } from "@/data/translations";
+import { Mail, Phone, Send, Copy, Check } from "lucide-react";
 
 export default function Contact() {
+  const { lang } = useLanguage();
+  const contactData = getContactData(lang);
+  const t = uiTranslations[lang];
+
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: "",
@@ -34,7 +30,7 @@ export default function Contact() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate API submission
+    // Simulate submission
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);
@@ -44,39 +40,65 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-28 relative overflow-hidden scroll-mt-16">
-      {/* Background radial glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-gradient-to-t from-blue-600/5 to-transparent blur-3xl -z-10 pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="max-w-3xl mb-16 space-y-3">
-          <div className="text-xs font-mono font-semibold tracking-wider text-blue-600 dark:text-blue-400 uppercase">
-            {"// 05. KONTAK & DISKUSI"}
+    <section id="contact" className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-20">
+      <div className="rounded-3xl bg-white dark:bg-[#0d1322] border border-slate-200 dark:border-slate-800/80 p-6 sm:p-8 lg:p-10 shadow-xl shadow-slate-900/5 dark:shadow-black/50 space-y-8 transition-colors">
+        {/* Top Dispatch Hero Header */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center border-b border-slate-200/80 dark:border-slate-800/80 pb-8">
+          <div className="lg:col-span-7 space-y-3">
+            <div className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-ping" />
+              <span>{t.contact.badge}</span>
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+              {t.contact.title}
+            </h3>
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed sm:leading-loose max-w-xl">
+              {t.contact.subtitle}
+            </p>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white tracking-tight">
-            Hubungi <span className="text-blue-600 dark:text-blue-400">Saya</span>
-          </h2>
-          <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-            Tertarik berdiskusi seputar arsitektur cloud AWS, otomatisasi CI/CD, peluang kerja sama,
-            atau tawaran posisi Cloud/DevOps Engineer? Silakan hubungi saya melalui jalur berikut.
-          </p>
+
+          <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col items-start lg:items-end justify-center gap-3">
+            <div className="flex items-center gap-3 flex-wrap">
+              <a
+                href={`mailto:${contactData.email}`}
+                className="inline-flex items-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-500 px-5 py-3 text-xs font-semibold text-white shadow-md shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
+              >
+                <Mail className="h-4 w-4" />
+                <span>{contactData.email}</span>
+              </a>
+              <a
+                href={`https://wa.me/${contactData.phone.replace(/[^0-9]/g, "")}`}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 dark:hover:bg-slate-800 px-4 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-200 transition-colors"
+              >
+                <Phone className="h-4 w-4 text-emerald-500" />
+                <span>{t.contact.whatsappChat}</span>
+              </a>
+            </div>
+            <div className="text-xs font-mono text-slate-500 dark:text-slate-400 pt-1">
+              {lang === "EN" ? "Replies within 24h • Available for engineering roles" : "Respon dalam 24 jam • Siap untuk proyek & peluang karir"}
+            </div>
+          </div>
         </div>
 
+        {/* Quick Contacts & Message Form */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Left Column: Direct Contact & Social Cards */}
+          {/* Left Column: Direct Endpoint Cards */}
           <div className="lg:col-span-5 space-y-4">
-            {/* Email Card */}
-            <div className="p-6 rounded-2xl bg-white dark:bg-[#0c1220] border border-slate-200/90 dark:border-slate-800/90 shadow-sm flex items-center justify-between group hover:border-blue-400 dark:hover:border-blue-700 transition-all">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/70 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                  <Mail className="w-6 h-6" />
+            {/* Email Box */}
+            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 flex items-center justify-between">
+              <div className="flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-blue-600/10 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0">
+                  <Mail className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-xs font-mono text-slate-400 uppercase">Email Resmi</div>
+                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+                    {t.contact.officialEmail}
+                  </div>
                   <a
                     href={`mailto:${contactData.email}`}
-                    className="text-sm sm:text-base font-bold text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                   >
                     {contactData.email}
                   </a>
@@ -84,9 +106,8 @@ export default function Contact() {
               </div>
               <button
                 onClick={() => handleCopy(contactData.email, "email")}
-                className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all"
-                title="Salin Email"
-                aria-label="Salin Email"
+                className="p-2 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                title={lang === "EN" ? "Copy Email" : "Salin Email"}
               >
                 {copiedField === "email" ? (
                   <Check className="w-4 h-4 text-emerald-500" />
@@ -96,29 +117,25 @@ export default function Contact() {
               </button>
             </div>
 
-            {/* WhatsApp / Phone Card */}
-            <div className="p-6 rounded-2xl bg-white dark:bg-[#0c1220] border border-slate-200/90 dark:border-slate-800/90 shadow-sm flex items-center justify-between group hover:border-blue-400 dark:hover:border-blue-700 transition-all">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                  <Phone className="w-6 h-6" />
+            {/* WhatsApp Box */}
+            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 flex items-center justify-between">
+              <div className="flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-emerald-600/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+                  <Phone className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-xs font-mono text-slate-400 uppercase">Telepon / WhatsApp</div>
-                  <a
-                    href={contactData.whatsapp}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-sm sm:text-base font-bold text-slate-900 dark:text-white hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
-                  >
+                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+                    {t.contact.phoneWhatsapp}
+                  </div>
+                  <div className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
                     {contactData.phone}
-                  </a>
+                  </div>
                 </div>
               </div>
               <button
                 onClick={() => handleCopy(contactData.phone, "phone")}
-                className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-500 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all"
-                title="Salin Nomor"
-                aria-label="Salin Nomor Telepon"
+                className="p-2 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                title={lang === "EN" ? "Copy Phone" : "Salin Nomor"}
               >
                 {copiedField === "phone" ? (
                   <Check className="w-4 h-4 text-emerald-500" />
@@ -127,161 +144,88 @@ export default function Contact() {
                 )}
               </button>
             </div>
-
-            {/* Location Card */}
-            <div className="p-6 rounded-2xl bg-white dark:bg-[#0c1220] border border-slate-200/90 dark:border-slate-800/90 shadow-sm flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/70 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0">
-                <MapPin className="w-6 h-6" />
-              </div>
-              <div>
-                <div className="text-xs font-mono text-slate-400 uppercase">Lokasi Domisili</div>
-                <div className="text-sm sm:text-base font-bold text-slate-900 dark:text-white">
-                  {contactData.location}
-                </div>
-              </div>
-            </div>
-
-            {/* Social Links Row */}
-            <div className="grid grid-cols-2 gap-4">
-              <a
-                href={contactData.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                className="p-5 rounded-2xl bg-white dark:bg-[#0c1220] border border-slate-200/90 dark:border-slate-800/90 shadow-sm flex items-center justify-between group hover:border-blue-400 dark:hover:border-blue-700 transition-all"
-              >
-                <div className="flex items-center gap-3">
-                  <LinkedinIcon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                  <span className="text-sm font-bold text-slate-800 dark:text-slate-200">
-                    LinkedIn
-                  </span>
-                </div>
-                <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-blue-500 transition-colors" />
-              </a>
-
-              <a
-                href={contactData.github}
-                target="_blank"
-                rel="noreferrer"
-                className="p-5 rounded-2xl bg-white dark:bg-[#0c1220] border border-slate-200/90 dark:border-slate-800/90 shadow-sm flex items-center justify-between group hover:border-blue-400 dark:hover:border-blue-700 transition-all"
-              >
-                <div className="flex items-center gap-3">
-                  <GithubIcon className="w-5 h-5 text-slate-800 dark:text-slate-200" />
-                  <span className="text-sm font-bold text-slate-800 dark:text-slate-200">
-                    GitHub
-                  </span>
-                </div>
-                <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-blue-500 transition-colors" />
-              </a>
-            </div>
           </div>
 
-          {/* Right Column: Interactive Message Form */}
-          <div className="lg:col-span-7">
-            <div className="p-8 rounded-3xl bg-white dark:bg-[#0c1220] border border-slate-200/90 dark:border-slate-800/90 shadow-sm">
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
-                <MessageSquare className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                <span>Kirim Pesan Langsung</span>
-              </h3>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
-                Silakan tinggalkan pesan untuk mendiskusikan peluang proyek atau wawancara.
-              </p>
+          {/* Right Column: Direct Message Transmission Form */}
+          <div className="lg:col-span-7 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 p-5 sm:p-6 space-y-4">
+            <div className="font-mono text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+              {t.contact.sendMessageTitle}
+            </div>
 
-              {isSubmitted ? (
-                <div className="p-6 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-center space-y-2 animate-fadeIn">
-                  <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto">
-                    <Check className="w-6 h-6" />
-                  </div>
-                  <h4 className="text-base font-bold text-emerald-800 dark:text-emerald-200">
-                    Pesan Berhasil Terkirim!
-                  </h4>
-                  <p className="text-xs sm:text-sm text-emerald-700 dark:text-emerald-300">
-                    Terima kasih telah menghubungi saya. Saya akan segera membalas email Anda.
-                  </p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                        Nama Lengkap
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="e.g. John Doe"
-                        value={formData.name}
-                        onChange={(e) =>
-                          setFormData({ ...formData, name: e.target.value })
-                        }
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/80 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-                      />
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                        Alamat Email
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        placeholder="e.g. john@company.com"
-                        value={formData.email}
-                        onChange={(e) =>
-                          setFormData({ ...formData, email: e.target.value })
-                        }
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/80 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                      Subjek / Topik
+            {isSubmitted ? (
+              <div className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-xs sm:text-sm text-emerald-700 dark:text-emerald-300 flex items-center gap-2">
+                <Check className="w-4 h-4 text-emerald-500 shrink-0" />
+                <span>{t.contact.successDesc}</span>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-3.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-[11px] font-mono text-slate-500 dark:text-slate-400 mb-1">
+                      {t.contact.formName}
                     </label>
                     <input
                       type="text"
                       required
-                      placeholder="e.g. Tawaran Peluang Cloud/DevOps Engineer"
-                      value={formData.subject}
-                      onChange={(e) =>
-                        setFormData({ ...formData, subject: e.target.value })
-                      }
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/80 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      placeholder={t.contact.formNamePlaceholder}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-blue-500"
                     />
                   </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                      Pesan Anda
+                  <div>
+                    <label className="block text-[11px] font-mono text-slate-500 dark:text-slate-400 mb-1">
+                      {t.contact.formEmail}
                     </label>
-                    <textarea
+                    <input
+                      type="email"
                       required
-                      rows={4}
-                      placeholder="Tuliskan pesan Anda di sini..."
-                      value={formData.message}
-                      onChange={(e) =>
-                        setFormData({ ...formData, message: e.target.value })
-                      }
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/80 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all resize-none"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      placeholder={t.contact.formEmailPlaceholder}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-blue-500"
                     />
                   </div>
+                </div>
 
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-500/25 transition-all disabled:opacity-50"
-                  >
-                    {isSubmitting ? (
-                      <span>Mengirim...</span>
-                    ) : (
-                      <>
-                        <Send className="w-4 h-4" />
-                        <span>Kirim Pesan</span>
-                      </>
-                    )}
-                  </button>
-                </form>
-              )}
-            </div>
+                <div>
+                  <label className="block text-[11px] font-mono text-slate-500 dark:text-slate-400 mb-1">
+                    {t.contact.formSubject}
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.subject}
+                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                    placeholder={t.contact.formSubjectPlaceholder}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-mono text-slate-500 dark:text-slate-400 mb-1">
+                    {t.contact.formMessage}
+                  </label>
+                  <textarea
+                    rows={3}
+                    required
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    placeholder={t.contact.formMessagePlaceholder}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-blue-500 resize-none"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow-md shadow-blue-500/20 transition-all disabled:opacity-50"
+                >
+                  <Send className="w-3.5 h-3.5" />
+                  <span>{isSubmitting ? t.contact.submittingBtn : t.contact.submitBtn}</span>
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </div>

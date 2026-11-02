@@ -1,25 +1,17 @@
-import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
+import React from "react";
 import About from "@/components/About";
-import Skills from "@/components/Skills";
-import Projects from "@/components/Projects";
-import Certifications from "@/components/Certifications";
-import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
+import type { Metadata } from "next";
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: "About & Professional Overview | Handika Juan Putra Sinaga — DevOps Cloud Engineer",
+  description:
+    "Profil profesional & Overview Handika Juan Putra Sinaga, DevOps Cloud Engineer spesialisasi AWS, Docker, Kubernetes, CI/CD, dan Observabilitas.",
+};
+
+export default function HomePage() {
   return (
-    <div className="flex flex-col min-h-screen">
-      <Navbar />
-      <main className="flex-1">
-        <Hero />
-        <About />
-        <Skills />
-        <Projects />
-        <Certifications />
-        <Contact />
-      </main>
-      <Footer />
+    <div className="w-full">
+      <About />
     </div>
   );
 }
