@@ -93,20 +93,19 @@ export default function Projects() {
   };
 
   return (
-    <section id="projects" className="py-24 relative overflow-hidden">
+    <section id="projects" className="py-28 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-900">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Implementasi Nyata & Dokumentasi Proyek</span>
+        <div className="max-w-3xl mb-16 space-y-3">
+          <div className="text-xs font-mono font-semibold tracking-wider text-blue-600 dark:text-blue-400 uppercase">
+            // 03. PROYEK UNGGULAN
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-            Featured <span className="text-blue-600 dark:text-blue-400">Projects</span>
+          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white tracking-tight">
+            Arsitektur Cloud & <span className="text-blue-600 dark:text-blue-400">Proyek Pilihan</span>
           </h2>
           <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-            Arsitektur cloud production, otomatisasi deployment multi-tier, dokumentasi presentasi teknis,
-            dan optimasi infrastruktur berskala tinggi yang telah saya pimpin dan rancang.
+            Implementasi infrastruktur produksi AWS Multi-AZ, otomatisasi deployment multi-tier,
+            dan perancangan sistem berdaya tahan tinggi yang telah saya pimpin dan kerjakan.
           </p>
         </div>
 
@@ -116,208 +115,121 @@ export default function Projects() {
             <div
               key={project.id}
               id={`project-${project.id}`}
-              className="flex flex-col justify-between rounded-3xl bg-white dark:bg-[#0c1220] border border-slate-200/90 dark:border-slate-800/90 overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-400 dark:hover:border-blue-700/60 transition-all duration-300 group"
+              className="flex flex-col justify-between rounded-2xl bg-white dark:bg-[#0c1220] border border-slate-200/80 dark:border-slate-800/80 shadow-sm hover:border-blue-400/80 dark:hover:border-blue-600/80 transition-all duration-300"
             >
-              <div>
-                {/* Visual Architecture Banner (CSS Mockup with terminal/cloud aesthetics) */}
-                <div className="relative h-60 bg-gradient-to-br from-blue-950 via-slate-900 to-[#070b12] p-6 flex flex-col justify-between overflow-hidden border-b border-slate-200 dark:border-slate-800">
-                  {/* Subtle Grid overlay */}
-                  <div className="absolute inset-0 bg-grid-pattern-dark opacity-30" />
-
-                  <div className="relative z-10 flex items-center justify-between">
-                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/20 text-blue-300 border border-blue-400/30 backdrop-blur-md">
-                      {project.category}
+              <div className="p-6 sm:p-8 space-y-5">
+                {/* Card Top Meta */}
+                <div className="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-slate-100 dark:border-slate-800/80">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-mono uppercase tracking-wider text-blue-600 dark:text-blue-400 font-semibold">
+                      {project.organization}
                     </span>
-                    <span className="text-xs font-mono text-slate-400">
+                    <span className="text-slate-300 dark:text-slate-700">•</span>
+                    <span className="text-xs font-mono text-slate-500 dark:text-slate-400">
                       {project.period}
                     </span>
                   </div>
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200/70 dark:border-slate-800">
+                    {project.category}
+                  </span>
+                </div>
 
-                  {/* Architecture Visualization Badges */}
-                  <div className="relative z-10 space-y-2">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-mono uppercase tracking-wider text-blue-400">
-                        {project.organization}
-                      </span>
-                      {project.teamName && (
-                        <span className="px-2 py-0.5 rounded text-[10px] font-mono font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                {/* Title & Role */}
+                <div className="space-y-1.5">
+                  <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+                    {project.title}
+                  </h3>
+                  <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-slate-600 dark:text-slate-400">
+                    <span className="font-medium">
+                      Peran: <strong className="text-slate-900 dark:text-white font-semibold">{project.role}</strong>
+                    </span>
+                    {project.teamName && (
+                      <>
+                        <span className="text-slate-300 dark:text-slate-700">•</span>
+                        <span className="font-mono text-blue-600 dark:text-blue-400 font-medium">
                           {project.teamName}
                         </span>
-                      )}
-                    </div>
-                    <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-blue-300 transition-colors">
-                      {project.title}
-                    </h3>
-                  </div>
-
-                  {/* Visual Node Graph representation */}
-                  <div className="relative z-10 flex flex-wrap items-center gap-1.5 pt-2 text-[11px] font-mono text-slate-300">
-                    {project.nodeFlow ? (
-                      project.nodeFlow.map((node, nIdx) => (
-                        <React.Fragment key={node}>
-                          <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-black/50 border border-white/10">
-                            <Cloud className="w-3 h-3 text-sky-400" />
-                            <span>{node}</span>
-                          </div>
-                          {nIdx < project.nodeFlow!.length - 1 && (
-                            <span className="text-slate-400">→</span>
-                          )}
-                        </React.Fragment>
-                      ))
-                    ) : (
-                      <>
-                        <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-black/50 border border-white/10">
-                          <Cloud className="w-3 h-3 text-sky-400" />
-                          <span>VPC Multi-AZ</span>
-                        </div>
-                        <span>→</span>
-                        <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-black/50 border border-white/10">
-                          <Network className="w-3 h-3 text-blue-400" />
-                          <span>ALB</span>
-                        </div>
-                        <span>→</span>
-                        <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-black/50 border border-white/10">
-                          <Server className="w-3 h-3 text-cyan-400" />
-                          <span>EC2 / ASG</span>
-                        </div>
-                        <span>→</span>
-                        <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-black/50 border border-white/10">
-                          <Database className="w-3 h-3 text-indigo-400" />
-                          <span>RDS MySQL</span>
-                        </div>
                       </>
                     )}
                   </div>
                 </div>
 
-                {/* Card Body */}
-                <div className="p-6 sm:p-8 space-y-5">
-                  <div className="space-y-2">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div className="text-sm font-semibold text-blue-600 dark:text-blue-400">
-                        Peran: {project.role}
-                      </div>
-                      <div className="flex flex-wrap items-center gap-1.5">
-                        {project.gallery && project.gallery.length > 0 && (
-                          <button
-                            onClick={() => openModal(project, "gallery")}
-                            className="inline-flex items-center gap-1 text-[11px] font-semibold text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/60 px-2 py-0.5 rounded-md border border-sky-200 dark:border-sky-800 hover:bg-sky-100 transition-colors"
-                          >
-                            <ImageIcon className="w-3 h-3" />
-                            <span>{project.gallery.length} Foto Dokumentasi</span>
-                          </button>
-                        )}
-                        {project.documentationUrl && (
-                          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-md border border-emerald-200 dark:border-emerald-800">
-                            <FileText className="w-3 h-3" />
-                            <span>Dokumen Lengkap</span>
-                          </span>
-                        )}
-                        {project.liveUrl && (
-                          <a
-                            href={project.liveUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 px-2 py-0.5 rounded-md border border-indigo-200 dark:border-indigo-800 hover:underline"
-                          >
-                            <ExternalLink className="w-3 h-3" />
-                            <span>Live: seals.id</span>
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                    <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
-                      {project.description}
-                    </p>
+                {/* Description */}
+                <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                  {project.description}
+                </p>
 
-                    {/* Linked Experience Card */}
-                    {project.relatedExperienceId && (
-                      <div className="p-3 rounded-xl bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-900/60 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-                        <div className="flex items-center gap-2 min-w-0">
-                          <div className="p-1.5 rounded-lg bg-blue-100 dark:bg-blue-900/60 text-blue-600 dark:text-blue-400 shrink-0">
-                            <Briefcase className="w-3.5 h-3.5" />
-                          </div>
-                          <div className="text-xs truncate">
-                            <span className="text-slate-500 dark:text-slate-400">Pengalaman: </span>
-                            <strong className="text-slate-900 dark:text-white font-semibold">
-                              {project.relatedExperienceCompany}
-                            </strong>
-                            <span className="text-blue-600 dark:text-blue-400"> • {project.relatedExperienceRole}</span>
-                          </div>
-                        </div>
-                        <button
-                          onClick={() => handleNavigateToExperience(project.relatedExperienceId!)}
-                          className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors shrink-0"
-                        >
-                          <span>Lihat Pengalaman</span>
-                          <ChevronRight className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    )}
+                {/* Architecture Highlights Chips */}
+                <div className="space-y-2 pt-1">
+                  <div className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-semibold">
+                    Arsitektur & Pilar Teknis:
                   </div>
-
-                  {/* Key Highlights List */}
-                  <div className="space-y-2 pt-1">
-                    <div className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                      Poin Kunci Implementasi:
-                    </div>
-                    <div className="space-y-2">
-                      {project.details.slice(0, 3).map((detail, idx) => (
-                        <div key={idx} className="flex items-start gap-2.5">
-                          <CheckCircle2 className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
-                          <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-normal">
-                            {detail}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Architecture Pillars */}
-                  <div className="flex flex-wrap gap-1.5 pt-1">
+                  <div className="flex flex-wrap gap-1.5">
                     {project.architectureHighlights.map((hl) => (
                       <span
                         key={hl}
-                        className="px-2.5 py-1 rounded-lg text-xs font-medium bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200/60 dark:border-blue-900"
+                        className="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-50 dark:bg-slate-900/60 text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-slate-800"
                       >
                         ✓ {hl}
                       </span>
                     ))}
                   </div>
                 </div>
-              </div>
 
-              {/* Card Footer: Tech Stack & Actions */}
-              <div className="p-6 sm:p-8 pt-0 space-y-4">
-                <div className="flex flex-wrap gap-1.5 pt-4 border-t border-slate-100 dark:border-slate-800">
+                {/* Linked Experience Card */}
+                {project.relatedExperienceId && (
+                  <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-800/80 flex items-center justify-between gap-2.5">
+                    <div className="flex items-center gap-2 min-w-0 text-xs">
+                      <Briefcase className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+                      <div className="truncate">
+                        <span className="text-slate-500">Terkait: </span>
+                        <strong className="text-slate-800 dark:text-slate-200 font-semibold">
+                          {project.relatedExperienceCompany}
+                        </strong>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => handleNavigateToExperience(project.relatedExperienceId!)}
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline shrink-0"
+                    >
+                      <span>Lihat Riwayat</span>
+                      <ChevronRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                )}
+
+                {/* Tech Stack Pills */}
+                <div className="flex flex-wrap gap-1.5 pt-2 border-t border-slate-100 dark:border-slate-800/60">
                   {project.techStack.map((tech) => (
                     <span
                       key={tech}
-                      className="px-2 py-0.5 rounded text-[11px] font-mono bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800"
+                      className="px-2 py-0.5 rounded text-[11px] font-mono bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200/60 dark:border-slate-800"
                     >
                       {tech}
                     </span>
                   ))}
                 </div>
+              </div>
 
-                {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row gap-2.5 pt-2">
+              {/* Card Footer Actions */}
+              <div className="p-6 sm:p-8 pt-0">
+                <div className="flex flex-wrap items-center gap-2.5 pt-4 border-t border-slate-100 dark:border-slate-800/80">
                   <button
                     onClick={() => openModal(project, "overview")}
                     data-project={project.id}
-                    className="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-semibold text-slate-800 dark:text-slate-200 bg-slate-100 dark:bg-slate-900 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 dark:hover:text-white transition-all shadow-sm"
+                    className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold text-white bg-blue-600 hover:bg-blue-500 transition-colors shadow-sm"
                   >
-                    <Maximize2 className="w-4 h-4" />
-                    <span>Detail Arsitektur & Spesifikasi</span>
+                    <span>Rincian & Arsitektur</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </button>
 
                   {project.gallery && project.gallery.length > 0 && (
                     <button
                       onClick={() => openModal(project, "gallery")}
-                      className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-semibold text-white bg-sky-600 hover:bg-sky-700 transition-all shadow-sm shadow-sky-500/20"
+                      className="flex items-center justify-center gap-1.5 py-2.5 px-3.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition-colors"
                     >
-                      <ImageIcon className="w-4 h-4" />
-                      <span>Galeri Foto ({project.gallery.length})</span>
+                      <ImageIcon className="w-3.5 h-3.5 text-blue-500" />
+                      <span>Galeri ({project.gallery.length})</span>
                     </button>
                   )}
 
@@ -327,11 +239,11 @@ export default function Projects() {
                       target="_blank"
                       rel="noopener noreferrer"
                       data-doc-link={project.id}
-                      className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-all shadow-sm shadow-blue-500/20"
+                      className="flex items-center justify-center gap-1.5 py-2.5 px-3.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition-colors"
                     >
-                      <FileText className="w-4 h-4" />
-                      <span>Presentasi & Artefak</span>
-                      <ExternalLink className="w-3.5 h-3.5" />
+                      <FileText className="w-3.5 h-3.5" />
+                      <span>Artefak</span>
+                      <ExternalLink className="w-3 h-3 text-slate-400" />
                     </a>
                   )}
                 </div>

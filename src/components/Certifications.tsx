@@ -7,9 +7,7 @@ import {
   Award,
   ShieldCheck,
   Calendar,
-  Sparkles,
   ExternalLink,
-  CheckCircle,
   X,
   FileCheck,
   CheckCircle2,
@@ -19,15 +17,14 @@ export default function Certifications() {
   const [activeCert, setActiveCert] = useState<Certification | null>(null);
 
   return (
-    <section id="certifications" className="py-24 relative overflow-hidden bg-slate-50/50 dark:bg-[#080d17]/50">
+    <section id="certifications" className="py-28 relative overflow-hidden bg-slate-50/50 dark:bg-[#080d17]/40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-900">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Kredensial & Lisensi</span>
+        <div className="max-w-3xl mb-16 space-y-3">
+          <div className="text-xs font-mono font-semibold tracking-wider text-blue-600 dark:text-blue-400 uppercase">
+            // 04. SERTIFIKASI & KREDENSIAL
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white tracking-tight">
             Sertifikasi <span className="text-blue-600 dark:text-blue-400">Industri</span>
           </h2>
           <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
@@ -41,49 +38,47 @@ export default function Certifications() {
           {certificationsData.map((cert) => (
             <div
               key={cert.id}
-              className="flex flex-col justify-between rounded-3xl bg-white dark:bg-[#0c1220] border border-slate-200/90 dark:border-slate-800/90 overflow-hidden shadow-sm hover:border-blue-400 dark:hover:border-blue-600 hover:shadow-lg transition-all group"
+              className="flex flex-col justify-between rounded-2xl bg-white dark:bg-[#0c1220] border border-slate-200/80 dark:border-slate-800/80 overflow-hidden shadow-sm hover:border-blue-400/80 dark:hover:border-blue-600/80 transition-all duration-300"
             >
               <div>
-                {/* Visual Certificate Header with Security Badge */}
+                {/* Visual Certificate Header */}
                 <div
                   onClick={() => setActiveCert(cert)}
-                  className="relative h-48 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 p-5 flex flex-col justify-between overflow-hidden border-b border-slate-200 dark:border-slate-800 cursor-pointer group/header"
+                  className="relative h-44 bg-slate-900 p-5 flex flex-col justify-between overflow-hidden border-b border-slate-200 dark:border-slate-800 cursor-pointer group/header"
                 >
-                  {/* Certificate preview image background if available */}
                   {cert.imageUrl ? (
                     <>
                       <img
                         src={cert.imageUrl}
                         alt={cert.title}
-                        className="absolute inset-0 w-full h-full object-cover object-top opacity-35 group-hover/header:opacity-50 group-hover/header:scale-105 transition-all duration-300"
+                        className="absolute inset-0 w-full h-full object-cover object-top opacity-30 group-hover/header:opacity-45 transition-all duration-300"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-950/40" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-slate-950/40" />
                     </>
                   ) : (
-                    <div className="absolute inset-0 bg-grid-pattern-dark opacity-35" />
+                    <div className="absolute inset-0 bg-grid-pattern-dark opacity-30" />
                   )}
 
                   <div className="relative z-10 flex items-center justify-between">
-                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-blue-500/25 text-blue-200 border border-blue-400/40 backdrop-blur-sm">
+                    <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-medium bg-blue-500/20 text-blue-300 border border-blue-400/30">
                       {cert.category}
                     </span>
-                    <div className="flex items-center gap-1 text-[11px] font-mono text-emerald-400 bg-emerald-950/70 px-2 py-0.5 rounded-full border border-emerald-500/30 backdrop-blur-sm">
+                    <div className="flex items-center gap-1 text-[11px] font-mono text-emerald-400 bg-emerald-950/70 px-2 py-0.5 rounded-full border border-emerald-500/30">
                       <ShieldCheck className="w-3 h-3" />
                       <span>Verified</span>
                     </div>
                   </div>
 
-                  {/* Certificate Watermark / Medallion icon */}
                   <div className="relative z-10 flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-400 to-amber-200 flex items-center justify-center text-slate-900 shadow-md group-hover:rotate-6 transition-transform shrink-0">
-                      <Award className="w-7 h-7 text-amber-900" />
+                    <div className="w-10 h-10 rounded-xl bg-blue-600/30 text-blue-300 border border-blue-400/30 flex items-center justify-center shrink-0">
+                      <Award className="w-5 h-5 text-amber-400" />
                     </div>
                     <div className="min-w-0">
                       <div className="text-xs font-mono uppercase text-blue-300 font-semibold truncate">
                         {cert.issuer}
                       </div>
-                      <div className="text-xs font-medium text-slate-300">
-                        Dokumen Resmi Terverifikasi
+                      <div className="text-xs text-slate-400">
+                        Dokumen Resmi
                       </div>
                     </div>
                   </div>
@@ -91,7 +86,7 @@ export default function Certifications() {
 
                 {/* Body Details */}
                 <div className="p-6 space-y-4">
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-snug">
                     {cert.title}
                   </h3>
 
@@ -105,14 +100,14 @@ export default function Certifications() {
                   </div>
 
                   <div className="space-y-1.5 pt-1">
-                    <div className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                    <div className="text-[11px] font-mono uppercase tracking-wider text-slate-400">
                       Kompetensi Teruji:
                     </div>
                     <div className="flex flex-wrap gap-1.5">
                       {cert.skills.map((skill) => (
                         <span
                           key={skill}
-                          className="px-2 py-0.5 rounded text-[11px] font-medium bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200/60 dark:border-slate-800"
+                          className="px-2 py-0.5 rounded text-[11px] font-mono bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200/60 dark:border-slate-800"
                         >
                           {skill}
                         </span>
@@ -126,10 +121,10 @@ export default function Certifications() {
               <div className="p-6 pt-0">
                 <button
                   onClick={() => setActiveCert(cert)}
-                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 dark:hover:text-white transition-all"
+                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-300 bg-slate-100 hover:bg-blue-50 dark:bg-slate-900 dark:hover:bg-blue-950/60 hover:text-blue-600 dark:hover:text-blue-400 border border-slate-200/80 dark:border-slate-800 transition-colors"
                 >
-                  <FileCheck className="w-4 h-4" />
-                  <span>Detail Sertifikat</span>
+                  <FileCheck className="w-4 h-4 text-emerald-500" />
+                  <span>Lihat Dokumen Sertifikat</span>
                 </button>
               </div>
             </div>
@@ -139,18 +134,18 @@ export default function Certifications() {
 
       {/* Modal View for Certificate */}
       {activeCert && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fadeIn">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
           <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl bg-white dark:bg-[#0c1220] border border-slate-200 dark:border-slate-800 shadow-2xl p-6 sm:p-8 space-y-6">
             <div className="flex items-start justify-between gap-4">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-blue-100 dark:bg-blue-950 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
-                  <Award className="w-6 h-6" />
+                <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
+                  <Award className="w-5 h-5 text-amber-500" />
                 </div>
                 <div>
-                  <span className="text-xs font-mono uppercase tracking-wider text-blue-600 dark:text-blue-400">
+                  <span className="text-xs font-mono uppercase tracking-wider text-blue-600 dark:text-blue-400 font-semibold">
                     {activeCert.issuer}
                   </span>
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
                     {activeCert.title}
                   </h3>
                 </div>
@@ -181,28 +176,28 @@ export default function Certifications() {
                     className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-900/85 hover:bg-slate-900 text-white border border-slate-700 backdrop-blur-md transition-colors flex items-center gap-1.5 shadow-md"
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
-                    <span>Buka Resolusi Penuh</span>
+                    <span>Resolusi Penuh</span>
                   </a>
                 </div>
               </div>
             )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-              <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 space-y-1">
+              <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 space-y-1">
                 <div className="text-[11px] font-semibold text-slate-500">Penerbit Kredensial</div>
                 <div className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white">
                   {activeCert.issuer}
                 </div>
               </div>
-              <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 space-y-1">
-                <div className="text-[11px] font-semibold text-slate-500">Kategori Sertifikasi</div>
+              <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 space-y-1">
+                <div className="text-[11px] font-semibold text-slate-500">Kategori</div>
                 <div className="text-xs sm:text-sm font-medium text-blue-600 dark:text-blue-400">
-                  {activeCert.category} {activeCert.category !== "Internship" ? "Engineering" : "Program"}
+                  {activeCert.category}
                 </div>
               </div>
               {activeCert.issueDate && (
-                <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 space-y-1">
-                  <div className="text-[11px] font-semibold text-slate-500">Waktu Terbit / Masa Berlaku</div>
+                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 space-y-1">
+                  <div className="text-[11px] font-semibold text-slate-500">Masa Berlaku</div>
                   <div className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-white">
                     {activeCert.issueDate}
                   </div>
@@ -211,9 +206,9 @@ export default function Certifications() {
             </div>
 
             {activeCert.credentialId && (
-              <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="space-y-0.5 min-w-0">
-                  <span className="text-[11px] font-semibold text-slate-500 block">Nomor / ID Kredensial Resmi</span>
+                  <span className="text-[11px] font-semibold text-slate-500 block">Nomor Kredensial Resmi</span>
                   <span className="text-xs sm:text-sm font-mono font-bold text-slate-800 dark:text-white break-all">
                     {activeCert.credentialId}
                   </span>
@@ -226,27 +221,18 @@ export default function Certifications() {
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white transition-colors shrink-0"
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
-                    <span>Verifikasi di Credly</span>
+                    <span>Verifikasi Kredensial</span>
                   </a>
                 )}
               </div>
             )}
 
-            {activeCert.signatory && (
-              <div className="px-4 py-2.5 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-slate-200/60 dark:border-slate-800 flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400">
-                <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
-                <span>
-                  <strong className="text-slate-800 dark:text-slate-200 font-semibold">Penandatangan Resmi:</strong> {activeCert.signatory}
-                </span>
-              </div>
-            )}
-
             {activeCert.description && (
-              <div className="p-4 rounded-2xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-200/60 dark:border-blue-900/60">
-                <div className="text-xs font-bold uppercase tracking-wider text-blue-700 dark:text-blue-300 mb-1">
+              <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-800">
+                <div className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1">
                   Keterangan Kredensial
                 </div>
-                <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                   {activeCert.description}
                 </p>
               </div>
@@ -276,7 +262,7 @@ export default function Certifications() {
                   className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
                 >
                   <ExternalLink className="w-4 h-4" />
-                  <span>Unduh File</span>
+                  <span>Unduh Dokumen</span>
                 </a>
               ) : (
                 <div />
@@ -284,7 +270,7 @@ export default function Certifications() {
 
               <button
                 onClick={() => setActiveCert(null)}
-                className="px-6 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-colors"
+                className="px-6 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-white bg-blue-600 hover:bg-blue-500 transition-colors"
               >
                 Tutup
               </button>

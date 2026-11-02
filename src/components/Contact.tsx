@@ -45,23 +45,22 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-24 relative overflow-hidden">
+    <section id="contact" className="py-28 relative overflow-hidden">
       {/* Background radial glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-gradient-to-t from-blue-600/10 to-transparent blur-3xl -z-10 pointer-events-none" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-gradient-to-t from-blue-600/5 to-transparent blur-3xl -z-10 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-900">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Koneksi & Diskusi</span>
+        <div className="max-w-3xl mb-16 space-y-3">
+          <div className="text-xs font-mono font-semibold tracking-wider text-blue-600 dark:text-blue-400 uppercase">
+            // 05. KONTAK & DISKUSI
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white tracking-tight">
             Hubungi <span className="text-blue-600 dark:text-blue-400">Saya</span>
           </h2>
           <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-            Tertarik berdiskusi seputar arsitektur cloud, otomatisasi CI/CD, peluang kerja sama,
-            atau tawaran posisi Cloud/DevOps Engineer? Jangan ragu untuk menghubungi saya.
+            Tertarik berdiskusi seputar arsitektur cloud AWS, otomatisasi CI/CD, peluang kerja sama,
+            atau tawaran posisi Cloud/DevOps Engineer? Silakan hubungi saya melalui jalur berikut.
           </p>
         </div>
 
