@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import SectionNavigator from "@/components/SectionNavigator";
 import {
   contactData,
   educationData,
@@ -382,9 +383,11 @@ export default function About() {
                       </p>
                     </div>
 
-                    {training.credentialId && (
-                      <div className="pt-3 mt-3 border-t border-slate-100 dark:border-slate-800/60 flex items-center justify-between text-xs font-mono text-slate-500">
-                        <span>ID: {training.credentialId}</span>
+                    {(training.credentialId || training.verificationUrl) && (
+                      <div className={`pt-3 mt-3 border-t border-slate-100 dark:border-slate-800/60 flex items-center ${training.credentialId ? "justify-between" : "justify-end"} text-xs font-mono text-slate-500`}>
+                        {training.credentialId && (
+                          <span>{training.credentialId.startsWith("ID:") ? training.credentialId : `ID: ${training.credentialId}`}</span>
+                        )}
                         {training.verificationUrl && (
                           <a
                             href={training.verificationUrl}
@@ -404,6 +407,13 @@ export default function About() {
             </div>
           </div>
         )}
+
+        {/* Section Bridge: Next Page */}
+        <SectionNavigator
+          nextSection="skills"
+          nextTitle="Keahlian & Ekosistem Teknologi"
+          sectionNumber="02"
+        />
       </div>
 
       {/* High-Resolution Certificate Modal */}
@@ -472,7 +482,7 @@ export default function About() {
                 <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 space-y-1">
                   <span className="text-slate-500 font-medium">Kredensial</span>
                   <div className="font-semibold font-mono text-slate-900 dark:text-white">
-                    {selectedCert.credentialId || "-"} {selectedCert.nim ? `| ${selectedCert.nim}` : ""}
+                    {selectedCert.credentialId || (selectedCert.verificationUrl ? "Digital Badge" : "-")} {selectedCert.nim ? `| ${selectedCert.nim}` : ""}
                   </div>
                 </div>
                 <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 space-y-1">

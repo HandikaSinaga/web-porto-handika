@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import SectionNavigator from "@/components/SectionNavigator";
 import { certificationsData } from "@/data/portfolioData";
 import { Certification } from "@/types/portfolio";
 import {
@@ -130,6 +131,13 @@ export default function Certifications() {
             </div>
           ))}
         </div>
+
+        {/* Section Bridge: Next Page */}
+        <SectionNavigator
+          nextSection="contact"
+          nextTitle="Kontak & Saluran Kolaborasi"
+          sectionNumber="05"
+        />
       </div>
 
       {/* Modal View for Certificate */}
@@ -205,14 +213,23 @@ export default function Certifications() {
               )}
             </div>
 
-            {activeCert.credentialId && (
+            {(activeCert.credentialId || activeCert.verificationUrl) && (
               <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div className="space-y-0.5 min-w-0">
-                  <span className="text-[11px] font-semibold text-slate-500 block">Nomor Kredensial Resmi</span>
-                  <span className="text-xs sm:text-sm font-mono font-bold text-slate-800 dark:text-white break-all">
-                    {activeCert.credentialId}
-                  </span>
-                </div>
+                {activeCert.credentialId ? (
+                  <div className="space-y-0.5 min-w-0">
+                    <span className="text-[11px] font-semibold text-slate-500 block">Nomor Kredensial Resmi</span>
+                    <span className="text-xs sm:text-sm font-mono font-bold text-slate-800 dark:text-white break-all">
+                      {activeCert.credentialId}
+                    </span>
+                  </div>
+                ) : (
+                  <div className="space-y-0.5 min-w-0">
+                    <span className="text-[11px] font-semibold text-slate-500 block">Status Kredensial</span>
+                    <span className="text-xs sm:text-sm font-mono font-bold text-slate-800 dark:text-white">
+                      Digital Badge Terverifikasi
+                    </span>
+                  </div>
+                )}
                 {activeCert.verificationUrl && (
                   <a
                     href={activeCert.verificationUrl}

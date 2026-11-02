@@ -1,0 +1,10 @@
+url: http://localhost:3000
+name: test_navigation_transition
+---
+- launchApp
+- tapOn:
+    text: "About"
+- takeScreenshot: "navigated_about"
+- tapOn:
+    text: "Projects"
+- takeScreenshot: "navigated_projects"

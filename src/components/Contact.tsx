@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import SectionNavigator from "@/components/SectionNavigator";
 import { contactData } from "@/data/portfolioData";
 import { GithubIcon, LinkedinIcon } from "@/components/icons/SocialIcons";
 import {
@@ -285,6 +286,14 @@ export default function Contact() {
             </div>
           </div>
         </div>
+
+        {/* Section Bridge: Next Page / Back to Top */}
+        <SectionNavigator
+          nextSection="home"
+          nextTitle="Kembali ke Beranda Utama"
+          sectionNumber="00"
+          isBackToTop
+        />
       </div>
     </section>
   );

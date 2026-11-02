@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useTheme } from "@/context/ThemeContext";
+import { usePageTransition } from "@/context/PageTransitionContext";
 import { contactData } from "@/data/portfolioData";
 import {
   Sun,
@@ -25,9 +26,16 @@ const NAV_ITEMS = [
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
+  const { navigateTo } = usePageTransition();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, label: string) => {
+    e.preventDefault();
+    navigateTo(href, label);
+    setIsOpen(false);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -67,6 +75,8 @@ export default function Navbar() {
           {/* Brand Logo */}
           <a
             href="#home"
+            onClick={(e) => handleNavClick(e, "#home", "Beranda Utama")}
+            data-nav-label="Beranda Utama"
             className="group flex items-center gap-2.5 font-mono text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white"
           >
             <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-blue-600 text-white shadow-md shadow-blue-500/25 group-hover:scale-105 transition-transform">
@@ -88,6 +98,8 @@ export default function Navbar() {
                 <a
                   key={item.href}
                   href={item.href}
+                  onClick={(e) => handleNavClick(e, item.href, item.label)}
+                  data-nav-label={item.label}
                   className={`px-3.5 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
                     isActive
                       ? "bg-blue-600 text-white shadow-sm shadow-blue-500/30"
@@ -182,7 +194,8 @@ export default function Navbar() {
                 <a
                   key={item.href}
                   href={item.href}
-                  onClick={() => setIsOpen(false)}
+                  onClick={(e) => handleNavClick(e, item.href, item.label)}
+                  data-nav-label={item.label}
                   className={`flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-medium ${
                     isActive
                       ? "bg-blue-600 text-white"

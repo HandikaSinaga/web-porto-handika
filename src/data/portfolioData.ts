@@ -50,8 +50,7 @@ export const trainingsData: Training[] = [
     program: "Studi Independen MSIB Kampus Merdeka di SEAL",
     issueDate: "12 Juni 2024",
     hours: "60 Jam Pelatihan",
-    credentialId: "Digital Badge ID: KTgdS29I",
-    verificationUrl: "https://www.credly.com/go/KTgdS29I",
+    verificationUrl: "https://www.credly.com/badges/3f13c0df-1b1e-49de-a93c-b392cd01ba39/public_url",
     imageUrl: "/images/certificates/sertifikat-aws-academy-cloud-architecting.png",
     description: [
       "Mempelajari perancangan arsitektur dan infrastruktur cloud berbasis AWS mencakup cloud security, scalability, high availability, dan reliability.",
@@ -70,8 +69,7 @@ export const trainingsData: Training[] = [
     program: "Studi Independen MSIB Kampus Merdeka di SEAL",
     issueDate: "27 Mei 2024",
     hours: "20 Jam Pelatihan",
-    credentialId: "Digital Badge ID: mdUlemmw",
-    verificationUrl: "https://www.credly.com/go/mdUlemmw",
+    verificationUrl: "https://www.credly.com/badges/fccf3d4f-02bd-4056-ab32-944fa01dabca/public_url",
     imageUrl: "/images/certificates/sertifikat-aws-academy-cloud-foundations.png",
     description: [
       "Mempelajari fundamental Cloud Computing, infrastruktur global AWS (Region, Availability Zones, Edge Locations).",
@@ -311,9 +309,8 @@ export const experiencesData: WorkExperience[] = [
         issuer: "AWS Academy",
         organization: "AWS Academy & SEAL (MSIB Batch 6)",
         program: "AWS Academy Cloud Architecting (60 Jam Pelatihan)",
-        credentialId: "Digital Badge ID: KTgdS29I",
         issueDate: "12 Juni 2024",
-        verificationUrl: "https://www.credly.com/go/KTgdS29I",
+        verificationUrl: "https://www.credly.com/badges/3f13c0df-1b1e-49de-a93c-b392cd01ba39/public_url",
         imageUrl: "/images/certificates/sertifikat-aws-academy-cloud-architecting.png",
         description:
           "Sertifikat kelulusan resmi dan Digital Badge dari AWS Academy atas penyelesaian 60 jam pelatihan Cloud Architecting selama program MSIB Angkatan 6 di SEAL. Memvalidasi kemampuan perancangan arsitektur AWS Well-Architected Framework: Multi-AZ High Availability, VPC Subnetting, Application Load Balancer, Auto Scaling, dan optimasi biaya komputasi.",
@@ -332,9 +329,8 @@ export const experiencesData: WorkExperience[] = [
         issuer: "AWS Academy",
         organization: "AWS Academy & SEAL (MSIB Batch 6)",
         program: "AWS Academy Cloud Foundations (20 Jam Pelatihan)",
-        credentialId: "Digital Badge ID: mdUlemmw",
         issueDate: "27 Mei 2024",
-        verificationUrl: "https://www.credly.com/go/mdUlemmw",
+        verificationUrl: "https://www.credly.com/badges/fccf3d4f-02bd-4056-ab32-944fa01dabca/public_url",
         imageUrl: "/images/certificates/sertifikat-aws-academy-cloud-foundations.png",
         description:
           "Sertifikat kelulusan resmi dan Digital Badge dari AWS Academy atas penyelesaian 20 jam pelatihan Cloud Foundations selama program MSIB Angkatan 6 di SEAL. Memvalidasi pemahaman komprehensif konsep dasar cloud AWS: Global Infrastructure (Region, AZ), Compute (EC2), Storage (S3/EBS), Database (RDS), IAM Security, dan Billing & Pricing Models.",
@@ -1037,8 +1033,7 @@ export const certificationsData: Certification[] = [
     title: "AWS Academy Graduate - AWS Academy Cloud Architecting",
     issuer: "AWS Academy",
     issueDate: "12 Juni 2024",
-    credentialId: "Credly Badge: KTgdS29I | 60 Jam Pelatihan",
-    verificationUrl: "https://www.credly.com/go/KTgdS29I",
+    verificationUrl: "https://www.credly.com/badges/3f13c0df-1b1e-49de-a93c-b392cd01ba39/public_url",
     category: "Cloud",
     imageUrl: "/images/certificates/sertifikat-aws-academy-cloud-architecting.png",
     description:
@@ -1057,8 +1052,7 @@ export const certificationsData: Certification[] = [
     title: "AWS Academy Graduate - AWS Academy Cloud Foundations",
     issuer: "AWS Academy",
     issueDate: "27 Mei 2024",
-    credentialId: "Credly Badge: mdUlemmw | 20 Jam Pelatihan",
-    verificationUrl: "https://www.credly.com/go/mdUlemmw",
+    verificationUrl: "https://www.credly.com/badges/fccf3d4f-02bd-4056-ab32-944fa01dabca/public_url",
     category: "Cloud",
     imageUrl: "/images/certificates/sertifikat-aws-academy-cloud-foundations.png",
     description:

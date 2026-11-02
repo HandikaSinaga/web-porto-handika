@@ -3,11 +3,14 @@
 import React from "react";
 import { contactData } from "@/data/portfolioData";
 import { GithubIcon, LinkedinIcon } from "@/components/icons/SocialIcons";
+import { usePageTransition } from "@/context/PageTransitionContext";
 import { Terminal, ArrowUp, Mail, Heart } from "lucide-react";
 
 export default function Footer() {
+  const { navigateTo } = usePageTransition();
+
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    navigateTo("#home", "Beranda Utama");
   };
 
   return (

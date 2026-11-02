@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import SectionNavigator from "@/components/SectionNavigator";
 import { projectsData } from "@/data/portfolioData";
 import { Project, ProjectImage } from "@/types/portfolio";
 import {
@@ -110,10 +111,16 @@ export default function Projects() {
     }
   };
 
+  const [isModalLoading, setIsModalLoading] = useState(false);
+
   const openModal = (project: Project, tab: typeof activeTab = "overview") => {
+    setIsModalLoading(true);
     setSelectedProject(project);
     setActiveTab(tab);
     setGalleryCategory("Semua");
+    setTimeout(() => {
+      setIsModalLoading(false);
+    }, 280);
   };
 
   return (
@@ -276,13 +283,25 @@ export default function Projects() {
           ))}
         </div>
 
-
+        {/* Section Bridge: Next Page */}
+        <SectionNavigator
+          nextSection="certifications"
+          nextTitle="Sertifikasi & Kredensial Industri"
+          sectionNumber="04"
+        />
       </div>
 
       {/* Modal Dialog for Deep Project Inspection & Presentation Dossier */}
       {selectedProject && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/75 backdrop-blur-md animate-fadeIn">
           <div className="relative w-full max-w-5xl rounded-3xl bg-white dark:bg-[#0c1220] border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden max-h-[92vh] flex flex-col">
+            {/* Top Modal Shimmer Loader */}
+            {isModalLoading && (
+              <div className="absolute top-0 left-0 right-0 h-[3px] z-30 overflow-hidden bg-slate-200/50 dark:bg-slate-800/50">
+                <div className="h-full w-full bg-gradient-to-r from-blue-600 via-cyan-400 to-indigo-500 animate-[loading-progress_0.35s_ease-in-out_forwards]" />
+              </div>
+            )}
+
             {/* Modal Header */}
             <div className="p-4 sm:p-6 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#090e1a] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 shrink-0">
               <div className="space-y-1">
@@ -972,33 +991,24 @@ export default function Projects() {
             </div>
 
             {/* Modal Footer Banner with Direct Link */}
-            <div className="p-3.5 sm:p-5 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#090e1a] flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
-              <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300">
-                <FileText className="w-4 h-4 text-blue-500 shrink-0" />
-                <span>
-                  Artefak, laporan teknis, dan slide presentasi lengkap tersedia di Google Drive.
-                </span>
-              </div>
-
-              <div className="flex items-center gap-2.5 w-full sm:w-auto justify-end">
-                {selectedProject.documentationUrl && (
-                  <a
-                    href={selectedProject.documentationUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-colors shadow-sm"
-                  >
-                    <span>Buka Presentasi & Artefak</span>
-                    <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                  </a>
-                )}
-                <button
-                  onClick={() => setSelectedProject(null)}
-                  className="px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors"
+            <div className="p-3.5 sm:p-5 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#090e1a] flex items-center justify-end gap-2.5 shrink-0">
+              {selectedProject.documentationUrl && (
+                <a
+                  href={selectedProject.documentationUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-colors shadow-sm"
                 >
-                  Tutup
-                </button>
-              </div>
+                  <span>Buka Presentasi & Artefak</span>
+                  <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                </a>
+              )}
+              <button
+                onClick={() => setSelectedProject(null)}
+                className="px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors"
+              >
+                Tutup
+              </button>
             </div>
           </div>
         </div>

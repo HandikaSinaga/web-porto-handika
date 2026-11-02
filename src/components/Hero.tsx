@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import SectionNavigator from "@/components/SectionNavigator";
 import { contactData } from "@/data/portfolioData";
 import { GithubIcon, LinkedinIcon } from "@/components/icons/SocialIcons";
 import {
@@ -243,6 +244,13 @@ export default function Hero() {
             </div>
           </div>
         </div>
+
+        {/* Section Bridge: Next Page */}
+        <SectionNavigator
+          nextSection="about"
+          nextTitle="Tentang Saya (Profil & Pengalaman)"
+          sectionNumber="01"
+        />
       </div>
     </section>
   );

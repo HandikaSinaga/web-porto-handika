@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { PageTransitionProvider } from "@/context/PageTransitionContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -72,7 +73,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen flex flex-col font-sans antialiased selection:bg-blue-600 selection:text-white`}
       >
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <PageTransitionProvider>{children}</PageTransitionProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

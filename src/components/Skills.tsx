@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import SectionNavigator from "@/components/SectionNavigator";
 import { skillCategoriesData } from "@/data/portfolioData";
 import {
   Server,
@@ -154,6 +155,13 @@ export default function Skills() {
             </div>
           ))}
         </div>
+
+        {/* Section Bridge: Next Page */}
+        <SectionNavigator
+          nextSection="projects"
+          nextTitle="Portofolio Proyek Terpilih"
+          sectionNumber="03"
+        />
       </div>
     </section>
   );
