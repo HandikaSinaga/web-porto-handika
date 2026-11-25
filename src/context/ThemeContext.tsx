@@ -1,13 +1,19 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useSyncExternalStore } from "react";
+import { flushSync } from "react-dom";
 
 type Theme = "light" | "dark";
 
+interface ThemeOrigin {
+  x: number;
+  y: number;
+}
+
 interface ThemeContextType {
   theme: Theme;
-  toggleTheme: () => void;
-  setTheme: (theme: Theme) => void;
+  toggleTheme: (eventOrOrigin?: React.MouseEvent<HTMLElement> | ThemeOrigin) => void;
+  setTheme: (theme: Theme, origin?: ThemeOrigin) => void;
   mounted: boolean;
 }
 
@@ -76,7 +82,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     applyTheme(theme);
   }, [theme]);
 
-  const setTheme = (newTheme: Theme) => {
+  const setTheme = (newTheme: Theme, origin?: ThemeOrigin) => {
     if (typeof document === "undefined") return;
 
     const executeChange = () => {
@@ -89,28 +95,87 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       window.dispatchEvent(new Event("theme-change"));
     };
 
-    // Use standard View Transitions API for GPU-accelerated smooth crossfade if supported
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if (typeof (document as any).startViewTransition === "function") {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (document as any).startViewTransition(() => {
-        executeChange();
-      });
+    const prefersReducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReducedMotion) {
+      executeChange();
       return;
     }
 
-    // Fallback: apply temporary transition class for 250ms so colors smoothly glide
+    type ViewTransitionDoc = Document & {
+      startViewTransition?: (updateCallback: () => void) => {
+        ready: Promise<void>;
+      };
+    };
+
+    const vtDoc = document as ViewTransitionDoc;
+    if (typeof vtDoc.startViewTransition === "function") {
+      const x = origin?.x ?? window.innerWidth - 48;
+      const y = origin?.y ?? 36;
+      const endRadius = Math.hypot(
+        Math.max(x, window.innerWidth - x),
+        Math.max(y, window.innerHeight - y)
+      );
+
+      const transition = vtDoc.startViewTransition(() => {
+        flushSync(() => {
+          executeChange();
+        });
+      });
+
+      transition.ready
+        .then(() => {
+          document.documentElement.animate(
+            {
+              clipPath: [
+                `circle(0px at ${x}px ${y}px)`,
+                `circle(${endRadius}px at ${x}px ${y}px)`,
+              ],
+            },
+            {
+              duration: 540,
+              easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+              pseudoElement: "::view-transition-new(root)",
+            }
+          );
+        })
+        .catch(() => {
+          // Ignore aborted transition if user toggles rapidly
+        });
+      return;
+    }
+
+    // Fallback: smooth CSS property glide for browsers without View Transitions API
     const root = document.documentElement;
     root.classList.add("theme-transitioning");
     executeChange();
     window.setTimeout(() => {
       root.classList.remove("theme-transitioning");
-    }, 280);
+    }, 460);
   };
 
-  const toggleTheme = () => {
+  const toggleTheme = (eventOrOrigin?: React.MouseEvent<HTMLElement> | ThemeOrigin) => {
+    let resolvedOrigin: ThemeOrigin | undefined;
+
+    if (eventOrOrigin && "currentTarget" in eventOrOrigin) {
+      const hasPointerCoords = eventOrOrigin.clientX > 0 || eventOrOrigin.clientY > 0;
+      if (hasPointerCoords) {
+        resolvedOrigin = { x: eventOrOrigin.clientX, y: eventOrOrigin.clientY };
+      } else if (eventOrOrigin.currentTarget) {
+        const rect = eventOrOrigin.currentTarget.getBoundingClientRect();
+        resolvedOrigin = {
+          x: rect.left + rect.width / 2,
+          y: rect.top + rect.height / 2,
+        };
+      }
+    } else if (eventOrOrigin && "x" in eventOrOrigin && "y" in eventOrOrigin) {
+      resolvedOrigin = eventOrOrigin;
+    }
+
     const nextTheme = theme === "dark" ? "light" : "dark";
-    setTheme(nextTheme);
+    setTheme(nextTheme, resolvedOrigin);
   };
 
   return (

@@ -368,14 +368,28 @@ export default function TopNavbar() {
                 ? "Switch to dark mode"
                 : "Ganti ke mode gelap"
             }
-            className="inline-flex h-[42px] w-[42px] sm:h-[44px] sm:w-[44px] items-center justify-center rounded-full border transition-colors"
+            className="inline-flex h-[42px] w-[42px] sm:h-[44px] sm:w-[44px] items-center justify-center rounded-full border transition-all duration-300 hover:scale-105 hover:border-[var(--color-border-hover)] active:scale-95"
             style={{
               backgroundColor: "var(--color-bg-card)",
               borderColor: "var(--color-border)",
               color: isDark ? "#fbbf24" : "var(--color-primary-text)",
+              boxShadow: isDark
+                ? "0 0 14px rgba(251, 191, 36, 0.14)"
+                : "0 0 14px rgba(155, 28, 28, 0.12)",
             }}
           >
-            {isDark ? <Sun className="w-[18px] h-[18px]" aria-hidden="true" /> : <Moon className="w-[18px] h-[18px]" aria-hidden="true" />}
+            <span className="relative flex h-[18px] w-[18px] items-center justify-center" aria-hidden="true">
+              <Sun
+                className={`absolute h-[18px] w-[18px] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                  isDark ? "opacity-100 rotate-0 scale-100" : "opacity-0 rotate-90 scale-50"
+                }`}
+              />
+              <Moon
+                className={`absolute h-[18px] w-[18px] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                  isDark ? "opacity-0 -rotate-90 scale-50" : "opacity-100 rotate-0 scale-100"
+                }`}
+              />
+            </span>
           </button>
 
           {/* Mobile Menu Trigger (Labeled for discoverability per antislop-layoutmobile) */}
