@@ -1,24 +1,32 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Outfit, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import AppShell from "@/components/AppShell";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
   title: "Handika Juan Putra Sinaga | Cloud & DevOps Engineer",
   description:
-    "Portofolio Handika Juan Putra Sinaga - Cloud Engineer & DevOps Engineer dengan spesialisasi AWS, Docker, CI/CD, Linux, dan Monitoring (Prometheus & Grafana).",
+    "Portofolio Handika Juan Putra Sinaga, Cloud & DevOps Engineer dengan fokus pada AWS, Docker, CI/CD, Linux, serta observabilitas Prometheus dan Grafana.",
   keywords: [
     "Handika Juan Putra Sinaga",
     "Cloud Engineer",
@@ -72,13 +80,14 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-screen flex flex-col font-sans antialiased selection:bg-blue-600 selection:text-white`}
+        className={`${outfit.variable} ${jakartaSans.variable} ${jetbrainsMono.variable} min-h-screen flex flex-col font-sans antialiased`}
       >
+        <a href="#main-content" className="skip-link">
+          Langsung ke konten utama
+        </a>
         <ThemeProvider>
           <LanguageProvider>
-            <AppShell>
-              {children}
-            </AppShell>
+            <AppShell>{children}</AppShell>
           </LanguageProvider>
         </ThemeProvider>
       </body>

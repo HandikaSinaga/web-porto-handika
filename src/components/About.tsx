@@ -1,280 +1,306 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
-import { ArrowRight, ChevronDown } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-import { uiTranslations } from "@/data/translations";
+import { usePortfolioData } from "@/data/portfolioData";
+import { GithubIcon, LinkedinIcon, WhatsappIcon } from "@/components/icons/SocialIcons";
+import {
+  Mail,
+  Phone,
+  Copy,
+  Check,
+  Cloud,
+  Boxes,
+  Activity,
+  Terminal,
+  CheckCircle2,
+  User,
+} from "lucide-react";
+
+const CATEGORY_ICONS = [Cloud, Boxes, Activity, Terminal];
 
 export default function About() {
-  const [isExpandedStory, setIsExpandedStory] = useState(false);
-  const { lang, isEN } = useLanguage();
-  const t = uiTranslations[lang];
+  const { isEN } = useLanguage();
+  const { contactData, skillCategoriesData } = usePortfolioData();
+  const [copiedEmail, setCopiedEmail] = useState(false);
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(contactData.email);
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2200);
+  };
+
+  const contributions = isEN
+    ? [
+        {
+          title: "Production AWS Cloud Architecture",
+          desc: "Designed isolated VPC (10.0.0.0/16), tiered Security Groups, Multi-AZ Application Load Balancer, Auto Scaling EC2, and RDS MySQL for client and capstone workloads.",
+        },
+        {
+          title: "Fullstack Deployment & Zero-Downtime Runtime",
+          desc: "Configured Nginx reverse proxy with SSL routing (seals.id and api.seals.id) and PM2 process clustering for automated crash recovery and zero-downtime reloads.",
+        },
+        {
+          title: "Real-Time Observability & Load Benchmarking",
+          desc: "Built Prometheus metric scraping (port 9090) and Grafana dashboards, paired with Grafana k6 stress benchmarks handling 100 concurrent Virtual Users (20,100 requests).",
+        },
+        {
+          title: "Cross-Functional Leadership & Industry Delivery",
+          desc: "Led a 7-member engineering team for Gazebo Samasta AWS deployment and served as MSIB Batch 7 Tribe Leader coordinating 50+ interns with mentors and stakeholders.",
+        },
+      ]
+    : [
+        {
+          title: "Arsitektur Cloud AWS Skala Produksi",
+          desc: "Merancang VPC terisolasi (10.0.0.0/16), Security Groups berlapis, Application Load Balancer Multi-AZ, Auto Scaling EC2, dan RDS MySQL untuk beban kerja produksi.",
+        },
+        {
+          title: "Deployment Fullstack & Zero-Downtime Runtime",
+          desc: "Mengonfigurasi Nginx reverse proxy beserta SSL (seals.id dan api.seals.id) dan PM2 clustering untuk auto-restart dan pemeliharaan tanpa downtime.",
+        },
+        {
+          title: "Observabilitas Real-Time & Pengujian Beban",
+          desc: "Membangun scraping metrik Prometheus (port 9090) dan dashboard Grafana, dilengkapi stress test Grafana K6 sebesar 100 Virtual Users (20.100 requests).",
+        },
+        {
+          title: "Kepemimpinan Tim & Penyerahan Proyek",
+          desc: "Memimpin tim 7 orang pada proyek akhir Gazebo Samasta di AWS serta bertugas sebagai Tribe Leader MSIB Batch 7 untuk 50+ peserta magang.",
+        },
+      ];
 
   return (
-    <article className="space-y-6">
-      {/* PROFESSIONAL OVERVIEW (ABOUT VIEW) */}
-      <section id="about" className="w-full scroll-mt-20">
-        <div className="rounded-2xl sm:rounded-3xl bg-white dark:bg-[#0c121e] border border-slate-200 dark:border-slate-800/80 p-5 sm:p-8 lg:p-10 shadow-xl shadow-slate-900/5 dark:shadow-black/50 transition-colors">
-          
-          {/* Section Header with Accent */}
-          <div className="space-y-2.5 border-b border-slate-200/80 dark:border-slate-800/80 pb-6 mb-8">
-            <div className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400">
-              <span className="h-1.5 w-1.5 rounded-full bg-blue-500 animate-pulse" />
-              {t.about.badge}
-            </div>
-
-            <div className="flex items-baseline gap-1">
-              <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-                {t.about.title}
-              </h1>
-              <span className="text-3xl sm:text-4xl font-extrabold text-blue-600 dark:text-blue-400">
-                .
-              </span>
-            </div>
-
-            <div className="h-1 w-12 rounded-full bg-blue-600 dark:bg-blue-500" />
+    <section
+      id="about"
+      className="py-12 sm:py-16 scroll-mt-20 transition-colors"
+      style={{ backgroundColor: "var(--color-bg-secondary)" }}
+    >
+      <div className="mx-auto w-full max-w-[1240px] px-4 sm:px-6 space-y-7">
+        {/* Section Heading */}
+        <div className="text-center max-w-2xl mx-auto space-y-2">
+          <div
+            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em]"
+            style={{ color: "var(--color-primary-text)" }}
+          >
+            <User className="w-3.5 h-3.5" aria-hidden="true" />
+            <span>{isEN ? "ABOUT ME" : "TENTANG SAYA"}</span>
           </div>
-
-          {/* 2-Column Split: Engineering Metrics Profile (Left) & Narrative (Right) */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-            
-            {/* Left: Engineering Profile Spec Card */}
-            <div className="md:col-span-4 space-y-4">
-              <div>
-                <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-slate-400 dark:text-slate-500 block mb-1">
-                  {t.about.specTitle}
-                </span>
-                <span className="text-xs font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400 font-mono">
-                  {t.about.specSubtitle}
-                </span>
-              </div>
-
-              <div className="space-y-2.5">
-                <div className="rounded-xl p-3 bg-slate-50 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-800/80">
-                  <span className="font-mono text-[10px] uppercase text-slate-400 dark:text-slate-500 block">
-                    {t.about.roleLabel}
-                  </span>
-                  <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">
-                    {t.about.roleVal}
-                  </span>
-                </div>
-
-                <div className="rounded-xl p-3 bg-slate-50 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-800/80">
-                  <span className="font-mono text-[10px] uppercase text-slate-400 dark:text-slate-500 block">
-                    {t.about.locationLabel}
-                  </span>
-                  <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">
-                    {t.about.locationVal}
-                  </span>
-                </div>
-
-                <div className="rounded-xl p-3 bg-slate-50 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-800/80">
-                  <span className="font-mono text-[10px] uppercase text-slate-400 dark:text-slate-500 block">
-                    {t.about.honorsLabel}
-                  </span>
-                  <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">
-                    {t.about.honorsVal}
-                  </span>
-                </div>
-
-                <div className="rounded-xl p-3 bg-slate-50 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-800/80">
-                  <span className="font-mono text-[10px] uppercase text-slate-400 dark:text-slate-500 block">
-                    {t.about.certLabel}
-                  </span>
-                  <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">
-                    {t.about.certVal}
-                  </span>
-                </div>
-              </div>
-
-              {/* Operational SLO Guarantee */}
-              <div className="rounded-2xl p-4 bg-gradient-to-br from-blue-900/20 via-indigo-900/10 to-transparent border border-blue-500/20">
-                <div className="flex items-center gap-2 mb-1.5">
-                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="font-mono text-xs font-semibold text-blue-400">
-                    {t.about.sloLabel}
-                  </span>
-                </div>
-                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                  {t.about.sloDesc}
-                </p>
-              </div>
-            </div>
-
-            {/* Right: Executive Narrative Story */}
-            <div className="md:col-span-8 space-y-4 text-sm sm:text-base leading-relaxed sm:leading-loose text-slate-700 dark:text-slate-300 font-sans">
-              {isEN ? (
-                <>
-                  <p>
-                    Computer Science graduate from{" "}
-                    <strong className="text-slate-900 dark:text-white font-semibold">
-                      Pamulang University (GPA: 3.59 / 4.00)
-                    </strong>{" "}
-                    with deep domain expertise in{" "}
-                    <span className="text-blue-600 dark:text-blue-400 font-semibold">
-                      DevOps Engineering
-                    </span>
-                    ,{" "}
-                    <span className="text-blue-600 dark:text-blue-400 font-semibold">
-                      Cloud Infrastructure
-                    </span>
-                    , and enterprise-grade production application lifecycle management.
-                  </p>
-                  <p>
-                    Proven track record in designing resilient AWS production environments{" "}
-                    <strong className="text-slate-900 dark:text-white font-semibold">
-                      (EC2, Multi-AZ RDS MySQL, VPC network isolation)
-                    </strong>
-                    , containerizing microservices with{" "}
-                    <strong className="text-slate-900 dark:text-white font-semibold">
-                      Docker
-                    </strong>
-                    , building automated CI/CD pipelines via{" "}
-                    <strong className="text-slate-900 dark:text-white font-semibold">
-                      GitLab CI/CD
-                    </strong>
-                    , configuring reverse proxies with{" "}
-                    <strong className="text-slate-900 dark:text-white font-semibold">
-                      Nginx &amp; PM2
-                    </strong>
-                    , and driving full-stack observability with{" "}
-                    <strong className="text-slate-900 dark:text-white font-semibold">
-                      Prometheus, Grafana, and Grafana k6
-                    </strong>
-                    .
-                  </p>
-
-                  {isExpandedStory && (
-                    <div className="space-y-3 pt-1 text-slate-600 dark:text-slate-300 animate-fadeIn">
-                      <p>
-                        My engineering methodology focuses on reproducible Infrastructure as Code (IaC), continuous delivery pipelines, defense-in-depth security (least-privilege IAM, strict VPC subnetting, and automated security group firewalls), and preemptive incident prevention through high-concurrency stress benchmarks prior to release.
-                      </p>
-                      <p>
-                        Spearheaded cloud deployments for the <strong className="text-slate-800 dark:text-slate-200">Adaptive Learning Platform POLINEMA (SEALS)</strong> with load benchmarks of 100 concurrent Virtual Users (VUs) and zero error rate, and architected a fault-tolerant 3-tier High Availability cloud foundation for <strong className="text-slate-800 dark:text-slate-200">Gazebo Samasta on AWS</strong>. Formally certified as a BNSP Network Administrator and credentialed by AWS Academy and Alibaba Cloud.
-                      </p>
-                    </div>
-                  )}
-                </>
-              ) : (
-                <>
-                  <p>
-                    Lulusan{" "}
-                    <strong className="text-slate-900 dark:text-white font-semibold">
-                      S1 Teknik Informatika Universitas Pamulang (IPK 3.59)
-                    </strong>{" "}
-                    yang memiliki kompetensi mendalam di bidang{" "}
-                    <span className="text-blue-600 dark:text-blue-400 font-semibold">
-                      DevOps Engineering
-                    </span>
-                    ,{" "}
-                    <span className="text-blue-600 dark:text-blue-400 font-semibold">
-                      Cloud Infrastructure
-                    </span>
-                    , serta pengelolaan ekosistem aplikasi skala produksi.
-                  </p>
-                  <p>
-                    Berpengalaman nyata dalam merancang infrastruktur produksi berbasis{" "}
-                    <strong className="text-slate-900 dark:text-white font-semibold">
-                      AWS (EC2, RDS MySQL Multi-AZ, VPC terisolasi)
-                    </strong>
-                    , containerization dengan{" "}
-                    <strong className="text-slate-900 dark:text-white font-semibold">
-                      Docker
-                    </strong>
-                    , automasi pipeline{" "}
-                    <strong className="text-slate-900 dark:text-white font-semibold">
-                      GitLab CI/CD
-                    </strong>
-                    , reverse proxy{" "}
-                    <strong className="text-slate-900 dark:text-white font-semibold">
-                      Nginx &amp; PM2
-                    </strong>
-                    , serta telemetri observabilitas real-time menggunakan{" "}
-                    <strong className="text-slate-900 dark:text-white font-semibold">
-                      Prometheus, Grafana, dan Grafana K6
-                    </strong>
-                    .
-                  </p>
-
-                  {isExpandedStory && (
-                    <div className="space-y-3 pt-1 text-slate-600 dark:text-slate-300 animate-fadeIn">
-                      <p>
-                        Dalam pendekatan rekayasa cloud dan DevOps, saya berfokus pada otomasi terukur (Infrastructure as Code &amp; Continuous Delivery), standar keamanan berlapis (Least Privilege IAM, isolasi VPC, dan firewall Security Groups), serta pencegahan insiden melalui simulasi stress test beban ekstrem sebelum rilis produksi.
-                      </p>
-                      <p>
-                        Telah memimpin implementasi cloud deployment pada <strong className="text-slate-800 dark:text-slate-200">Adaptive Learning Platform POLINEMA (SEALS)</strong> dengan uji beban 100 concurrent Virtual Users (VUs) zero error rate, serta merancang arsitektur 3-tier High Availability untuk <strong className="text-slate-800 dark:text-slate-200">Gazebo Samasta AWS Reservation</strong>. Memegang sertifikasi kompetensi nasional BNSP Network Administrator dan kredensial resmi dari AWS Academy &amp; Alibaba Cloud.
-                      </p>
-                    </div>
-                  )}
-                </>
-              )}
-
-              {/* Toggle Read More / Collapse */}
-              <div>
-                <button
-                  type="button"
-                  onClick={() => setIsExpandedStory(!isExpandedStory)}
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors cursor-pointer select-none py-1"
-                  aria-expanded={isExpandedStory}
-                >
-                  <span>{isExpandedStory ? t.common.showLess : t.common.readMore}</span>
-                  <ChevronDown
-                    className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                      isExpandedStory ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-              </div>
-
-              {/* Core Competencies Badges */}
-              <div className="pt-2">
-                <span className="font-mono text-[10px] uppercase tracking-widest text-slate-400 dark:text-slate-500 block mb-2">
-                  {t.about.coreComp}
-                </span>
-                <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                  {[
-                    "AWS Cloud",
-                    "Docker & K8s",
-                    "GitLab CI/CD",
-                    "Terraform IaC",
-                    "Prometheus & Grafana",
-                    "Linux & Nginx",
-                    "MySQL Multi-AZ",
-                  ].map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs font-mono text-slate-700 dark:text-slate-300"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Quick Navigation Action Buttons */}
-              <div className="pt-4 flex items-center gap-3 flex-wrap">
-                <Link
-                  href="/portfolio"
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow-md shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
-                >
-                  <span>{t.about.explorePortfolio}</span>
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </Link>
-                <Link
-                  href="/resume"
-                  className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-semibold transition-colors"
-                >
-                  <span>{t.about.viewFullResume}</span>
-                </Link>
-              </div>
-
-            </div>
-
-          </div>
-
+          <h2
+            className="font-heading font-extrabold tracking-[-0.02em]"
+            style={{
+              fontSize: "clamp(1.65rem, 4vw, 2.5rem)",
+              color: "var(--color-text-main)",
+            }}
+          >
+            {isEN ? "Engineering Profile & Technical Stack" : "Profil Rekayasa & Tech Stack"}
+          </h2>
         </div>
-      </section>
-    </article>
+
+        {/* Row 1: Profile Summary + Direct Connect */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Card 1: Profile Summary */}
+          <div className="surface-card rounded-2xl p-6 sm:p-8 space-y-4">
+            <h3
+              className="font-heading text-xl sm:text-[22px] font-bold tracking-tight"
+              style={{ color: "var(--color-text-main)" }}
+            >
+              {isEN ? "Profile Summary" : "Ringkasan Profil"}
+            </h3>
+
+            <div className="space-y-3 text-sm sm:text-[15px] leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
+              <p>{contactData.summary}</p>
+              <p>
+                {isEN
+                  ? "Certified as a BNSP Network Administrator and credentialed by AWS Academy (Cloud Architecting & Cloud Foundations) as well as Alibaba Cloud (ACA & Certified Developer)."
+                  : "Tersertifikasi Kompetensi Nasional BNSP Network Administrator serta mengantongi kredensial resmi AWS Academy (Cloud Architecting & Cloud Foundations) dan Alibaba Cloud (ACA & Certified Developer)."}
+              </p>
+            </div>
+          </div>
+
+          {/* Card 2: Connect */}
+          <div className="surface-card rounded-2xl p-6 sm:p-8 flex flex-col justify-between gap-6">
+            <div className="space-y-4">
+              <h3
+                className="font-heading text-xl sm:text-[22px] font-bold tracking-tight"
+                style={{ color: "var(--color-text-main)" }}
+              >
+                {isEN ? "Let's Connect" : "Mari Terkoneksi"}
+              </h3>
+              <p className="text-sm sm:text-[15px] leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
+                {isEN
+                  ? "Open for DevOps Engineer, Cloud Engineer, or Infrastructure collaboration and career opportunities. Reach me through the channels below."
+                  : "Terbuka untuk peluang kerja DevOps Engineer, Cloud Engineer, maupun kolaborasi infrastruktur cloud. Hubungi saya lewat kanal berikut."}
+              </p>
+
+              {/* Social Circle Icons (44x44px min tap target) */}
+              <div className="flex flex-wrap items-center gap-3 pt-1">
+                <a
+                  href={contactData.whatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="WhatsApp"
+                  title="WhatsApp"
+                  className="surface-chip inline-flex h-11 w-11 items-center justify-center rounded-full transition-all hover:-translate-y-0.5 hover:text-white hover:bg-[var(--color-primary)] hover:border-[var(--color-primary)]"
+                  style={{ color: "var(--color-text-main)" }}
+                >
+                  <WhatsappIcon className="w-4 h-4" />
+                </a>
+                <a
+                  href={`mailto:${contactData.email}`}
+                  aria-label="Email"
+                  title="Email"
+                  className="surface-chip inline-flex h-11 w-11 items-center justify-center rounded-full transition-all hover:-translate-y-0.5 hover:text-white hover:bg-[var(--color-primary)] hover:border-[var(--color-primary)]"
+                  style={{ color: "var(--color-text-main)" }}
+                >
+                  <Mail className="w-4 h-4" aria-hidden="true" />
+                </a>
+                <a
+                  href={contactData.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn"
+                  title="LinkedIn"
+                  className="surface-chip inline-flex h-11 w-11 items-center justify-center rounded-full transition-all hover:-translate-y-0.5 hover:text-white hover:bg-[var(--color-primary)] hover:border-[var(--color-primary)]"
+                  style={{ color: "var(--color-text-main)" }}
+                >
+                  <LinkedinIcon className="w-4 h-4" />
+                </a>
+                <a
+                  href={contactData.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GitHub"
+                  title="GitHub"
+                  className="surface-chip inline-flex h-11 w-11 items-center justify-center rounded-full transition-all hover:-translate-y-0.5 hover:text-white hover:bg-[var(--color-primary)] hover:border-[var(--color-primary)]"
+                  style={{ color: "var(--color-text-main)" }}
+                >
+                  <GithubIcon className="w-4 h-4" />
+                </a>
+                <a
+                  href={`tel:+62${contactData.phone.replace(/^0/, "")}`}
+                  aria-label={isEN ? "Call phone" : "Telepon"}
+                  title={contactData.phone}
+                  className="surface-chip inline-flex h-11 w-11 items-center justify-center rounded-full transition-all hover:-translate-y-0.5 hover:text-white hover:bg-[var(--color-primary)] hover:border-[var(--color-primary)]"
+                  style={{ color: "var(--color-text-main)" }}
+                >
+                  <Phone className="w-4 h-4" aria-hidden="true" />
+                </a>
+              </div>
+            </div>
+
+            {/* Direct Email Box with Copy Action */}
+            <div className="surface-inset rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="min-w-0">
+                <div
+                  className="text-[11px] font-semibold uppercase tracking-wider"
+                  style={{ color: "var(--color-primary-text)" }}
+                >
+                  {isEN ? "DIRECT EMAIL" : "EMAIL LANGSUNG"}
+                </div>
+                <div className="text-sm sm:text-base font-bold truncate" style={{ color: "var(--color-text-main)" }}>
+                  {contactData.email}
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleCopyEmail}
+                className="inline-flex items-center justify-center gap-1.5 min-h-[42px] px-4 py-2 rounded-lg text-xs font-semibold text-white shrink-0 transition-colors"
+                style={{ backgroundColor: "var(--color-primary)" }}
+              >
+                {copiedEmail ? (
+                  <>
+                    <Check className="w-3.5 h-3.5" aria-hidden="true" />
+                    <span>{isEN ? "Copied" : "Tersalin"}</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-3.5 h-3.5" aria-hidden="true" />
+                    <span>{isEN ? "Copy" : "Salin"}</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Row 2: Tech Stack + Engineering Contributions */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+          {/* Card 3: Core Tech Stack */}
+          <div className="surface-card rounded-2xl p-6 sm:p-8 space-y-5">
+            <h3
+              className="font-heading text-xl sm:text-[22px] font-bold tracking-tight"
+              style={{ color: "var(--color-text-main)" }}
+            >
+              {isEN ? "Specializations & Core Tech Stack" : "Spesialisasi & Tech Stack Inti"}
+            </h3>
+
+            <div className="divide-y" style={{ borderColor: "var(--color-border)" }}>
+              {skillCategoriesData.map((category, idx) => {
+                const Icon = CATEGORY_ICONS[idx % CATEGORY_ICONS.length];
+                return (
+                  <div
+                    key={category.categoryName}
+                    className={idx === 0 ? "pb-4" : "py-4 last:pb-0"}
+                    style={{ borderColor: "var(--color-border)" }}
+                  >
+                    <div className="flex items-center gap-2 mb-3">
+                      <Icon className="w-4 h-4 shrink-0" style={{ color: "var(--color-primary-text)" }} aria-hidden="true" />
+                      <h4 className="text-sm font-bold" style={{ color: "var(--color-text-main)" }}>
+                        {category.categoryName}
+                      </h4>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {category.skills.map((skill) => (
+                        <span
+                          key={skill.name}
+                          title={skill.details}
+                          className="surface-chip inline-flex items-center px-3 py-1 rounded-lg text-xs font-medium transition-colors"
+                          style={{ color: "var(--color-text-muted)" }}
+                        >
+                          {skill.name}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Card 4: Professional Contributions */}
+          <div className="surface-card rounded-2xl p-6 sm:p-8 space-y-5">
+            <h3
+              className="font-heading text-xl sm:text-[22px] font-bold tracking-tight"
+              style={{ color: "var(--color-text-main)" }}
+            >
+              {isEN ? "Engineering Contributions" : "Kontribusi Profesional"}
+            </h3>
+
+            <div className="space-y-3.5">
+              {contributions.map((item) => (
+                <div
+                  key={item.title}
+                  className="surface-inset rounded-xl p-4 flex items-start gap-3"
+                >
+                  <CheckCircle2
+                    className="w-4 h-4 mt-1 shrink-0"
+                    style={{ color: "var(--color-emerald)" }}
+                    aria-hidden="true"
+                  />
+                  <div className="space-y-1 min-w-0">
+                    <h4 className="text-sm font-bold leading-snug" style={{ color: "var(--color-text-main)" }}>
+                      {item.title}
+                    </h4>
+                    <p className="text-xs sm:text-[13px] leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
+                      {item.desc}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }

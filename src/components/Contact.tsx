@@ -3,13 +3,13 @@
 import React, { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { getContactData } from "@/data/portfolioData";
-import { uiTranslations } from "@/data/translations";
-import { Mail, Phone, Send, Copy, Check } from "lucide-react";
+import { GithubIcon, LinkedinIcon, WhatsappIcon } from "@/components/icons/SocialIcons";
+import { Mail, Phone, MapPin, Send, Copy, Check, MessageSquare, AlertCircle } from "lucide-react";
 
 export default function Contact() {
   const { lang } = useLanguage();
+  const isEN = lang === "EN";
   const contactData = getContactData(lang);
-  const t = uiTranslations[lang];
 
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [formData, setFormData] = useState({
@@ -18,214 +18,417 @@ export default function Contact() {
     subject: "",
     message: "",
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [dispatchStatus, setDispatchStatus] = useState<string | null>(null);
 
   const handleCopy = (text: string, field: string) => {
     navigator.clipboard.writeText(text);
     setCopiedField(field);
-    setTimeout(() => setCopiedField(null), 2500);
+    setTimeout(() => setCopiedField(null), 2200);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validateForm = () => {
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+      setFormError(
+        isEN
+          ? "Please fill in your name, email address, and message before sending."
+          : "Mohon lengkapi nama lengkap, alamat email, dan pesan Anda terlebih dahulu."
+      );
+      return false;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+      setFormError(
+        isEN
+          ? "Please enter a valid email address (example: name@company.com)."
+          : "Format email belum valid (contoh: nama@perusahaan.com)."
+      );
+      return false;
+    }
+    setFormError(null);
+    return true;
+  };
+
+  const handleEmailSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    // Simulate submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      setFormData({ name: "", email: "", subject: "", message: "" });
-      setTimeout(() => setIsSubmitted(false), 5000);
-    }, 1000);
+    if (!validateForm()) return;
+
+    const subject = encodeURIComponent(
+      formData.subject.trim() || `Portfolio Inquiry from ${formData.name.trim()}`
+    );
+    const body = encodeURIComponent(
+      `Name: ${formData.name.trim()}\nEmail: ${formData.email.trim()}\n\n${formData.message.trim()}`
+    );
+
+    window.location.href = `mailto:${contactData.email}?subject=${subject}&body=${body}`;
+    setDispatchStatus(
+      isEN
+        ? "Your email app has been opened with your drafted message."
+        : "Aplikasi email Anda telah dibuka dengan draf pesan yang siap dikirim."
+    );
+  };
+
+  const handleWhatsAppSend = () => {
+    const cleanPhone = contactData.phone.replace(/[^0-9]/g, "");
+    const intlPhone = cleanPhone.startsWith("0") ? `62${cleanPhone.slice(1)}` : cleanPhone;
+
+    const textParts = [
+      formData.name.trim() ? `Halo Handika, saya ${formData.name.trim()}.` : "Halo Handika,",
+      formData.subject.trim() ? `Topik: ${formData.subject.trim()}` : "",
+      formData.message.trim() ? formData.message.trim() : "",
+    ].filter(Boolean);
+
+    const encoded = encodeURIComponent(textParts.join("\n"));
+    window.open(`https://wa.me/${intlPhone}?text=${encoded}`, "_blank", "noopener,noreferrer");
   };
 
   return (
-    <section id="contact" className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-20">
-      <div className="rounded-3xl bg-white dark:bg-[#0d1322] border border-slate-200 dark:border-slate-800/80 p-6 sm:p-8 lg:p-10 shadow-xl shadow-slate-900/5 dark:shadow-black/50 space-y-8 transition-colors">
-        {/* Top Dispatch Hero Header */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center border-b border-slate-200/80 dark:border-slate-800/80 pb-8">
-          <div className="lg:col-span-7 space-y-3">
-            <div className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-ping" />
-              <span>{t.contact.badge}</span>
-            </div>
-            <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-              {t.contact.title}
-            </h3>
-            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed sm:leading-loose max-w-xl">
-              {t.contact.subtitle}
-            </p>
+    <section
+      id="contact"
+      className="py-12 sm:py-16 scroll-mt-20 transition-colors"
+      style={{ backgroundColor: "var(--color-bg)" }}
+    >
+      <div className="mx-auto w-full max-w-[1240px] px-4 sm:px-6 space-y-8">
+        {/* Centered Header */}
+        <div className="text-center max-w-2xl mx-auto space-y-2.5">
+          <div
+            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em]"
+            style={{ color: "var(--color-primary-text)" }}
+          >
+            <Mail className="w-4 h-4" aria-hidden="true" />
+            <span>{isEN ? "CONTACT" : "KONTAK"}</span>
           </div>
-
-          <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col items-start lg:items-end justify-center gap-3">
-            <div className="flex items-center gap-3 flex-wrap">
-              <a
-                href={`mailto:${contactData.email}`}
-                className="inline-flex items-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-500 px-5 py-3 text-xs font-semibold text-white shadow-md shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
-              >
-                <Mail className="h-4 w-4" />
-                <span>{contactData.email}</span>
-              </a>
-              <a
-                href={`https://wa.me/${contactData.phone.replace(/[^0-9]/g, "")}`}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 dark:hover:bg-slate-800 px-4 py-2.5 text-xs font-semibold text-slate-700 dark:text-slate-200 transition-colors"
-              >
-                <Phone className="h-4 w-4 text-emerald-500" />
-                <span>{t.contact.whatsappChat}</span>
-              </a>
-            </div>
-            <div className="text-xs font-mono text-slate-500 dark:text-slate-400 pt-1">
-              {lang === "EN" ? "Replies within 24h • Available for engineering roles" : "Respon dalam 24 jam • Siap untuk proyek & peluang karir"}
-            </div>
-          </div>
+          <h2
+            className="font-heading font-extrabold tracking-[-0.02em]"
+            style={{
+              fontSize: "clamp(1.65rem, 4vw, 2.5rem)",
+              color: "var(--color-text-main)",
+            }}
+          >
+            {isEN ? "Get in Touch" : "Hubungi Saya"}
+          </h2>
+          <p className="text-sm sm:text-base leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
+            {isEN
+              ? "Interested in discussing DevOps roles, AWS cloud infrastructure, or project collaboration? Reach out via the channels below."
+              : "Tertarik mendiskusikan peluang kerja DevOps, arsitektur cloud AWS, atau kolaborasi proyek? Silakan hubungi saya di bawah ini."}
+          </p>
         </div>
 
-        {/* Quick Contacts & Message Form */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Left Column: Direct Endpoint Cards */}
+        {/* 2-Column Split */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+          {/* Left: Direct Contact Info Cards */}
           <div className="lg:col-span-5 space-y-4">
-            {/* Email Box */}
-            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 flex items-center justify-between">
-              <div className="flex items-center gap-3.5">
-                <div className="w-10 h-10 rounded-xl bg-blue-600/10 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0">
-                  <Mail className="w-5 h-5" />
+            {/* Phone / WhatsApp Card */}
+            <div className="surface-card rounded-2xl p-5 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3.5 min-w-0">
+                <div
+                  className="h-11 w-11 rounded-xl flex items-center justify-center shrink-0"
+                  style={{
+                    backgroundColor: "var(--color-emerald-tint)",
+                    color: "var(--color-emerald)",
+                  }}
+                >
+                  <Phone className="w-5 h-5" aria-hidden="true" />
                 </div>
-                <div>
-                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">
-                    {t.contact.officialEmail}
+                <div className="min-w-0">
+                  <div className="text-[11px] font-bold uppercase tracking-wider" style={{ color: "var(--color-text-muted)" }}>
+                    {isEN ? "PHONE / WHATSAPP" : "TELEPON / WHATSAPP"}
+                  </div>
+                  <a
+                    href={`https://wa.me/${contactData.phone.replace(/[^0-9]/g, "").replace(/^0/, "62")}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm sm:text-base font-bold hover:underline block truncate"
+                    style={{ color: "var(--color-text-main)" }}
+                  >
+                    {contactData.phone}
+                  </a>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => handleCopy(contactData.phone, "phone")}
+                aria-label={
+                  copiedField === "phone"
+                    ? isEN
+                      ? "Phone number copied"
+                      : "Nomor telepon tersalin"
+                    : isEN
+                    ? "Copy phone number"
+                    : "Salin nomor telepon"
+                }
+                className="surface-chip h-11 w-11 inline-flex items-center justify-center rounded-xl shrink-0 transition-colors"
+                style={{ color: "var(--color-text-muted)" }}
+              >
+                {copiedField === "phone" ? (
+                  <Check className="w-4 h-4" style={{ color: "var(--color-emerald)" }} aria-hidden="true" />
+                ) : (
+                  <Copy className="w-4 h-4" aria-hidden="true" />
+                )}
+              </button>
+            </div>
+
+            {/* Email Card */}
+            <div className="surface-card rounded-2xl p-5 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3.5 min-w-0">
+                <div
+                  className="h-11 w-11 rounded-xl flex items-center justify-center shrink-0"
+                  style={{
+                    backgroundColor: "var(--color-primary-tint)",
+                    color: "var(--color-primary-text)",
+                  }}
+                >
+                  <Mail className="w-5 h-5" aria-hidden="true" />
+                </div>
+                <div className="min-w-0">
+                  <div className="text-[11px] font-bold uppercase tracking-wider" style={{ color: "var(--color-text-muted)" }}>
+                    {isEN ? "OFFICIAL EMAIL" : "EMAIL RESMI"}
                   </div>
                   <a
                     href={`mailto:${contactData.email}`}
-                    className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    className="text-sm sm:text-base font-bold hover:underline block truncate"
+                    style={{ color: "var(--color-text-main)" }}
                   >
                     {contactData.email}
                   </a>
                 </div>
               </div>
               <button
+                type="button"
                 onClick={() => handleCopy(contactData.email, "email")}
-                className="p-2 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                title={lang === "EN" ? "Copy Email" : "Salin Email"}
+                aria-label={
+                  copiedField === "email"
+                    ? isEN
+                      ? "Email address copied"
+                      : "Alamat email tersalin"
+                    : isEN
+                    ? "Copy email address"
+                    : "Salin alamat email"
+                }
+                className="surface-chip h-11 w-11 inline-flex items-center justify-center rounded-xl shrink-0 transition-colors"
+                style={{ color: "var(--color-text-muted)" }}
               >
                 {copiedField === "email" ? (
-                  <Check className="w-4 h-4 text-emerald-500" />
+                  <Check className="w-4 h-4" style={{ color: "var(--color-emerald)" }} aria-hidden="true" />
                 ) : (
-                  <Copy className="w-4 h-4" />
+                  <Copy className="w-4 h-4" aria-hidden="true" />
                 )}
               </button>
             </div>
 
-            {/* WhatsApp Box */}
-            <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 flex items-center justify-between">
-              <div className="flex items-center gap-3.5">
-                <div className="w-10 h-10 rounded-xl bg-emerald-600/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
-                  <Phone className="w-5 h-5" />
+            {/* Location Card */}
+            <div className="surface-card rounded-2xl p-5 flex items-center gap-3.5">
+              <div
+                className="surface-chip h-11 w-11 rounded-xl flex items-center justify-center shrink-0"
+                style={{ color: "var(--color-text-main)" }}
+              >
+                <MapPin className="w-5 h-5" aria-hidden="true" />
+              </div>
+              <div className="min-w-0">
+                <div className="text-[11px] font-bold uppercase tracking-wider" style={{ color: "var(--color-text-muted)" }}>
+                  {isEN ? "LOCATION" : "DOMISILI / LOKASI"}
                 </div>
-                <div>
-                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">
-                    {t.contact.phoneWhatsapp}
-                  </div>
-                  <div className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
-                    {contactData.phone}
-                  </div>
+                <div className="text-sm sm:text-base font-bold" style={{ color: "var(--color-text-main)" }}>
+                  {contactData.location}
                 </div>
               </div>
-              <button
-                onClick={() => handleCopy(contactData.phone, "phone")}
-                className="p-2 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
-                title={lang === "EN" ? "Copy Phone" : "Salin Nomor"}
-              >
-                {copiedField === "phone" ? (
-                  <Check className="w-4 h-4 text-emerald-500" />
-                ) : (
-                  <Copy className="w-4 h-4" />
-                )}
-              </button>
+            </div>
+
+            {/* Social Network Pills */}
+            <div className="surface-card rounded-2xl p-5 space-y-3">
+              <h3 className="text-sm font-bold" style={{ color: "var(--color-text-main)" }}>
+                {isEN ? "Social Connections" : "Koneksi Jaringan Sosial"}
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                <a
+                  href={contactData.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="surface-chip inline-flex items-center gap-2 min-h-[42px] px-4 py-2 rounded-full text-xs font-semibold transition-colors hover:border-[var(--color-primary)] hover:text-[var(--color-primary-text)]"
+                  style={{ color: "var(--color-text-muted)" }}
+                >
+                  <LinkedinIcon className="w-3.5 h-3.5" />
+                  <span>LinkedIn</span>
+                </a>
+                <a
+                  href={contactData.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="surface-chip inline-flex items-center gap-2 min-h-[42px] px-4 py-2 rounded-full text-xs font-semibold transition-colors hover:border-[var(--color-primary)] hover:text-[var(--color-primary-text)]"
+                  style={{ color: "var(--color-text-muted)" }}
+                >
+                  <GithubIcon className="w-3.5 h-3.5" />
+                  <span>GitHub</span>
+                </a>
+                <a
+                  href={`https://wa.me/${contactData.phone.replace(/[^0-9]/g, "").replace(/^0/, "62")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="surface-chip inline-flex items-center gap-2 min-h-[42px] px-4 py-2 rounded-full text-xs font-semibold transition-colors hover:border-[var(--color-primary)] hover:text-[var(--color-primary-text)]"
+                  style={{ color: "var(--color-text-muted)" }}
+                >
+                  <WhatsappIcon className="w-3.5 h-3.5" />
+                  <span>WhatsApp</span>
+                </a>
+              </div>
             </div>
           </div>
 
-          {/* Right Column: Direct Message Transmission Form */}
-          <div className="lg:col-span-7 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 p-5 sm:p-6 space-y-4">
-            <div className="font-mono text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
-              {t.contact.sendMessageTitle}
+          {/* Right: Interactive Message Composer */}
+          <div className="lg:col-span-7 surface-card rounded-3xl p-6 sm:p-8 space-y-5">
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2">
+                <MessageSquare className="w-5 h-5" style={{ color: "var(--color-primary-text)" }} aria-hidden="true" />
+                <h3 className="font-heading text-xl font-bold" style={{ color: "var(--color-text-main)" }}>
+                  {isEN ? "Send a Direct Message" : "Kirim Pesan Langsung"}
+                </h3>
+              </div>
+              <p className="text-xs sm:text-sm leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
+                {isEN
+                  ? "Fill out the fields below to open a pre-addressed email draft, or send directly via WhatsApp."
+                  : "Isi formulir di bawah untuk menyiapkan draf email langsung, atau kirim cepat lewat WhatsApp."}
+              </p>
             </div>
 
-            {isSubmitted ? (
-              <div className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-xs sm:text-sm text-emerald-700 dark:text-emerald-300 flex items-center gap-2">
-                <Check className="w-4 h-4 text-emerald-500 shrink-0" />
-                <span>{t.contact.successDesc}</span>
+            {formError && (
+              <div
+                role="alert"
+                className="p-3.5 rounded-xl border flex items-start gap-2.5 text-xs sm:text-sm"
+                style={{
+                  backgroundColor: "var(--color-primary-tint)",
+                  borderColor: "var(--color-primary)",
+                  color: "var(--color-primary-text)",
+                }}
+              >
+                <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" aria-hidden="true" />
+                <span>{formError}</span>
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-3.5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-[11px] font-mono text-slate-500 dark:text-slate-400 mb-1">
-                      {t.contact.formName}
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder={t.contact.formNamePlaceholder}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[11px] font-mono text-slate-500 dark:text-slate-400 mb-1">
-                      {t.contact.formEmail}
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder={t.contact.formEmailPlaceholder}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-blue-500"
-                    />
-                  </div>
-                </div>
+            )}
 
+            {dispatchStatus && (
+              <div
+                role="status"
+                aria-live="polite"
+                className="p-3.5 rounded-xl border flex items-start gap-2.5 text-xs sm:text-sm"
+                style={{
+                  backgroundColor: "var(--color-emerald-tint)",
+                  borderColor: "var(--color-emerald-border)",
+                  color: "var(--color-emerald)",
+                }}
+              >
+                <Check className="w-4 h-4 shrink-0 mt-0.5" aria-hidden="true" />
+                <span>{dispatchStatus}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleEmailSubmit} noValidate className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[11px] font-mono text-slate-500 dark:text-slate-400 mb-1">
-                    {t.contact.formSubject}
+                  <label
+                    htmlFor="contact-name"
+                    className="block text-xs font-semibold mb-1.5"
+                    style={{ color: "var(--color-text-main)" }}
+                  >
+                    {isEN ? "Full Name" : "Nama Lengkap"}{" "}
+                    <span style={{ color: "var(--color-primary-text)" }}>*</span>
                   </label>
                   <input
+                    id="contact-name"
                     type="text"
                     required
-                    value={formData.subject}
-                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    placeholder={t.contact.formSubjectPlaceholder}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-blue-500"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    placeholder={isEN ? "Your name" : "Nama Anda"}
+                    className="surface-chip w-full min-h-[44px] px-4 py-2.5 rounded-xl text-sm focus:outline-none transition-colors"
+                    style={{ color: "var(--color-text-main)" }}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-mono text-slate-500 dark:text-slate-400 mb-1">
-                    {t.contact.formMessage}
+                  <label
+                    htmlFor="contact-email"
+                    className="block text-xs font-semibold mb-1.5"
+                    style={{ color: "var(--color-text-main)" }}
+                  >
+                    {isEN ? "Email Address" : "Alamat Email"}{" "}
+                    <span style={{ color: "var(--color-primary-text)" }}>*</span>
                   </label>
-                  <textarea
-                    rows={3}
+                  <input
+                    id="contact-email"
+                    type="email"
                     required
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder={t.contact.formMessagePlaceholder}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-blue-500 resize-none"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    placeholder="email@example.com"
+                    className="surface-chip w-full min-h-[44px] px-4 py-2.5 rounded-xl text-sm focus:outline-none transition-colors"
+                    style={{ color: "var(--color-text-main)" }}
                   />
                 </div>
+              </div>
 
+              <div>
+                <label
+                  htmlFor="contact-subject"
+                  className="block text-xs font-semibold mb-1.5"
+                  style={{ color: "var(--color-text-main)" }}
+                >
+                  {isEN ? "Subject / Topic" : "Subjek / Topik"}
+                </label>
+                <input
+                  id="contact-subject"
+                  type="text"
+                  value={formData.subject}
+                  onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                  placeholder={isEN ? "e.g., Cloud Engineer Role or Project Discussion" : "Contoh: Peluang Kerja Cloud Engineer / Diskusi Proyek"}
+                  className="surface-chip w-full min-h-[44px] px-4 py-2.5 rounded-xl text-sm focus:outline-none transition-colors"
+                  style={{ color: "var(--color-text-main)" }}
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="contact-message"
+                  className="block text-xs font-semibold mb-1.5"
+                  style={{ color: "var(--color-text-main)" }}
+                >
+                  {isEN ? "Your Message" : "Pesan Anda"}{" "}
+                  <span style={{ color: "var(--color-primary-text)" }}>*</span>
+                </label>
+                <textarea
+                  id="contact-message"
+                  rows={4}
+                  required
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  placeholder={isEN ? "Write your message or project details here..." : "Tuliskan rincian pesan atau kebutuhan Anda di sini..."}
+                  className="surface-chip w-full px-4 py-3 rounded-xl text-sm focus:outline-none transition-colors resize-y"
+                  style={{ color: "var(--color-text-main)" }}
+                />
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 pt-1">
                 <button
                   type="submit"
-                  disabled={isSubmitting}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow-md shadow-blue-500/20 transition-all disabled:opacity-50"
+                  className="flex-1 inline-flex items-center justify-center gap-2 min-h-[46px] px-6 py-3 rounded-full text-sm font-semibold text-white transition-all hover:-translate-y-0.5"
+                  style={{
+                    background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%)",
+                    boxShadow: "0 6px 20px var(--color-primary-glow)",
+                  }}
                 >
-                  <Send className="w-3.5 h-3.5" />
-                  <span>{isSubmitting ? t.contact.submittingBtn : t.contact.submitBtn}</span>
+                  <Send className="w-4 h-4" aria-hidden="true" />
+                  <span>{isEN ? "Compose Email" : "Kirim lewat Email"}</span>
                 </button>
-              </form>
-            )}
+
+                <button
+                  type="button"
+                  onClick={handleWhatsAppSend}
+                  className="flex-1 inline-flex items-center justify-center gap-2 min-h-[46px] px-6 py-3 rounded-full text-sm font-semibold text-white transition-all hover:-translate-y-0.5"
+                  style={{ backgroundColor: "#047857" }}
+                >
+                  <WhatsappIcon className="w-4 h-4" />
+                  <span>{isEN ? "Chat WhatsApp" : "Chat WhatsApp"}</span>
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

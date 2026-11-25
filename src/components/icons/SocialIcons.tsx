@@ -3,7 +3,7 @@ import React from "react";
 export function GithubIcon({ className = "w-5 h-5" }: { className?: string }) {
   return (
     <svg
-      role="img"
+      aria-hidden="true"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -21,7 +21,7 @@ export function GithubIcon({ className = "w-5 h-5" }: { className?: string }) {
 export function LinkedinIcon({ className = "w-5 h-5" }: { className?: string }) {
   return (
     <svg
-      role="img"
+      aria-hidden="true"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -40,7 +40,7 @@ export function LinkedinIcon({ className = "w-5 h-5" }: { className?: string }) 
 export function WhatsappIcon({ className = "w-5 h-5" }: { className?: string }) {
   return (
     <svg
-      role="img"
+      aria-hidden="true"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

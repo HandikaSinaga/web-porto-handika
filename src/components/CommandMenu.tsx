@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useIsMounted } from "@/hooks/useIsMounted";
 import { useLanguage } from "@/context/LanguageContext";
 import { getContactData } from "@/data/portfolioData";
@@ -15,7 +15,6 @@ import {
   Briefcase,
   GraduationCap,
   FolderGit2,
-  Cpu,
   Award,
   Mail,
   MessageCircle,
@@ -37,6 +36,7 @@ interface CommandMenuProps {
 
 export default function CommandMenu({ isOpen, onClose }: CommandMenuProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const { lang } = useLanguage();
   const contactData = getContactData(lang);
   const t = uiTranslations[lang];
@@ -44,7 +44,6 @@ export default function CommandMenu({ isOpen, onClose }: CommandMenuProps) {
   const [query, setQuery] = useState("");
   const isMounted = useIsMounted();
 
-  // Lock body scroll when command menu is open
   useEffect(() => {
     if (isOpen) {
       const originalOverflow = document.body.style.overflow;
@@ -76,14 +75,21 @@ export default function CommandMenu({ isOpen, onClose }: CommandMenuProps) {
 
   if (!isOpen) return null;
 
-  const navigateTo = (path: string) => {
+  const navigateToSection = (sectionId: string, fallbackRoute: string) => {
     onClose();
-    router.push(path);
+    if (pathname === "/") {
+      const el = document.getElementById(sectionId);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+    }
+    router.push(fallbackRoute);
   };
 
   const navCategory = lang === "EN" ? "Navigation" : "Navigasi";
   const projCategory = lang === "EN" ? "Project" : "Proyek";
-  const resumeCategory = "Resume";
+  const resumeCategory = lang === "EN" ? "Profile" : "Profil";
   const docCategory = lang === "EN" ? "Document" : "Dokumen";
   const contactCategory = lang === "EN" ? "Contact" : "Kontak";
 
@@ -93,23 +99,32 @@ export default function CommandMenu({ isOpen, onClose }: CommandMenuProps) {
       title: t.command.aboutTitle,
       category: navCategory,
       icon: Layers,
-      action: () => navigateTo("/"),
-      badge: "Route",
+      action: () => navigateToSection("about", "/#about"),
+      badge: "#about",
     },
     {
       id: "portfolio",
       title: t.command.portfolioTitle,
       category: navCategory,
       icon: FolderGit2,
-      action: () => navigateTo("/portfolio"),
-      badge: "Route",
+      action: () => navigateToSection("portfolio", "/#portfolio"),
+      badge: "#portfolio",
     },
     {
       id: "seals",
       title: "SEALS POLINEMA (Adaptive Learning AWS VPC)",
       category: projCategory,
       icon: FolderGit2,
-      action: () => navigateTo("/portfolio#project-seals-polinema"),
+      action: () => {
+        navigateToSection("portfolio", "/#portfolio");
+        setTimeout(() => {
+          window.dispatchEvent(
+            new CustomEvent("open-project-modal", {
+              detail: { projectId: "adaptive-learning-polinema", tab: "overview" },
+            })
+          );
+        }, 250);
+      },
       badge: "Client",
     },
     {
@@ -117,56 +132,49 @@ export default function CommandMenu({ isOpen, onClose }: CommandMenuProps) {
       title: "Gazebo Samasta (AWS Multi-AZ 3-Tier)",
       category: projCategory,
       icon: FolderGit2,
-      action: () => navigateTo("/portfolio#project-gazebo-samasta"),
+      action: () => {
+        navigateToSection("portfolio", "/#portfolio");
+        setTimeout(() => {
+          window.dispatchEvent(
+            new CustomEvent("open-project-modal", {
+              detail: { projectId: "gazebo-samasta-reservation", tab: "overview" },
+            })
+          );
+        }, 250);
+      },
       badge: "MSIB",
     },
     {
-      id: "resume",
-      title: lang === "EN" ? "Work & Internship Experience (Resume)" : "Pengalaman Kerja & Magang (Resume)",
-      category: navCategory,
-      icon: Briefcase,
-      action: () => navigateTo("/resume"),
-      badge: "Route",
-    },
-    {
       id: "education",
-      title: lang === "EN" ? "Education (B.S. in Computer Science Unpam)" : "Pendidikan (S1 Teknik Informatika Unpam)",
+      title: lang === "EN" ? "Education (B.S. Computer Science Unpam)" : "Pendidikan (S1 Teknik Informatika Unpam)",
       category: resumeCategory,
       icon: GraduationCap,
-      action: () => navigateTo("/resume#education"),
-      badge: lang === "EN" ? "Education" : "Pendidikan",
+      action: () => navigateToSection("pendidikan", "/#pendidikan"),
+      badge: "#pendidikan",
     },
     {
-      id: "trainings",
-      title: lang === "EN" ? "Academy Trainings & Credentials (AWS)" : "Pelatihan Akademi & Kredensial (AWS)",
+      id: "experience",
+      title: lang === "EN" ? "Work & Internship Experience" : "Pengalaman Kerja & Magang",
       category: resumeCategory,
-      icon: Award,
-      action: () => navigateTo("/resume#education-trainings"),
-      badge: lang === "EN" ? "Training" : "Pelatihan",
-    },
-    {
-      id: "skills",
-      title: t.command.skillsTitle,
-      category: navCategory,
-      icon: Cpu,
-      action: () => navigateTo("/skills"),
-      badge: "Route",
+      icon: Briefcase,
+      action: () => navigateToSection("pengalaman", "/#pengalaman"),
+      badge: "#pengalaman",
     },
     {
       id: "certifications",
       title: t.command.certsTitle,
       category: navCategory,
       icon: Award,
-      action: () => navigateTo("/certifications"),
-      badge: "Route",
+      action: () => navigateToSection("sertifikasi", "/#sertifikasi"),
+      badge: "#sertifikasi",
     },
     {
       id: "contact",
       title: t.command.contactTitle,
       category: navCategory,
       icon: Mail,
-      action: () => navigateTo("/contact"),
-      badge: "Route",
+      action: () => navigateToSection("contact", "/#contact"),
+      badge: "#contact",
     },
     {
       id: "cv",
@@ -174,7 +182,7 @@ export default function CommandMenu({ isOpen, onClose }: CommandMenuProps) {
       category: docCategory,
       icon: FileDown,
       action: () => {
-        window.open(contactData.cvUrl || "https://s.id/cv_handika", "_blank");
+        window.open(contactData.cvUrl || "https://s.id/cv_handika", "_blank", "noopener,noreferrer");
         onClose();
       },
       badge: "PDF",
@@ -185,13 +193,10 @@ export default function CommandMenu({ isOpen, onClose }: CommandMenuProps) {
       category: contactCategory,
       icon: MessageCircle,
       action: () => {
-        window.open(
-          `https://wa.me/${contactData.phone.replace(/[^0-9]/g, "")}`,
-          "_blank"
-        );
+        window.open(contactData.whatsapp, "_blank", "noopener,noreferrer");
         onClose();
       },
-      badge: "Quick",
+      badge: "WA",
     },
   ];
 
@@ -205,41 +210,70 @@ export default function CommandMenu({ isOpen, onClose }: CommandMenuProps) {
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[100] flex items-start justify-center pt-16 sm:pt-24 px-4 bg-black/60 backdrop-blur-md animate-fadeIn"
+      className="fixed inset-0 z-[100] flex items-start justify-center pt-16 sm:pt-24 px-4 bg-black/70 backdrop-blur-sm"
       onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={lang === "EN" ? "Quick navigation search" : "Pencarian navigasi cepat"}
     >
       <div
-        className="w-full max-w-2xl rounded-2xl bg-white dark:bg-[#0c1220] border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden"
+        className="w-full max-w-2xl rounded-2xl border shadow-2xl overflow-hidden animate-modal-enter"
+        style={{
+          backgroundColor: "var(--color-bg-card)",
+          borderColor: "var(--color-border)",
+        }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Search Input Bar */}
-        <div className="flex items-center px-4 py-3.5 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-[#090e1a]/80">
-          <Search className="w-5 h-5 text-blue-500 mr-3 flex-shrink-0" />
+        <div
+          className="flex items-center px-4 py-3.5 border-b"
+          style={{
+            backgroundColor: "var(--color-bg-secondary)",
+            borderColor: "var(--color-border)",
+          }}
+        >
+          <Search className="w-5 h-5 mr-3 shrink-0" style={{ color: "var(--color-primary-text)" }} aria-hidden="true" />
+          <label htmlFor="command-search-input" className="sr-only">
+            {lang === "EN" ? "Search navigation" : "Cari navigasi"}
+          </label>
           <input
+            id="command-search-input"
             type="text"
-            placeholder={lang === "EN" ? "Type a page, project, skill, or certification..." : "Ketik tujuan navigasi, proyek, skill, sertifikasi..."}
+            placeholder={lang === "EN" ? "Search section, project, or action..." : "Cari bagian halaman, proyek, atau aksi..."}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             autoFocus
-            className="w-full bg-transparent text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none font-mono"
+            className="w-full bg-transparent text-sm focus:outline-none"
+            style={{ color: "var(--color-text-main)" }}
           />
           {query && (
             <button
+              type="button"
               onClick={() => setQuery("")}
-              className="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 mr-2"
+              aria-label={lang === "EN" ? "Clear search" : "Hapus pencarian"}
+              className="p-2 rounded-lg mr-1"
+              style={{ color: "var(--color-text-muted)" }}
             >
-              <X className="w-4 h-4" />
+              <X className="w-4 h-4" aria-hidden="true" />
             </button>
           )}
-          <kbd className="hidden sm:inline-block px-2 py-0.5 text-[11px] font-mono text-slate-400 bg-slate-200 dark:bg-slate-800 rounded border border-slate-300 dark:border-slate-700">
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label={lang === "EN" ? "Close search" : "Tutup pencarian"}
+            className="px-2 py-1 text-[11px] font-mono rounded border"
+            style={{
+              backgroundColor: "var(--color-bg-card)",
+              borderColor: "var(--color-border)",
+              color: "var(--color-text-muted)",
+            }}
+          >
             ESC
-          </kbd>
+          </button>
         </div>
 
-        {/* Search Results List */}
         <div className="max-h-80 overflow-y-auto p-2 space-y-1">
           {filteredItems.length === 0 ? (
-            <div className="py-8 text-center text-sm text-slate-400">
+            <div className="py-8 text-center text-sm" style={{ color: "var(--color-text-muted)" }}>
               {lang === "EN" ? `No results found for "${query}"` : `Tidak ada hasil untuk "${query}"`}
             </div>
           ) : (
@@ -248,24 +282,38 @@ export default function CommandMenu({ isOpen, onClose }: CommandMenuProps) {
               return (
                 <button
                   key={item.id}
+                  type="button"
                   onClick={item.action}
-                  className="w-full flex items-center justify-between p-2.5 rounded-xl text-left hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors group cursor-pointer"
+                  className="w-full flex items-center justify-between p-2.5 rounded-xl text-left transition-colors group hover:bg-[var(--color-primary-tint)]"
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 group-hover:bg-blue-600 group-hover:text-white transition-colors text-slate-600 dark:text-slate-300 flex-shrink-0">
-                      <Icon className="w-4 h-4" />
+                    <div
+                      className="p-2 rounded-lg shrink-0"
+                      style={{
+                        backgroundColor: "var(--color-bg-secondary)",
+                        color: "var(--color-primary-text)",
+                      }}
+                    >
+                      <Icon className="w-4 h-4" aria-hidden="true" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 truncate group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                      <p className="text-sm font-semibold truncate" style={{ color: "var(--color-text-main)" }}>
                         {item.title}
                       </p>
-                      <p className="text-[11px] text-slate-400 font-mono">
+                      <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>
                         {item.category}
                       </p>
                     </div>
                   </div>
                   {item.badge && (
-                    <span className="px-2 py-0.5 text-[10px] font-mono rounded bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700 flex-shrink-0 ml-2">
+                    <span
+                      className="px-2 py-0.5 text-[11px] font-mono rounded border shrink-0 ml-2"
+                      style={{
+                        backgroundColor: "var(--color-bg-secondary)",
+                        borderColor: "var(--color-border)",
+                        color: "var(--color-text-muted)",
+                      }}
+                    >
                       {item.badge}
                     </span>
                   )}
@@ -273,12 +321,6 @@ export default function CommandMenu({ isOpen, onClose }: CommandMenuProps) {
               );
             })
           )}
-        </div>
-
-        {/* Footer shortcuts hint */}
-        <div className="px-4 py-2 bg-slate-50 dark:bg-[#090e1a] border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-400 font-mono">
-          <span>{lang === "EN" ? "Press ESC to close" : "Tekan ESC untuk menutup"}</span>
-          <span>{lang === "EN" ? "Portfolio Multi-Page Navigation" : "Antarmuka Portofolio Multi-Halaman"}</span>
         </div>
       </div>
     </div>,

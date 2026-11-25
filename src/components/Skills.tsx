@@ -3,19 +3,12 @@
 import React, { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { uiTranslations } from "@/data/translations";
-import {
-  Cloud,
-  Boxes,
-  Activity,
-  Terminal,
-} from "lucide-react";
+import { Cloud, Boxes, Activity, Terminal } from "lucide-react";
 
 interface SkillPillar {
   title: string;
   categoryKey: string;
   icon: React.ElementType;
-  iconColor: string;
-  bgColor: string;
   descriptionID: string;
   descriptionEN: string;
   skills: string[];
@@ -26,25 +19,14 @@ const PILLARS: SkillPillar[] = [
     title: "Cloud Infrastructure",
     categoryKey: "cloud",
     icon: Cloud,
-    iconColor: "text-blue-600 dark:text-blue-400",
-    bgColor: "bg-blue-600/10",
     descriptionID: "Perancangan, isolasi jaringan VPC, dan manajemen komputasi scalable.",
     descriptionEN: "VPC network architecture, network isolation, and scalable cloud compute management.",
-    skills: [
-      "AWS EC2",
-      "AWS VPC",
-      "RDS MySQL",
-      "AWS ALB",
-      "Auto Scaling",
-      "Alibaba Cloud",
-    ],
+    skills: ["AWS EC2", "AWS VPC", "RDS MySQL", "AWS ALB", "Auto Scaling", "Alibaba Cloud"],
   },
   {
     title: "CI/CD & Containers",
     categoryKey: "cicd",
     icon: Boxes,
-    iconColor: "text-sky-600 dark:text-sky-400",
-    bgColor: "bg-sky-600/10",
     descriptionID: "Automasi rilis aplikasi dan standarisasi runtime environment.",
     descriptionEN: "Automated application delivery pipelines and containerized runtime environments.",
     skills: ["Docker", "GitLab CI/CD", "Docker Compose", "Git & GitHub"],
@@ -53,8 +35,6 @@ const PILLARS: SkillPillar[] = [
     title: "Observability",
     categoryKey: "monitoring",
     icon: Activity,
-    iconColor: "text-indigo-600 dark:text-indigo-400",
-    bgColor: "bg-indigo-600/10",
     descriptionID: "Pemantauan kesehatan host, metrik telemetri, dan load test.",
     descriptionEN: "System telemetry monitoring, real-time alerting, and distributed load stress testing.",
     skills: ["Prometheus", "Grafana", "Grafana K6", "CloudWatch"],
@@ -63,8 +43,6 @@ const PILLARS: SkillPillar[] = [
     title: "OS & Web Servers",
     categoryKey: "os",
     icon: Terminal,
-    iconColor: "text-emerald-600 dark:text-emerald-400",
-    bgColor: "bg-emerald-600/10",
     descriptionID: "Administrasi Linux, reverse proxy, dan process management.",
     descriptionEN: "Linux system administration, reverse proxy optimization, and process management.",
     skills: ["Linux Ubuntu", "Nginx Proxy", "PM2 Manager", "Node.js Runtime"],
@@ -77,83 +55,96 @@ export default function Skills() {
   const [selectedPillar, setSelectedPillar] = useState<string>("all");
 
   const displayedPillars =
-    selectedPillar === "all"
-      ? PILLARS
-      : PILLARS.filter((p) => p.categoryKey === selectedPillar);
+    selectedPillar === "all" ? PILLARS : PILLARS.filter((p) => p.categoryKey === selectedPillar);
 
   return (
-    <section id="skills" className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-20">
-      <div className="rounded-3xl bg-white dark:bg-[#0d1322] border border-slate-200 dark:border-slate-800/80 p-6 sm:p-8 lg:p-10 shadow-xl shadow-slate-900/5 dark:shadow-black/50 space-y-8 transition-colors">
-        {/* Header & Filter Row */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 dark:border-slate-800/80 pb-4">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="font-mono text-xs font-bold text-blue-600 dark:text-blue-400">04</span>
-              <h3 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-                {t.skills.title}
-              </h3>
-            </div>
-            <p className="mt-1 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-              {t.skills.subtitle}
-            </p>
+    <section
+      id="skills"
+      className="py-12 sm:py-16 scroll-mt-20 transition-colors"
+      style={{ backgroundColor: "var(--color-bg)" }}
+    >
+      <div className="mx-auto w-full max-w-[1240px] px-4 sm:px-6 space-y-8">
+        <div className="text-center max-w-2xl mx-auto space-y-2.5">
+          <div
+            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em]"
+            style={{ color: "var(--color-primary-text)" }}
+          >
+            <span>SKILLS</span>
           </div>
-
-          <div className="flex flex-wrap items-center gap-1.5">
-            <button
-              onClick={() => setSelectedPillar("all")}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
-                selectedPillar === "all"
-                  ? "bg-blue-600 text-white shadow-sm shadow-blue-500/25"
-                  : "bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
-              }`}
-            >
-              {t.skills.filterAll}
-            </button>
-            {PILLARS.map((p) => (
-              <button
-                key={p.categoryKey}
-                onClick={() => setSelectedPillar(p.categoryKey)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
-                  selectedPillar === p.categoryKey
-                    ? "bg-blue-600 text-white shadow-sm shadow-blue-500/25"
-                    : "bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white"
-                }`}
-              >
-                {p.title}
-              </button>
-            ))}
-          </div>
+          <h1
+            className="font-heading font-extrabold tracking-[-0.02em]"
+            style={{
+              fontSize: "clamp(1.65rem, 4vw, 2.5rem)",
+              color: "var(--color-text-main)",
+            }}
+          >
+            {t.skills.title}
+          </h1>
+          <p className="text-sm sm:text-base leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
+            {t.skills.subtitle}
+          </p>
         </div>
 
-        {/* 4 Bento Pillar Cards */}
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          <button
+            type="button"
+            onClick={() => setSelectedPillar("all")}
+            className="min-h-[42px] px-4 py-2 rounded-full text-xs sm:text-sm font-semibold border transition-colors"
+            style={{
+              backgroundColor: selectedPillar === "all" ? "var(--color-primary)" : "var(--color-bg-card)",
+              borderColor: selectedPillar === "all" ? "var(--color-primary)" : "var(--color-border)",
+              color: selectedPillar === "all" ? "#ffffff" : "var(--color-text-muted)",
+            }}
+          >
+            {t.skills.filterAll}
+          </button>
+          {PILLARS.map((p) => (
+            <button
+              key={p.categoryKey}
+              type="button"
+              onClick={() => setSelectedPillar(p.categoryKey)}
+              className="min-h-[42px] px-4 py-2 rounded-full text-xs sm:text-sm font-semibold border transition-colors"
+              style={{
+                backgroundColor: selectedPillar === p.categoryKey ? "var(--color-primary)" : "var(--color-bg-card)",
+                borderColor: selectedPillar === p.categoryKey ? "var(--color-primary)" : "var(--color-border)",
+                color: selectedPillar === p.categoryKey ? "#ffffff" : "var(--color-text-muted)",
+              }}
+            >
+              {p.title}
+            </button>
+          ))}
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {displayedPillars.map((pillar) => {
             const Icon = pillar.icon;
             return (
-              <div
-                key={pillar.title}
-                className="rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 p-5 space-y-3.5 transition-all hover:border-blue-500/40"
-              >
-                <div className="flex items-center gap-2.5">
+              <div key={pillar.title} className="surface-card surface-card-interactive rounded-2xl p-6 space-y-4">
+                <div className="flex items-center gap-3">
                   <div
-                    className={`flex h-8 w-8 items-center justify-center rounded-xl ${pillar.bgColor} ${pillar.iconColor}`}
+                    className="h-10 w-10 rounded-xl flex items-center justify-center shrink-0"
+                    style={{
+                      backgroundColor: "var(--color-primary-tint)",
+                      color: "var(--color-primary-text)",
+                    }}
                   >
-                    <Icon className="h-4 w-4" />
+                    <Icon className="h-5 w-5" aria-hidden="true" />
                   </div>
-                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                  <h2 className="font-heading text-base font-bold" style={{ color: "var(--color-text-main)" }}>
                     {pillar.title}
-                  </h4>
+                  </h2>
                 </div>
 
-                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                <p className="text-xs sm:text-sm leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
                   {lang === "EN" ? pillar.descriptionEN : pillar.descriptionID}
                 </p>
 
-                <div className="flex flex-wrap gap-1.5 pt-1">
+                <div className="flex flex-wrap gap-1.5">
                   {pillar.skills.map((skill) => (
                     <span
                       key={skill}
-                      className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/80 text-[11px] font-mono text-slate-700 dark:text-slate-300"
+                      className="surface-chip px-2.5 py-1 rounded-lg text-xs font-medium"
+                      style={{ color: "var(--color-text-muted)" }}
                     >
                       {skill}
                     </span>
