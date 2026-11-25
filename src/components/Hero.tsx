@@ -41,9 +41,98 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative w-full pt-10 pb-12 sm:pt-14 sm:pb-16 lg:pt-16 lg:pb-20 scroll-mt-20"
+      className="relative overflow-hidden w-full pt-12 pb-14 sm:pt-16 sm:pb-20 lg:pt-20 lg:pb-24 scroll-mt-20"
     >
-      <div className="mx-auto w-full max-w-[1240px] px-4 sm:px-6">
+      {/* Multi-Tone Ambient Engineering Backdrop */}
+      <div className="pointer-events-none absolute inset-0 select-none" aria-hidden="true">
+        {/* Masked Engineering Blueprint Grid */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, var(--hero-grid-line) 1px, transparent 1px), linear-gradient(to bottom, var(--hero-grid-line) 1px, transparent 1px)",
+            backgroundSize: "52px 52px",
+            maskImage: "radial-gradient(ellipse 85% 78% at 50% 42%, #000 35%, transparent 100%)",
+            WebkitMaskImage: "radial-gradient(ellipse 85% 78% at 50% 42%, #000 35%, transparent 100%)",
+          }}
+        />
+
+        {/* Animated Multi-Hue Aurora Orbs (Crimson + Amber + Emerald + Sky) */}
+        <div
+          className="hero-orb-a absolute -top-24 right-[-6%] h-[420px] w-[420px] sm:h-[520px] sm:w-[520px] rounded-full"
+          style={{
+            background: "radial-gradient(circle, var(--hero-orb-crimson) 0%, transparent 70%)",
+          }}
+        />
+        <div
+          className="hero-orb-b absolute -top-20 left-[-8%] h-[360px] w-[360px] sm:h-[460px] sm:w-[460px] rounded-full"
+          style={{
+            background: "radial-gradient(circle, var(--hero-orb-amber) 0%, transparent 70%)",
+          }}
+        />
+        <div
+          className="hero-orb-c absolute -bottom-28 left-[18%] h-[340px] w-[340px] sm:h-[440px] sm:w-[440px] rounded-full"
+          style={{
+            background: "radial-gradient(circle, var(--hero-orb-emerald) 0%, transparent 70%)",
+          }}
+        />
+        <div
+          className="hero-orb-a absolute bottom-[-15%] right-[16%] h-[300px] w-[300px] sm:h-[380px] sm:w-[380px] rounded-full"
+          style={{
+            background: "radial-gradient(circle, var(--hero-orb-sky) 0%, transparent 70%)",
+            animationDelay: "-7s",
+          }}
+        />
+
+        {/* Traveling Telemetry Light Traces along Grid Tracks */}
+        <div
+          className="hero-beam-x absolute top-[104px] left-0 h-[1.5px] w-48 sm:w-72"
+          style={{
+            background: "linear-gradient(90deg, transparent 0%, #dc2626 45%, #f59e0b 85%, transparent 100%)",
+          }}
+        />
+        <div
+          className="hero-beam-x absolute bottom-[104px] left-0 h-[1.5px] w-40 sm:w-64"
+          style={{
+            background: "linear-gradient(90deg, transparent 0%, #10b981 45%, #38bdf8 85%, transparent 100%)",
+            animationDelay: "-4.5s",
+          }}
+        />
+        <div
+          className="hero-beam-y hidden md:block absolute top-0 left-[260px] w-[1.5px] h-44"
+          style={{
+            background: "linear-gradient(180deg, transparent 0%, #f59e0b 45%, #dc2626 85%, transparent 100%)",
+            animationDelay: "-2s",
+          }}
+        />
+        <div
+          className="hero-beam-y hidden md:block absolute top-0 right-[260px] w-[1.5px] h-48"
+          style={{
+            background: "linear-gradient(180deg, transparent 0%, #38bdf8 45%, #10b981 85%, transparent 100%)",
+            animationDelay: "-6.5s",
+          }}
+        />
+
+        {/* Subtle Floating Telemetry Accent Dots */}
+        <span
+          className="hero-node-float absolute top-[18%] left-[10%] h-2 w-2 rounded-full"
+          style={{ backgroundColor: "#f59e0b", boxShadow: "0 0 12px rgba(245, 158, 11, 0.55)" }}
+        />
+        <span
+          className="hero-node-float absolute top-[72%] left-[44%] h-2 w-2 rounded-full"
+          style={{ backgroundColor: "#10b981", boxShadow: "0 0 12px rgba(16, 185, 129, 0.55)", animationDelay: "-2.2s" }}
+        />
+        <span
+          className="hero-node-float hidden sm:block absolute top-[22%] right-[12%] h-2 w-2 rounded-full"
+          style={{ backgroundColor: "#38bdf8", boxShadow: "0 0 12px rgba(56, 189, 248, 0.55)", animationDelay: "-4.1s" }}
+        />
+        <span
+          className="hero-node-float hidden sm:block absolute bottom-[18%] right-[40%] h-1.5 w-1.5 rounded-full"
+          style={{ backgroundColor: "#f87171", boxShadow: "0 0 10px rgba(248, 113, 113, 0.55)", animationDelay: "-1.3s" }}
+        />
+      </div>
+
+      <div className="relative z-10 mx-auto w-full max-w-[1240px] px-4 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
           {/* Left Content */}
           <div className="lg:col-span-7 space-y-6 order-2 lg:order-1">
@@ -169,12 +258,40 @@ export default function Hero() {
           {/* Right Portrait */}
           <div className="lg:col-span-5 flex items-center justify-center order-1 lg:order-2">
             <div className="relative flex items-center justify-center w-[240px] h-[240px] sm:w-[300px] sm:h-[300px] lg:w-[330px] lg:h-[330px]">
-              {/* Subtle dashed outer ring (static, non-looping) */}
+              {/* Orbital Multi-Accent Rings around Portrait */}
               <div
                 aria-hidden="true"
-                className="absolute -inset-5 rounded-full border-2 border-dashed opacity-25 pointer-events-none"
+                className="hero-orbit absolute -inset-5 rounded-full border-2 border-dashed opacity-35 pointer-events-none"
                 style={{ borderColor: "var(--color-primary)" }}
-              />
+              >
+                <span
+                  className="absolute -top-1.5 left-1/2 -translate-x-1/2 h-3 w-3 rounded-full"
+                  style={{
+                    backgroundColor: "#f59e0b",
+                    boxShadow: "0 0 12px rgba(245, 158, 11, 0.7)",
+                  }}
+                />
+                <span
+                  className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 h-2.5 w-2.5 rounded-full"
+                  style={{
+                    backgroundColor: "#10b981",
+                    boxShadow: "0 0 12px rgba(16, 185, 129, 0.7)",
+                  }}
+                />
+              </div>
+              <div
+                aria-hidden="true"
+                className="hero-orbit-reverse absolute -inset-9 rounded-full border opacity-20 pointer-events-none hidden sm:block"
+                style={{ borderColor: "#38bdf8" }}
+              >
+                <span
+                  className="absolute top-1/2 -right-1 -translate-y-1/2 h-2 w-2 rounded-full"
+                  style={{
+                    backgroundColor: "#38bdf8",
+                    boxShadow: "0 0 10px rgba(56, 189, 248, 0.7)",
+                  }}
+                />
+              </div>
 
               {/* Circular Crimson Framed Portrait */}
               <div

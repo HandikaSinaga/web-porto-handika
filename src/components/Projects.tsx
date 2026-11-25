@@ -191,8 +191,7 @@ export default function Projects() {
   return (
     <section
       id="portfolio"
-      className="py-12 sm:py-16 scroll-mt-20 transition-colors"
-      style={{ backgroundColor: "var(--color-bg)" }}
+      className="section-flow py-12 sm:py-16 scroll-mt-20 transition-colors"
     >
       <div id="projects" className="scroll-mt-20" />
       <div className="mx-auto w-full max-w-[1240px] px-4 sm:px-6 space-y-8">

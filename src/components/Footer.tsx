@@ -56,9 +56,8 @@ export default function Footer() {
 
   return (
     <footer
-      className="mt-16 border-t transition-colors"
+      className="section-accent-footer mt-16 border-t transition-colors"
       style={{
-        backgroundColor: "var(--color-bg-secondary)",
         borderColor: "var(--color-border)",
       }}
     >

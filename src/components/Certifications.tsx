@@ -128,8 +128,7 @@ export default function Certifications() {
   return (
     <section
       id="sertifikasi"
-      className="py-12 sm:py-16 scroll-mt-20 transition-colors"
-      style={{ backgroundColor: "var(--color-bg-secondary)" }}
+      className="section-flow py-12 sm:py-16 scroll-mt-20 transition-colors"
     >
       <div id="certifications" className="scroll-mt-20" />
       <div className="mx-auto w-full max-w-[1240px] px-4 sm:px-6 space-y-8">

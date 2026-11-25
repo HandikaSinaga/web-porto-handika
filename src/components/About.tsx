@@ -71,8 +71,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="py-12 sm:py-16 scroll-mt-20 transition-colors"
-      style={{ backgroundColor: "var(--color-bg-secondary)" }}
+      className="section-flow py-12 sm:py-16 scroll-mt-20 transition-colors"
     >
       <div className="mx-auto w-full max-w-[1240px] px-4 sm:px-6 space-y-7">
         {/* Section Heading */}
@@ -254,8 +253,8 @@ export default function About() {
                         <span
                           key={skill.name}
                           title={skill.details}
-                          className="surface-chip inline-flex items-center px-3 py-1 rounded-lg text-xs font-medium transition-colors"
-                          style={{ color: "var(--color-text-muted)" }}
+                          className="surface-inset inline-flex items-center px-3 py-1 rounded-lg text-xs font-medium transition-colors"
+                          style={{ color: "var(--color-text-main)" }}
                         >
                           {skill.name}
                         </span>

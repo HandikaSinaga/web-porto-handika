@@ -19,17 +19,13 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div
-      className="min-h-screen flex flex-col relative transition-colors duration-200"
+      className="min-h-screen flex flex-col relative isolate transition-colors duration-200"
       style={{ backgroundColor: "var(--color-bg)", color: "var(--color-text-main)" }}
     >
-      {/* Subtle single crimson radial atmosphere behind hero */}
+      {/* Unified static multi-accent backdrop continuous across every page and section */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[960px] h-[520px] -z-10"
-        style={{
-          background:
-            "radial-gradient(ellipse 65% 55% at 50% 18%, var(--color-primary-tint), transparent 72%)",
-        }}
+        className="page-ambient-canvas pointer-events-none fixed inset-0 z-0"
       />
 
       <TopNavbar />

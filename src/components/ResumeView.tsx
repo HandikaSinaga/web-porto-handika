@@ -108,8 +108,7 @@ export default function ResumeView() {
       {/* 1. EDUCATION & ACADEMY TRAININGS SECTION */}
       <section
         id="pendidikan"
-        className="py-12 sm:py-16 scroll-mt-20 transition-colors"
-        style={{ backgroundColor: "var(--color-bg-secondary)" }}
+        className="section-flow py-12 sm:py-16 scroll-mt-20 transition-colors"
       >
         <div id="education" className="scroll-mt-20" />
         <div className="mx-auto w-full max-w-[1240px] px-4 sm:px-6 space-y-8">
@@ -298,8 +297,7 @@ export default function ResumeView() {
       {/* 2. WORK & INTERNSHIP EXPERIENCE SECTION */}
       <section
         id="pengalaman"
-        className="py-12 sm:py-16 scroll-mt-20 transition-colors"
-        style={{ backgroundColor: "var(--color-bg)" }}
+        className="section-flow py-12 sm:py-16 scroll-mt-20 transition-colors"
       >
         <div id="experience" className="scroll-mt-20" />
         <div id="resume" className="scroll-mt-20" />
