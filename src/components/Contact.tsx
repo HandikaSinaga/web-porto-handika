@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
-import { getContactData } from "@/data/portfolioData";
+import { getContactData, CV_OPTIONS } from "@/data/portfolioData";
 import { GithubIcon, LinkedinIcon, WhatsappIcon } from "@/components/icons/SocialIcons";
 import {
   Mail,
@@ -79,11 +79,11 @@ export default function Contact() {
     },
     {
       name: isEN ? "Online CV" : "CV Online",
-      handle: "s.id/cv_handika",
+      handle: isEN ? "Google Drive (EN)" : "Google Drive (ID)",
       desc: isEN
-        ? "Latest printable CV document hosted online."
-        : "Pratinjau dokumen CV terbaru yang siap dicetak.",
-      href: contactData.cvUrl || "https://s.id/cv_handika",
+        ? "Latest printable CV document hosted on Google Drive."
+        : "Pratinjau dokumen CV terbaru di Google Drive.",
+      href: contactData.cvUrl || CV_OPTIONS[0].href,
       icon: FileText,
       accentBg: "var(--color-emerald-tint)",
       accentColor: "var(--color-emerald)",
@@ -396,15 +396,19 @@ export default function Contact() {
             </div>
 
             <div className="flex flex-wrap gap-2.5 pt-4 border-t" style={{ borderColor: "var(--color-border)" }}>
-              <a
-                href="/cv.pdf"
-                download="CV_Handika_Juan_Putra_Sinaga.pdf"
-                className="surface-chip inline-flex items-center justify-center gap-2 min-h-[42px] px-4 py-2 rounded-full text-xs font-semibold transition-colors hover:border-[var(--color-primary)] hover:text-[var(--color-primary-text)]"
-                style={{ color: "var(--color-text-main)" }}
-              >
-                <FileDown className="w-3.5 h-3.5" aria-hidden="true" />
-                <span>{isEN ? "Download CV (PDF)" : "Unduh CV (PDF)"}</span>
-              </a>
+              {CV_OPTIONS.map((cv) => (
+                <a
+                  key={cv.id}
+                  href={cv.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="surface-chip inline-flex items-center justify-center gap-2 min-h-[42px] px-4 py-2 rounded-full text-xs font-semibold transition-colors hover:border-[var(--color-primary)] hover:text-[var(--color-primary-text)]"
+                  style={{ color: "var(--color-text-main)" }}
+                >
+                  <FileDown className="w-3.5 h-3.5" aria-hidden="true" />
+                  <span>{cv.title}</span>
+                </a>
+              ))}
 
               <button
                 type="button"

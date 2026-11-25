@@ -40,6 +40,21 @@ export const projectsData = projectsDataID;
 export const certificationsData = certificationsDataID;
 export const skillCategoriesData = skillCategoriesDataID;
 
+export const CV_OPTIONS = [
+  {
+    id: "id",
+    title: "CV Indonesia",
+    subtitle: "Versi Bahasa Indonesia",
+    href: contactDataID.cvUrl || "https://drive.google.com/file/d/16am7tkLHPnReZsFbrjzBmUfvwmFuhHfh/view?usp=sharing",
+  },
+  {
+    id: "en",
+    title: "CV English",
+    subtitle: "English version",
+    href: contactDataEN.cvUrl || "https://drive.google.com/file/d/1FYmC5DsME6WXWq9EJsma20XfAjWnDXUu/view?usp=sharing",
+  },
+] as const;
+
 // Re-export language-specific datasets
 export {
   contactDataID,

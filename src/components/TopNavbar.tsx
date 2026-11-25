@@ -5,14 +5,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "@/context/ThemeContext";
 import { useLanguage } from "@/context/LanguageContext";
-import { getContactData } from "@/data/portfolioData";
+import { CV_OPTIONS } from "@/data/portfolioData";
 import {
   Sun,
   Moon,
   Download,
   ChevronDown,
   FileText,
-  ExternalLink,
   Search,
   Menu,
   X,
@@ -40,7 +39,6 @@ export default function TopNavbar() {
   const pathname = usePathname();
   const { theme, toggleTheme, mounted } = useTheme();
   const { lang, setLang } = useLanguage();
-  const contactData = getContactData(lang);
 
   const [activeSection, setActiveSection] = useState<string>("home");
   const [isScrolled, setIsScrolled] = useState(false);
@@ -270,48 +268,38 @@ export default function TopNavbar() {
             {isCvOpen && (
               <div
                 role="menu"
-                aria-label={lang === "EN" ? "CV Options" : "Pilihan CV"}
+                aria-label={lang === "EN" ? "CV Language Options" : "Pilihan Bahasa CV"}
                 className="absolute right-0 mt-2 w-60 rounded-2xl p-1.5 shadow-xl z-50 border animate-modal-enter"
                 style={{
                   backgroundColor: "var(--color-bg-card)",
                   borderColor: "var(--color-border)",
                 }}
               >
-                <a
-                  href="/cv.pdf"
-                  download="CV_Handika_Juan_Putra_Sinaga.pdf"
-                  role="menuitem"
-                  onClick={() => setIsCvOpen(false)}
-                  className="flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-[var(--color-primary-tint)]"
-                >
-                  <FileText className="w-4 h-4 shrink-0" style={{ color: "var(--color-primary-text)" }} aria-hidden="true" />
-                  <span className="min-w-0">
-                    <span className="block text-sm font-semibold" style={{ color: "var(--color-text-main)" }}>
-                      {lang === "EN" ? "Download PDF" : "Unduh File PDF"}
+                {CV_OPTIONS.map((cv) => (
+                  <a
+                    key={cv.id}
+                    href={cv.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    role="menuitem"
+                    onClick={() => setIsCvOpen(false)}
+                    className="flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-[var(--color-primary-tint)]"
+                  >
+                    <FileText
+                      className="w-4 h-4 shrink-0"
+                      style={{ color: "var(--color-primary-text)" }}
+                      aria-hidden="true"
+                    />
+                    <span className="min-w-0">
+                      <span className="block text-sm font-semibold" style={{ color: "var(--color-text-main)" }}>
+                        {cv.title}
+                      </span>
+                      <span className="block text-xs" style={{ color: "var(--color-text-muted)" }}>
+                        {cv.subtitle}
+                      </span>
                     </span>
-                    <span className="block text-xs" style={{ color: "var(--color-text-muted)" }}>
-                      {lang === "EN" ? "Offline ATS-ready CV" : "Salinan CV format PDF"}
-                    </span>
-                  </span>
-                </a>
-                <a
-                  href={contactData.cvUrl || "https://s.id/cv_handika"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  role="menuitem"
-                  onClick={() => setIsCvOpen(false)}
-                  className="flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-[var(--color-primary-tint)]"
-                >
-                  <ExternalLink className="w-4 h-4 shrink-0" style={{ color: "var(--color-primary-text)" }} aria-hidden="true" />
-                  <span className="min-w-0">
-                    <span className="block text-sm font-semibold" style={{ color: "var(--color-text-main)" }}>
-                      {lang === "EN" ? "Open Online CV" : "Buka CV Online"}
-                    </span>
-                    <span className="block text-xs" style={{ color: "var(--color-text-muted)" }}>
-                      s.id/cv_handika
-                    </span>
-                  </span>
-                </a>
+                  </a>
+                ))}
               </div>
             )}
           </div>
@@ -471,16 +459,20 @@ export default function TopNavbar() {
                 <span>{lang === "EN" ? "Quick Search" : "Pencarian Cepat"}</span>
               </button>
 
-              <a
-                href="/cv.pdf"
-                download="CV_Handika_Juan_Putra_Sinaga.pdf"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="flex-1 min-w-[140px] min-h-[44px] inline-flex items-center justify-center gap-2 px-4 rounded-xl text-xs font-semibold text-white"
-                style={{ backgroundColor: "var(--color-primary)" }}
-              >
-                <Download className="w-4 h-4" aria-hidden="true" />
-                <span>{lang === "EN" ? "Download CV" : "Unduh CV"}</span>
-              </a>
+              {CV_OPTIONS.map((cv) => (
+                <a
+                  key={cv.id}
+                  href={cv.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex-1 min-w-[140px] min-h-[44px] inline-flex items-center justify-center gap-2 px-4 rounded-xl text-xs font-semibold text-white"
+                  style={{ backgroundColor: "var(--color-primary)" }}
+                >
+                  <Download className="w-4 h-4" aria-hidden="true" />
+                  <span>{cv.title}</span>
+                </a>
+              ))}
 
               <div
                 role="group"

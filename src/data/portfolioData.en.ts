@@ -23,7 +23,7 @@ export const contactDataEN: ContactInfo = {
   location: "Greater Jakarta & South Tangerang, Indonesia",
   linkedin: "https://linkedin.com/in/handikasinaga",
   github: "https://github.com/handikasinaga",
-  cvUrl: "https://s.id/cv_handika",
+  cvUrl: "https://drive.google.com/file/d/1FYmC5DsME6WXWq9EJsma20XfAjWnDXUu/view?usp=sharing",
   avatarUrl: "/images/profile.png",
   summary:
     "Computer Science graduate from Pamulang University (GPA: 3.59 / 4.00) specializing in Cloud Engineering, DevOps methodologies, and modern cloud-native systems architecture. Proven track record in designing resilient AWS infrastructures, containerizing microservices with Docker, building CI/CD deployment pipelines using GitLab CI, and driving observability with Prometheus and Grafana. Committed to engineering scalable, fault-tolerant, and high-performance cloud topologies.",

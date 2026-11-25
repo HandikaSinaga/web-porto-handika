@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { useRouter, usePathname } from "next/navigation";
 import { useIsMounted } from "@/hooks/useIsMounted";
 import { useLanguage } from "@/context/LanguageContext";
-import { getContactData } from "@/data/portfolioData";
+import { getContactData, CV_OPTIONS } from "@/data/portfolioData";
 import { uiTranslations } from "@/data/translations";
 import {
   Search,
@@ -176,17 +176,17 @@ export default function CommandMenu({ isOpen, onClose }: CommandMenuProps) {
       action: () => navigateToSection("contact", "/#contact"),
       badge: "#contact",
     },
-    {
-      id: "cv",
-      title: t.command.downloadCvTitle,
+    ...CV_OPTIONS.map((cv) => ({
+      id: `cv-${cv.id}`,
+      title: `${cv.title} (${cv.subtitle})`,
       category: docCategory,
       icon: FileDown,
       action: () => {
-        window.open(contactData.cvUrl || "https://s.id/cv_handika", "_blank", "noopener,noreferrer");
+        window.open(cv.href, "_blank", "noopener,noreferrer");
         onClose();
       },
-      badge: "PDF",
-    },
+      badge: cv.id.toUpperCase(),
+    })),
     {
       id: "whatsapp",
       title: lang === "EN" ? "Chat via Official WhatsApp" : "Chat via WhatsApp Resmi",
