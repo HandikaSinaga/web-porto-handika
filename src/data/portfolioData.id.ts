@@ -50,7 +50,6 @@ export const trainingsData: Training[] = [
     issuer: "AWS Academy & SEAL",
     program: "Studi Independen MSIB Kampus Merdeka di SEAL",
     issueDate: "12 Juni 2024",
-    hours: "60 Jam Pelatihan",
     verificationUrl: "https://www.credly.com/badges/3f13c0df-1b1e-49de-a93c-b392cd01ba39/public_url",
     imageUrl: "/images/certificates/sertifikat-aws-academy-cloud-architecting.png",
     description: [
@@ -69,7 +68,6 @@ export const trainingsData: Training[] = [
     issuer: "AWS Academy & SEAL",
     program: "Studi Independen MSIB Kampus Merdeka di SEAL",
     issueDate: "27 Mei 2024",
-    hours: "20 Jam Pelatihan",
     verificationUrl: "https://www.credly.com/badges/fccf3d4f-02bd-4056-ab32-944fa01dabca/public_url",
     imageUrl: "/images/certificates/sertifikat-aws-academy-cloud-foundations.png",
     description: [
@@ -309,12 +307,12 @@ export const experiencesData: WorkExperience[] = [
         title: "AWS Academy Graduate - Cloud Architecting - Training Badge",
         issuer: "AWS Academy",
         organization: "AWS Academy & SEAL (MSIB Batch 6)",
-        program: "AWS Academy Cloud Architecting (60 Jam Pelatihan)",
+        program: "AWS Academy Cloud Architecting",
         issueDate: "12 Juni 2024",
         verificationUrl: "https://www.credly.com/badges/3f13c0df-1b1e-49de-a93c-b392cd01ba39/public_url",
         imageUrl: "/images/certificates/sertifikat-aws-academy-cloud-architecting.png",
         description:
-          "Sertifikat kelulusan resmi dan Digital Badge dari AWS Academy atas penyelesaian 60 jam pelatihan Cloud Architecting selama program MSIB Angkatan 6 di SEAL. Memvalidasi kemampuan perancangan arsitektur AWS Well-Architected Framework: Multi-AZ High Availability, VPC Subnetting, Application Load Balancer, Auto Scaling, dan optimasi biaya komputasi.",
+          "Sertifikat kelulusan resmi dan Digital Badge dari AWS Academy atas penyelesaian program pelatihan Cloud Architecting selama program MSIB Angkatan 6 di SEAL. Memvalidasi kemampuan perancangan arsitektur AWS Well-Architected Framework: Multi-AZ High Availability, VPC Subnetting, Application Load Balancer, Auto Scaling, dan optimasi biaya komputasi.",
         skills: [
           "AWS Well-Architected Framework",
           "VPC & Subnet Isolation",
@@ -329,12 +327,12 @@ export const experiencesData: WorkExperience[] = [
         title: "AWS Academy Graduate - Cloud Foundations - Training Badge",
         issuer: "AWS Academy",
         organization: "AWS Academy & SEAL (MSIB Batch 6)",
-        program: "AWS Academy Cloud Foundations (20 Jam Pelatihan)",
+        program: "AWS Academy Cloud Foundations",
         issueDate: "27 Mei 2024",
         verificationUrl: "https://www.credly.com/badges/fccf3d4f-02bd-4056-ab32-944fa01dabca/public_url",
         imageUrl: "/images/certificates/sertifikat-aws-academy-cloud-foundations.png",
         description:
-          "Sertifikat kelulusan resmi dan Digital Badge dari AWS Academy atas penyelesaian 20 jam pelatihan Cloud Foundations selama program MSIB Angkatan 6 di SEAL. Memvalidasi pemahaman komprehensif konsep dasar cloud AWS: Global Infrastructure (Region, AZ), Compute (EC2), Storage (S3/EBS), Database (RDS), IAM Security, dan Billing & Pricing Models.",
+          "Sertifikat kelulusan resmi dan Digital Badge dari AWS Academy atas penyelesaian program pelatihan Cloud Foundations selama program MSIB Angkatan 6 di SEAL. Memvalidasi pemahaman komprehensif konsep dasar cloud AWS: Global Infrastructure (Region, AZ), Compute (EC2), Storage (S3/EBS), Database (RDS), IAM Security, dan Billing & Pricing Models.",
         skills: [
           "AWS Cloud Concepts",
           "AWS Global Infrastructure",
@@ -1149,7 +1147,7 @@ export const certificationsData: Certification[] = [
     category: "Cloud",
     imageUrl: "/images/certificates/sertifikat-aws-academy-cloud-architecting.png",
     description:
-      "Sertifikat kelulusan resmi dan Digital Badge dari AWS Academy untuk program AWS Academy Cloud Architecting (60 jam pelatihan). Memvalidasi keahlian perancangan arsitektur AWS berbasis Well-Architected Framework: Multi-AZ High Availability, VPC Subnetting terisolasi, Application Load Balancer, Auto Scaling, dan optimasi biaya komputasi awan.",
+      "Sertifikat kelulusan resmi dan Digital Badge dari AWS Academy untuk program AWS Academy Cloud Architecting. Memvalidasi keahlian perancangan arsitektur AWS berbasis Well-Architected Framework: Multi-AZ High Availability, VPC Subnetting terisolasi, Application Load Balancer, Auto Scaling, dan optimasi biaya komputasi awan.",
     skills: [
       "AWS Well-Architected Framework",
       "VPC & Subnet Isolation",
@@ -1168,7 +1166,7 @@ export const certificationsData: Certification[] = [
     category: "Cloud",
     imageUrl: "/images/certificates/sertifikat-aws-academy-cloud-foundations.png",
     description:
-      "Sertifikat kelulusan resmi dan Digital Badge dari AWS Academy untuk program AWS Academy Cloud Foundations (20 jam pelatihan). Memvalidasi penguasaan komprehensif konsep dasar cloud computing, arsitektur infrastruktur global AWS (Region & AZ), layanan inti (EC2, S3, RDS), keamanan IAM, dan pricing model.",
+      "Sertifikat kelulusan resmi dan Digital Badge dari AWS Academy untuk program AWS Academy Cloud Foundations. Memvalidasi penguasaan komprehensif konsep dasar cloud computing, arsitektur infrastruktur global AWS (Region & AZ), layanan inti (EC2, S3, RDS), keamanan IAM, dan pricing model.",
     skills: [
       "AWS Cloud Concepts & Core Services",
       "AWS Global Infrastructure",

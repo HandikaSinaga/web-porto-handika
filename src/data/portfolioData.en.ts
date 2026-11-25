@@ -50,7 +50,6 @@ export const trainingsDataEN: Training[] = [
     issuer: "AWS Academy & SEAL",
     program: "MSIB Kampus Merdeka Certified Independent Study at SEAL",
     issueDate: "June 12, 2024",
-    hours: "60 Training Hours",
     verificationUrl: "https://www.credly.com/badges/3f13c0df-1b1e-49de-a93c-b392cd01ba39/public_url",
     imageUrl: "/images/certificates/sertifikat-aws-academy-cloud-architecting.png",
     description: [
@@ -69,7 +68,6 @@ export const trainingsDataEN: Training[] = [
     issuer: "AWS Academy & SEAL",
     program: "MSIB Kampus Merdeka Certified Independent Study at SEAL",
     issueDate: "May 27, 2024",
-    hours: "20 Training Hours",
     verificationUrl: "https://www.credly.com/badges/fccf3d4f-02bd-4056-ab32-944fa01dabca/public_url",
     imageUrl: "/images/certificates/sertifikat-aws-academy-cloud-foundations.png",
     description: [
@@ -309,12 +307,12 @@ export const experiencesDataEN: WorkExperience[] = [
         title: "AWS Academy Graduate - Cloud Architecting - Training Badge",
         issuer: "AWS Academy",
         organization: "AWS Academy & SEAL (MSIB Batch 6)",
-        program: "AWS Academy Cloud Architecting (60 Training Hours)",
+        program: "AWS Academy Cloud Architecting",
         issueDate: "June 12, 2024",
         verificationUrl: "https://www.credly.com/badges/3f13c0df-1b1e-49de-a93c-b392cd01ba39/public_url",
         imageUrl: "/images/certificates/sertifikat-aws-academy-cloud-architecting.png",
         description:
-          "Official completion certificate and digital badge from AWS Academy validating 60 hours of Cloud Architecting coursework. Proves competence in AWS Well-Architected Framework: Multi-AZ High Availability, VPC Subnetting, ALB, Auto Scaling, and cost optimization.",
+          "Official completion certificate and digital badge from AWS Academy for Cloud Architecting coursework. Proves competence in AWS Well-Architected Framework: Multi-AZ High Availability, VPC Subnetting, ALB, Auto Scaling, and cost optimization.",
         skills: [
           "AWS Well-Architected Framework",
           "VPC & Subnet Isolation",
@@ -329,12 +327,12 @@ export const experiencesDataEN: WorkExperience[] = [
         title: "AWS Academy Graduate - Cloud Foundations - Training Badge",
         issuer: "AWS Academy",
         organization: "AWS Academy & SEAL (MSIB Batch 6)",
-        program: "AWS Academy Cloud Foundations (20 Training Hours)",
+        program: "AWS Academy Cloud Foundations",
         issueDate: "May 27, 2024",
         verificationUrl: "https://www.credly.com/badges/fccf3d4f-02bd-4056-ab32-944fa01dabca/public_url",
         imageUrl: "/images/certificates/sertifikat-aws-academy-cloud-foundations.png",
         description:
-          "Official completion certificate and digital badge from AWS Academy validating 20 hours of Cloud Foundations coursework. Validates foundational mastery in AWS Global Infrastructure, Compute (EC2), Storage (S3/EBS), Database (RDS), IAM Security, and Billing & Pricing Models.",
+          "Official completion certificate and digital badge from AWS Academy for Cloud Foundations coursework. Validates foundational mastery in AWS Global Infrastructure, Compute (EC2), Storage (S3/EBS), Database (RDS), IAM Security, and Billing & Pricing Models.",
         skills: [
           "AWS Cloud Concepts",
           "AWS Global Infrastructure",
@@ -1164,7 +1162,7 @@ export const certificationsDataEN: Certification[] = [
     category: "Cloud",
     imageUrl: "/images/certificates/sertifikat-aws-academy-cloud-architecting.png",
     description:
-      "Official graduation certificate and digital badge from AWS Academy for completing 60 hours of Cloud Architecting coursework. Validates AWS Well-Architected Framework design principles: Multi-AZ High Availability, isolated VPC subnetting, ALB, Auto Scaling, and cost optimization.",
+      "Official graduation certificate and digital badge from AWS Academy for completing Cloud Architecting coursework. Validates AWS Well-Architected Framework design principles: Multi-AZ High Availability, isolated VPC subnetting, ALB, Auto Scaling, and cost optimization.",
     skills: [
       "AWS Well-Architected Framework",
       "VPC & Subnet Isolation",
@@ -1183,7 +1181,7 @@ export const certificationsDataEN: Certification[] = [
     category: "Cloud",
     imageUrl: "/images/certificates/sertifikat-aws-academy-cloud-foundations.png",
     description:
-      "Official graduation certificate and digital badge from AWS Academy for completing 20 hours of Cloud Foundations coursework. Validates mastery of AWS Global Infrastructure, core services (EC2, S3, RDS), IAM security, and pricing models.",
+      "Official graduation certificate and digital badge from AWS Academy for completing Cloud Foundations coursework. Validates mastery of AWS Global Infrastructure, core services (EC2, S3, RDS), IAM security, and pricing models.",
     skills: [
       "AWS Cloud Concepts & Core Services",
       "AWS Global Infrastructure",
