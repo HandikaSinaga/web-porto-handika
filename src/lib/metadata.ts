@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 export const SITE_URL = "https://www.handika.web.id";
-export const SITE_NAME = "Handika Juan Putra Sinaga";
-export const DEFAULT_TITLE = "Handika Juan Putra Sinaga | Cloud & DevOps Engineer";
+export const SITE_NAME = "Handika Juan Putra Sinaga Portfolio";
+export const DEFAULT_TITLE = "Handika Juan Putra Sinaga | Cloud & DevOps Engineer Portfolio";
 export const DEFAULT_DESCRIPTION =
-  "Cut AWS costs by ~28.8% while scaling live workloads. Cloud & DevOps Engineer skilled in AWS, Docker, CI/CD, Linux, Prometheus & Grafana. Explore projects & CV.";
-export const OG_IMAGE_PATH = "/images/profile.jpg";
+  "Explore Handika Juan Putra Sinaga's portfolio: production AWS architectures, Docker & CI/CD workflows, Grafana K6 benchmarks, and verified cloud credentials.";
+export const OG_IMAGE_PATH = "/images/og-cover.png";
 
 export function buildPageMetadata({
   title,
@@ -32,14 +32,14 @@ export function buildPageMetadata({
       images: [
         {
           url: OG_IMAGE_PATH,
-          width: 1024,
-          height: 1024,
-          alt: `${SITE_NAME} - Cloud & DevOps Engineer`,
+          width: 1200,
+          height: 630,
+          alt: "Handika Juan Putra Sinaga - Cloud & DevOps Engineer Portfolio",
         },
       ],
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title,
       description,
       images: [OG_IMAGE_PATH],

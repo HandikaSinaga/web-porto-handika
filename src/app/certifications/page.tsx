@@ -6,7 +6,7 @@ import { buildPageMetadata } from "@/lib/metadata";
 export const metadata: Metadata = buildPageMetadata({
   title: "Verified Cloud & Networking Credentials | Handika Juan Putra Sinaga",
   description:
-    "Verified industry credentials: BNSP Network Engineer, AWS Academy Cloud Architecting & Foundations, plus Alibaba Cloud ACA & Certified Developer.",
+    "Browse Handika's verified credentials including BNSP Network Engineer, AWS Academy Cloud Architecting & Foundations, and Alibaba Cloud certifications.",
   path: "/certifications",
 });
 

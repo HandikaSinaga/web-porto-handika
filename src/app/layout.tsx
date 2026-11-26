@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     "Grafana K6",
     "Linux",
   ],
-  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  authors: [{ name: "Handika Juan Putra Sinaga", url: SITE_URL }],
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -60,14 +60,14 @@ export const metadata: Metadata = {
     images: [
       {
         url: OG_IMAGE_PATH,
-        width: 1024,
-        height: 1024,
-        alt: `${SITE_NAME} - Cloud & DevOps Engineer`,
+        width: 1200,
+        height: 630,
+        alt: "Handika Juan Putra Sinaga - Cloud & DevOps Engineer Portfolio",
       },
     ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: DEFAULT_TITLE,
     description: DEFAULT_DESCRIPTION,
     images: [OG_IMAGE_PATH],

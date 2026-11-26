@@ -4,9 +4,9 @@ import type { Metadata } from "next";
 import { buildPageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Hire & Collaborate | Handika Juan Putra Sinaga",
+  title: "Contact & Resume | Handika Juan Putra Sinaga",
   description:
-    "Looking for a Cloud or DevOps Engineer? Connect via LinkedIn, GitHub, email, or download my EN/ID CV to discuss infrastructure and engineering roles.",
+    "Connect with Handika Juan Putra Sinaga for Cloud & DevOps Engineer opportunities, view LinkedIn & GitHub profiles, or download his EN/ID CV.",
   path: "/contact",
 });
 

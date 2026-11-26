@@ -6,7 +6,7 @@ import { buildPageMetadata } from "@/lib/metadata";
 export const metadata: Metadata = buildPageMetadata({
   title: "Resume, Experience & Education | Handika Juan Putra Sinaga",
   description:
-    "B.S. Informatics Engineering (GPA 3.59/4.00) with HKI-output thesis, AWS & SEAL MSIB Cloud Engineering experience, and 28.8% AWS cost optimization results.",
+    "View Handika's cloud engineering background: MSIB AWS experience, Universitas Pamulang Informatics Engineering (GPA 3.59/4.00), and HKI thesis work.",
   path: "/resume",
 });
 

@@ -4,9 +4,9 @@ import type { Metadata } from "next";
 import { buildPageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Cloud Architecture & Case Studies | Handika Juan Putra Sinaga",
+  title: "Cloud Projects & Architecture Case Studies | Handika Juan Putra Sinaga",
   description:
-    "See how I built fault-tolerant Multi-AZ AWS architectures, cut cloud spend by ~28.8%, and ran 20,100+ request Grafana K6 stress tests in production.",
+    "Inside Handika's engineering portfolio: real-world AWS Multi-AZ infrastructure, Nginx & PM2 deployments, and Grafana K6 load-test case studies.",
   path: "/portfolio",
 });
 
