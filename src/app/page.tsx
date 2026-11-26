@@ -6,12 +6,13 @@ import Projects from "@/components/Projects";
 import ResumeView from "@/components/ResumeView";
 import Certifications from "@/components/Certifications";
 import Contact from "@/components/Contact";
+import { buildPageMetadata, DEFAULT_TITLE, DEFAULT_DESCRIPTION } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Handika Juan Putra Sinaga | DevOps & Cloud Engineer",
-  description:
-    "Portofolio Handika Juan Putra Sinaga, DevOps & Cloud Engineer spesialisasi AWS, Docker, CI/CD, Linux, dan Observabilitas Prometheus & Grafana.",
-};
+export const metadata: Metadata = buildPageMetadata({
+  title: DEFAULT_TITLE,
+  description: DEFAULT_DESCRIPTION,
+  path: "/",
+});
 
 export default function HomePage() {
   return (

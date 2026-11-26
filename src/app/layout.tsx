@@ -4,6 +4,13 @@ import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import AppShell from "@/components/AppShell";
+import {
+  SITE_URL,
+  SITE_NAME,
+  DEFAULT_TITLE,
+  DEFAULT_DESCRIPTION,
+  OG_IMAGE_PATH,
+} from "@/lib/metadata";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -24,21 +31,47 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Handika Juan Putra Sinaga | Cloud & DevOps Engineer",
-  description:
-    "Portfolio of Handika Juan Putra Sinaga, Cloud & DevOps Engineer experienced in AWS infrastructure, Docker containerization, CI/CD pipelines, Linux environments, and Prometheus, Grafana & K6 observability.",
+  metadataBase: new URL(SITE_URL),
+  title: DEFAULT_TITLE,
+  description: DEFAULT_DESCRIPTION,
   keywords: [
     "Handika Juan Putra Sinaga",
     "Cloud Engineer",
     "DevOps Engineer",
     "AWS",
+    "AWS Pricing Calculator",
     "Docker",
     "GitLab CI",
+    "Nginx",
+    "PM2",
     "Prometheus",
     "Grafana",
+    "Grafana K6",
     "Linux",
   ],
-  authors: [{ name: "Handika Juan Putra Sinaga" }],
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "/",
+    siteName: SITE_NAME,
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    images: [
+      {
+        url: OG_IMAGE_PATH,
+        width: 1024,
+        height: 1024,
+        alt: `${SITE_NAME} - Cloud & DevOps Engineer`,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary",
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    images: [OG_IMAGE_PATH],
+  },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },

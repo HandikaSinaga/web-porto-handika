@@ -1,12 +1,14 @@
 import React from "react";
 import Certifications from "@/components/Certifications";
 import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Verified Certifications & Credentials | Handika Juan",
+export const metadata: Metadata = buildPageMetadata({
+  title: "Verified Cloud & Networking Credentials | Handika Juan Putra Sinaga",
   description:
-    "Sertifikasi resmi BNSP Network Administrator, AWS Academy Cloud Architecting, dan Alibaba Cloud Certified Associate.",
-};
+    "Verified industry credentials: BNSP Network Engineer, AWS Academy Cloud Architecting & Foundations, plus Alibaba Cloud ACA & Certified Developer.",
+  path: "/certifications",
+});
 
 export default function CertificationsPage() {
   return (

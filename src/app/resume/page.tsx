@@ -1,12 +1,14 @@
 import React from "react";
 import ResumeView from "@/components/ResumeView";
 import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Resume, Education & Academy Trainings | Handika Juan",
+export const metadata: Metadata = buildPageMetadata({
+  title: "Resume, Experience & Education | Handika Juan Putra Sinaga",
   description:
-    "Rekam jejak profesional, pengalaman kerja DevOps, riwayat pendidikan S1 Teknik Informatika (IPK 3.59), serta pelatihan resmi AWS Academy.",
-};
+    "B.S. Informatics Engineering (GPA 3.59/4.00) with HKI-output thesis, AWS & SEAL MSIB Cloud Engineering experience, and 28.8% AWS cost optimization results.",
+  path: "/resume",
+});
 
 export default function ResumePage() {
   return (

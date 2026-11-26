@@ -1,12 +1,14 @@
 import React from "react";
 import Skills from "@/components/Skills";
 import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Skills & Technical Stack | Handika Juan",
+export const metadata: Metadata = buildPageMetadata({
+  title: "DevOps & Cloud Tech Stack | Handika Juan Putra Sinaga",
   description:
-    "Keahlian teknis Cloud Infrastructure, CI/CD, Containerization, Observability, dan Linux Systems Administration.",
-};
+    "Production stack spanning AWS (EC2, VPC, RDS, ALB, Auto Scaling), AWS Pricing Calculator, Docker, GitLab CI, Nginx, PM2, Prometheus, Grafana & K6.",
+  path: "/skills",
+});
 
 export default function SkillsPage() {
   return (
