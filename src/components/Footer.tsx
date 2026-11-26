@@ -5,6 +5,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
 import { getContactData } from "@/data/portfolioData";
+import {
+  NAV_SECTIONS,
+  SectionKey,
+  getSectionDomId,
+  getSectionHash,
+  getSectionHref,
+} from "@/data/navigation";
 import { GithubIcon, LinkedinIcon, WhatsappIcon } from "@/components/icons/SocialIcons";
 import { ArrowUp, Mail, MapPin } from "lucide-react";
 
@@ -27,12 +34,13 @@ export default function Footer() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleAnchor = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+  const handleAnchor = (e: React.MouseEvent<HTMLAnchorElement>, key: SectionKey) => {
     if (pathname === "/") {
-      const el = document.getElementById(sectionId);
+      const el = document.getElementById(getSectionDomId(key));
       if (el) {
         e.preventDefault();
         el.scrollIntoView({ behavior: "smooth", block: "start" });
+        window.history.replaceState(null, "", `#${getSectionHash(key, lang)}`);
       }
     }
   };
@@ -42,16 +50,6 @@ export default function Footer() {
     { labelID: "Containerization & CI/CD (Docker, GitLab CI)", labelEN: "Containerization & CI/CD (Docker, GitLab CI)" },
     { labelID: "Observabilitas & Load Test (Prometheus, Grafana, k6)", labelEN: "Observability & Load Testing (Prometheus, Grafana, k6)" },
     { labelID: "Server Linux, Nginx Reverse Proxy & PM2", labelEN: "Linux Servers, Nginx Reverse Proxy & PM2" },
-  ];
-
-  const navLinks = [
-    { id: "home", labelID: "Beranda", labelEN: "Home" },
-    { id: "about", labelID: "Tentang Saya", labelEN: "About" },
-    { id: "pendidikan", labelID: "Pendidikan", labelEN: "Education" },
-    { id: "pengalaman", labelID: "Pengalaman", labelEN: "Experience" },
-    { id: "portfolio", labelID: "Portfolio", labelEN: "Portfolio" },
-    { id: "sertifikasi", labelID: "Sertifikasi", labelEN: "Certifications" },
-    { id: "contact", labelID: "Kontak", labelEN: "Contact" },
   ];
 
   return (
@@ -67,7 +65,7 @@ export default function Footer() {
           {/* Col 1: Brand Summary */}
           <div className="md:col-span-5 space-y-4">
             <Link
-              href="/#home"
+              href={getSectionHref("home", lang)}
               onClick={(e) => handleAnchor(e, "home")}
               className="inline-block font-heading text-xl font-extrabold tracking-tight"
             >
@@ -109,7 +107,7 @@ export default function Footer() {
               {focusAreas.map((area) => (
                 <li key={area.labelEN}>
                   <Link
-                    href="/#portfolio"
+                    href={getSectionHref("portfolio", lang)}
                     onClick={(e) => handleAnchor(e, "portfolio")}
                     className="inline-block py-0.5 transition-colors hover:text-[var(--color-primary-text)]"
                     style={{ color: "var(--color-text-muted)" }}
@@ -127,11 +125,11 @@ export default function Footer() {
               {lang === "EN" ? "Page Navigation" : "Navigasi Halaman"}
             </h4>
             <ul className="grid grid-cols-2 gap-x-4 gap-y-2.5 text-sm">
-              {navLinks.map((item) => (
-                <li key={item.id}>
+              {NAV_SECTIONS.map((item) => (
+                <li key={item.key}>
                   <Link
-                    href={`/#${item.id}`}
-                    onClick={(e) => handleAnchor(e, item.id)}
+                    href={getSectionHref(item.key, lang)}
+                    onClick={(e) => handleAnchor(e, item.key)}
                     className="inline-block py-0.5 transition-colors hover:text-[var(--color-primary-text)]"
                     style={{ color: "var(--color-text-muted)" }}
                   >

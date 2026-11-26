@@ -73,6 +73,7 @@ export default function About() {
       id="about"
       className="section-flow py-12 sm:py-16 scroll-mt-20 transition-colors"
     >
+      <div id="tentang" className="scroll-mt-20" />
       <div className="mx-auto w-full max-w-[1240px] px-4 sm:px-6 space-y-7">
         {/* Section Heading */}
         <div className="text-center max-w-2xl mx-auto space-y-2">

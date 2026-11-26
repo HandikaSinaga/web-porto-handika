@@ -6,6 +6,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { useIsMounted } from "@/hooks/useIsMounted";
 import { useLanguage } from "@/context/LanguageContext";
 import { getContactData, CV_OPTIONS } from "@/data/portfolioData";
+import { SectionKey, getSectionDomId, getSectionHash, getSectionHref } from "@/data/navigation";
 import { uiTranslations } from "@/data/translations";
 import {
   Search,
@@ -75,16 +76,17 @@ export default function CommandMenu({ isOpen, onClose }: CommandMenuProps) {
 
   if (!isOpen) return null;
 
-  const navigateToSection = (sectionId: string, fallbackRoute: string) => {
+  const navigateToSection = (key: SectionKey) => {
     onClose();
     if (pathname === "/") {
-      const el = document.getElementById(sectionId);
+      const el = document.getElementById(getSectionDomId(key));
       if (el) {
         el.scrollIntoView({ behavior: "smooth", block: "start" });
+        window.history.replaceState(null, "", `#${getSectionHash(key, lang)}`);
         return;
       }
     }
-    router.push(fallbackRoute);
+    router.push(getSectionHref(key, lang));
   };
 
   const navCategory = lang === "EN" ? "Navigation" : "Navigasi";
@@ -99,32 +101,32 @@ export default function CommandMenu({ isOpen, onClose }: CommandMenuProps) {
       title: t.command.aboutTitle,
       category: navCategory,
       icon: Layers,
-      action: () => navigateToSection("about", "/#about"),
-      badge: "#about",
+      action: () => navigateToSection("about"),
+      badge: `#${getSectionHash("about", lang)}`,
     },
     {
       id: "education",
       title: lang === "EN" ? "Education (Informatics Engineering Unpam)" : "Pendidikan (S1 Teknik Informatika Unpam)",
       category: resumeCategory,
       icon: GraduationCap,
-      action: () => navigateToSection("pendidikan", "/#pendidikan"),
-      badge: "#pendidikan",
+      action: () => navigateToSection("education"),
+      badge: `#${getSectionHash("education", lang)}`,
     },
     {
       id: "experience",
       title: lang === "EN" ? "Work & Internship Experience" : "Pengalaman Kerja & Magang",
       category: resumeCategory,
       icon: Briefcase,
-      action: () => navigateToSection("pengalaman", "/#pengalaman"),
-      badge: "#pengalaman",
+      action: () => navigateToSection("experience"),
+      badge: `#${getSectionHash("experience", lang)}`,
     },
     {
       id: "portfolio",
       title: t.command.portfolioTitle,
       category: navCategory,
       icon: FolderGit2,
-      action: () => navigateToSection("portfolio", "/#portfolio"),
-      badge: "#portfolio",
+      action: () => navigateToSection("portfolio"),
+      badge: `#${getSectionHash("portfolio", lang)}`,
     },
     {
       id: "seals",
@@ -132,7 +134,7 @@ export default function CommandMenu({ isOpen, onClose }: CommandMenuProps) {
       category: projCategory,
       icon: FolderGit2,
       action: () => {
-        navigateToSection("portfolio", "/#portfolio");
+        navigateToSection("portfolio");
         setTimeout(() => {
           window.dispatchEvent(
             new CustomEvent("open-project-modal", {
@@ -149,7 +151,7 @@ export default function CommandMenu({ isOpen, onClose }: CommandMenuProps) {
       category: projCategory,
       icon: FolderGit2,
       action: () => {
-        navigateToSection("portfolio", "/#portfolio");
+        navigateToSection("portfolio");
         setTimeout(() => {
           window.dispatchEvent(
             new CustomEvent("open-project-modal", {
@@ -165,16 +167,16 @@ export default function CommandMenu({ isOpen, onClose }: CommandMenuProps) {
       title: t.command.certsTitle,
       category: navCategory,
       icon: Award,
-      action: () => navigateToSection("sertifikasi", "/#sertifikasi"),
-      badge: "#sertifikasi",
+      action: () => navigateToSection("certifications"),
+      badge: `#${getSectionHash("certifications", lang)}`,
     },
     {
       id: "contact",
       title: t.command.contactTitle,
       category: navCategory,
       icon: Mail,
-      action: () => navigateToSection("contact", "/#contact"),
-      badge: "#contact",
+      action: () => navigateToSection("contact"),
+      badge: `#${getSectionHash("contact", lang)}`,
     },
     ...CV_OPTIONS.map((cv) => ({
       id: `cv-${cv.id}`,

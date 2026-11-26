@@ -7,6 +7,12 @@ import { useTheme } from "@/context/ThemeContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { CV_OPTIONS } from "@/data/portfolioData";
 import {
+  NAV_SECTIONS,
+  NavSectionItem,
+  getSectionHash,
+  getSectionHref,
+} from "@/data/navigation";
+import {
   Sun,
   Moon,
   Download,
@@ -16,24 +22,6 @@ import {
   Menu,
   X,
 } from "lucide-react";
-
-interface NavSectionItem {
-  id: string;
-  labelID: string;
-  labelEN: string;
-  href: string;
-  routeMatch?: string;
-}
-
-const NAV_ITEMS: NavSectionItem[] = [
-  { id: "home", labelID: "Beranda", labelEN: "Home", href: "/#home", routeMatch: "/" },
-  { id: "about", labelID: "Tentang Saya", labelEN: "About", href: "/#about", routeMatch: "/about" },
-  { id: "pendidikan", labelID: "Pendidikan", labelEN: "Education", href: "/#pendidikan", routeMatch: "/skills" },
-  { id: "pengalaman", labelID: "Pengalaman", labelEN: "Experience", href: "/#pengalaman", routeMatch: "/resume" },
-  { id: "portfolio", labelID: "Portfolio", labelEN: "Portfolio", href: "/#portfolio", routeMatch: "/portfolio" },
-  { id: "sertifikasi", labelID: "Sertifikasi", labelEN: "Certifications", href: "/#sertifikasi", routeMatch: "/certifications" },
-  { id: "contact", labelID: "Kontak", labelEN: "Contact", href: "/#contact", routeMatch: "/contact" },
-];
 
 export default function TopNavbar() {
   const pathname = usePathname();
@@ -66,7 +54,7 @@ export default function TopNavbar() {
   useEffect(() => {
     if (!isHomePage) return;
 
-    const sectionIds = NAV_ITEMS.map((n) => n.id);
+    const sectionIds = NAV_SECTIONS.map((n) => n.domId);
     const elements = sectionIds
       .map((id) => document.getElementById(id))
       .filter(Boolean) as HTMLElement[];
@@ -139,7 +127,7 @@ export default function TopNavbar() {
 
   const isNavItemActive = (item: NavSectionItem) => {
     if (isHomePage) {
-      return activeSection === item.id;
+      return activeSection === item.domId;
     }
     return item.routeMatch === pathname;
   };
@@ -147,12 +135,12 @@ export default function TopNavbar() {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, item: NavSectionItem) => {
     setIsMobileMenuOpen(false);
     if (isHomePage) {
-      const target = document.getElementById(item.id);
+      const target = document.getElementById(item.domId);
       if (target) {
         e.preventDefault();
         target.scrollIntoView({ behavior: "smooth", block: "start" });
-        setActiveSection(item.id);
-        window.history.replaceState(null, "", `#${item.id}`);
+        setActiveSection(item.domId);
+        window.history.replaceState(null, "", `#${getSectionHash(item.key, lang)}`);
       }
     }
   };
@@ -203,12 +191,13 @@ export default function TopNavbar() {
       <div className="mx-auto flex h-[74px] w-full max-w-[1240px] items-center justify-between gap-4 xl:gap-8 px-4 sm:px-6">
         {/* Brand Wordmark */}
         <Link
-          href="/#home"
+          href={getSectionHref("home", lang)}
           onClick={(e) => {
             if (isHomePage) {
               e.preventDefault();
               window.scrollTo({ top: 0, behavior: "smooth" });
               setActiveSection("home");
+              window.history.replaceState(null, "", `#${getSectionHash("home", lang)}`);
             }
           }}
           className="font-heading text-xl sm:text-[22px] font-extrabold tracking-tight shrink-0 py-2"
@@ -222,12 +211,12 @@ export default function TopNavbar() {
           aria-label={lang === "EN" ? "Primary navigation" : "Navigasi utama"}
           className="hidden xl:flex flex-1 items-center justify-center gap-0.5 pl-4"
         >
-          {NAV_ITEMS.map((item) => {
+          {NAV_SECTIONS.map((item) => {
             const active = isNavItemActive(item);
             return (
               <Link
-                key={item.id}
-                href={item.href}
+                key={item.key}
+                href={getSectionHref(item.key, lang)}
                 onClick={(e) => handleNavClick(e, item)}
                 aria-current={active ? "page" : undefined}
                 className="whitespace-nowrap rounded-full px-3 py-1.5 text-[13px] transition-colors"
@@ -434,12 +423,12 @@ export default function TopNavbar() {
             onClick={(e) => e.stopPropagation()}
           >
             <nav className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-              {NAV_ITEMS.map((item) => {
+              {NAV_SECTIONS.map((item) => {
                 const active = isNavItemActive(item);
                 return (
                   <Link
-                    key={item.id}
-                    href={item.href}
+                    key={item.key}
+                    href={getSectionHref(item.key, lang)}
                     onClick={(e) => handleNavClick(e, item)}
                     className="flex items-center justify-between min-h-[44px] px-4 py-2.5 rounded-xl text-sm transition-colors"
                     style={{

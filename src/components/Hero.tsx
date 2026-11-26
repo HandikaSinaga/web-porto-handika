@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { getContactData } from "@/data/portfolioData";
+import { SectionKey, getSectionDomId, getSectionHash, getSectionHref } from "@/data/navigation";
 import { useLanguage } from "@/context/LanguageContext";
 import { Send, FolderGit2 } from "lucide-react";
 
@@ -13,12 +14,13 @@ export default function Hero() {
   const contactData = getContactData(lang);
   const isHomePage = pathname === "/";
 
-  const handleAnchor = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+  const handleAnchor = (e: React.MouseEvent<HTMLAnchorElement>, key: SectionKey) => {
     if (isHomePage) {
-      const el = document.getElementById(targetId);
+      const el = document.getElementById(getSectionDomId(key));
       if (el) {
         e.preventDefault();
         el.scrollIntoView({ behavior: "smooth", block: "start" });
+        window.history.replaceState(null, "", `#${getSectionHash(key, lang)}`);
       }
     }
   };
@@ -43,6 +45,7 @@ export default function Hero() {
       id="home"
       className="relative overflow-hidden w-full pt-12 pb-14 sm:pt-16 sm:pb-20 lg:pt-20 lg:pb-24 scroll-mt-20"
     >
+      <div id="beranda" className="scroll-mt-20" />
       {/* Multi-Tone Ambient Engineering Backdrop */}
       <div className="pointer-events-none absolute inset-0 select-none" aria-hidden="true">
         {/* Masked Engineering Blueprint Grid */}
@@ -201,7 +204,7 @@ export default function Hero() {
             {/* Primary & Secondary CTAs */}
             <div className="flex flex-col sm:flex-row sm:items-center gap-3 pt-1">
               <Link
-                href="/#contact"
+                href={getSectionHref("contact", lang)}
                 onClick={(e) => handleAnchor(e, "contact")}
                 className="inline-flex items-center justify-center gap-2 min-h-[46px] px-7 py-3 rounded-full text-sm sm:text-[15px] font-semibold text-white transition-all hover:-translate-y-0.5"
                 style={{
@@ -214,7 +217,7 @@ export default function Hero() {
               </Link>
 
               <Link
-                href="/#portfolio"
+                href={getSectionHref("portfolio", lang)}
                 onClick={(e) => handleAnchor(e, "portfolio")}
                 className="inline-flex items-center justify-center gap-2 min-h-[46px] px-6 py-3 rounded-full text-sm sm:text-[15px] font-semibold border transition-all hover:-translate-y-0.5"
                 style={{

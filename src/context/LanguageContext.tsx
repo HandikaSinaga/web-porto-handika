@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useCallback, useSyncExternalStore } from "react";
+import { translateSectionHash } from "@/data/navigation";
 
 export type Language = "EN" | "ID";
 
@@ -65,6 +66,12 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     }
     applyDocumentLanguage(newLang);
     if (typeof window !== "undefined") {
+      if (window.location.hash) {
+        const translatedHash = translateSectionHash(window.location.hash, newLang);
+        if (translatedHash && translatedHash !== window.location.hash) {
+          window.history.replaceState(null, "", translatedHash);
+        }
+      }
       window.dispatchEvent(new CustomEvent("language-change", { detail: { lang: newLang } }));
     }
   }, []);

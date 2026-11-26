@@ -92,6 +92,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className="section-flow py-12 sm:py-16 scroll-mt-20 transition-colors">
+      <div id="kontak" className="scroll-mt-20" />
       <div className="mx-auto w-full max-w-[1240px] px-4 sm:px-6 space-y-8">
         {/* Centered Header */}
         <div className="text-center max-w-2xl mx-auto space-y-2.5">
