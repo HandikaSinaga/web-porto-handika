@@ -54,7 +54,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id" className="scroll-smooth dark" data-theme="dark" suppressHydrationWarning>
+    <html lang="en" className="scroll-smooth dark" data-theme="dark" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -85,7 +85,7 @@ export default function RootLayout({
         className={`${outfit.variable} ${jakartaSans.variable} ${jetbrainsMono.variable} min-h-screen flex flex-col font-sans antialiased`}
       >
         <a href="#main-content" className="skip-link">
-          Langsung ke konten utama
+          Skip to main content
         </a>
         <ThemeProvider>
           <LanguageProvider>

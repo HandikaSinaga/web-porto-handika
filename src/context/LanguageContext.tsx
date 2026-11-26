@@ -32,13 +32,13 @@ const subscribeLanguage = (callback: () => void) => {
 const getLanguageSnapshot = (): Language => {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
-    return saved === "EN" ? "EN" : "ID";
+    return saved === "ID" ? "ID" : "EN";
   } catch {
-    return "ID";
+    return "EN";
   }
 };
 
-const getLanguageServerSnapshot = (): Language => "ID";
+const getLanguageServerSnapshot = (): Language => "EN";
 
 const applyDocumentLanguage = (newLang: Language) => {
   if (typeof document === "undefined") return;
@@ -75,7 +75,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   const t = useCallback(
     (idText: string, enText: string) => {
-      if (!mounted) return idText;
+      if (!mounted) return enText;
       return lang === "EN" ? enText : idText;
     },
     [lang, mounted]

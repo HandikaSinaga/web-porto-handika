@@ -45,13 +45,13 @@ export const CV_OPTIONS = [
     id: "id",
     title: "CV Indonesia",
     subtitle: "Versi Bahasa Indonesia",
-    href: contactDataID.cvUrl || "https://drive.google.com/file/d/16am7tkLHPnReZsFbrjzBmUfvwmFuhHfh/view?usp=sharing",
+    href: contactDataID.cvUrl || "https://drive.google.com/file/d/1IRCoEAEzW5jZE_GFdqTc6pR7S-ZG7imb/view?usp=sharing",
   },
   {
     id: "en",
     title: "CV English",
     subtitle: "English version",
-    href: contactDataEN.cvUrl || "https://drive.google.com/file/d/1FYmC5DsME6WXWq9EJsma20XfAjWnDXUu/view?usp=sharing",
+    href: contactDataEN.cvUrl || "https://drive.google.com/file/d/1nAtYP-Pxg6rC4X-wh6P-fAYxnh4HoefI/view?usp=sharing",
   },
 ] as const;
 

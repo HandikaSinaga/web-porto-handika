@@ -12,9 +12,7 @@ import {
   Check,
   ArrowUpRight,
   Clock,
-  FileDown,
   FileText,
-  ClipboardCheck,
 } from "lucide-react";
 
 export default function Contact() {
@@ -44,15 +42,6 @@ export default function Contact() {
       : "Penawaran Peluang / Kolaborasi - Portofolio Handika"
   );
   const mailtoUrl = `mailto:${contactData.email}?subject=${mailSubject}`;
-
-  const contactSummaryText = [
-    `${contactData.fullName} - DevOps & Cloud Engineer`,
-    `Email: ${contactData.email}`,
-    `Phone / WhatsApp: ${contactData.phone}`,
-    `Location: ${contactData.location}`,
-    `LinkedIn: ${contactData.linkedin}`,
-    `GitHub: ${contactData.github}`,
-  ].join("\n");
 
   const networkChannels = [
     {
@@ -99,10 +88,6 @@ export default function Contact() {
       ? isEN
         ? "Email address copied to clipboard."
         : "Alamat email tersalin ke clipboard."
-      : copiedField === "summary"
-      ? isEN
-        ? "Full contact summary copied to clipboard."
-        : "Ringkasan kontak lengkap tersalin ke clipboard."
       : null;
 
   return (
@@ -393,43 +378,6 @@ export default function Contact() {
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div className="flex flex-wrap gap-2.5 pt-4 border-t" style={{ borderColor: "var(--color-border)" }}>
-              {CV_OPTIONS.map((cv) => (
-                <a
-                  key={cv.id}
-                  href={cv.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="surface-chip inline-flex items-center justify-center gap-2 min-h-[42px] px-4 py-2 rounded-full text-xs font-semibold transition-colors hover:border-[var(--color-primary)] hover:text-[var(--color-primary-text)]"
-                  style={{ color: "var(--color-text-main)" }}
-                >
-                  <FileDown className="w-3.5 h-3.5" aria-hidden="true" />
-                  <span>{cv.title}</span>
-                </a>
-              ))}
-
-              <button
-                type="button"
-                onClick={() => handleCopy(contactSummaryText, "summary")}
-                className="surface-chip inline-flex items-center justify-center gap-2 min-h-[42px] px-4 py-2 rounded-full text-xs font-semibold transition-colors hover:border-[var(--color-primary)]"
-                style={{
-                  color: copiedField === "summary" ? "var(--color-emerald)" : "var(--color-text-muted)",
-                }}
-              >
-                {copiedField === "summary" ? (
-                  <>
-                    <Check className="w-3.5 h-3.5" aria-hidden="true" />
-                    <span>{isEN ? "Contact Info Copied" : "Ringkasan Tersalin"}</span>
-                  </>
-                ) : (
-                  <>
-                    <ClipboardCheck className="w-3.5 h-3.5" aria-hidden="true" />
-                    <span>{isEN ? "Copy Contact Info" : "Salin Semua Kontak"}</span>
-                  </>
-                )}
-              </button>
             </div>
           </div>
 

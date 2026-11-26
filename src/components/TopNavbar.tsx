@@ -43,6 +43,7 @@ export default function TopNavbar() {
   const [activeSection, setActiveSection] = useState<string>("home");
   const [isScrolled, setIsScrolled] = useState(false);
   const [isCvOpen, setIsCvOpen] = useState(false);
+  const [isMobileCvOpen, setIsMobileCvOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const cvRef = useRef<HTMLDivElement>(null);
@@ -163,6 +164,33 @@ export default function TopNavbar() {
 
   const isDark = mounted ? theme === "dark" : true;
 
+  const renderCvOptions = (onSelect: () => void) =>
+    CV_OPTIONS.map((cv) => (
+      <a
+        key={cv.id}
+        href={cv.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        role="menuitem"
+        onClick={onSelect}
+        className="flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-[var(--color-primary-tint)]"
+      >
+        <FileText
+          className="w-4 h-4 shrink-0"
+          style={{ color: "var(--color-primary-text)" }}
+          aria-hidden="true"
+        />
+        <span className="min-w-0">
+          <span className="block text-sm font-semibold" style={{ color: "var(--color-text-main)" }}>
+            {cv.title}
+          </span>
+          <span className="block text-xs" style={{ color: "var(--color-text-muted)" }}>
+            {cv.subtitle}
+          </span>
+        </span>
+      </a>
+    ));
+
   return (
     <header
       className="sticky top-0 z-50 w-full transition-colors duration-200"
@@ -275,31 +303,7 @@ export default function TopNavbar() {
                   borderColor: "var(--color-border)",
                 }}
               >
-                {CV_OPTIONS.map((cv) => (
-                  <a
-                    key={cv.id}
-                    href={cv.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    role="menuitem"
-                    onClick={() => setIsCvOpen(false)}
-                    className="flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-[var(--color-primary-tint)]"
-                  >
-                    <FileText
-                      className="w-4 h-4 shrink-0"
-                      style={{ color: "var(--color-primary-text)" }}
-                      aria-hidden="true"
-                    />
-                    <span className="min-w-0">
-                      <span className="block text-sm font-semibold" style={{ color: "var(--color-text-main)" }}>
-                        {cv.title}
-                      </span>
-                      <span className="block text-xs" style={{ color: "var(--color-text-muted)" }}>
-                        {cv.subtitle}
-                      </span>
-                    </span>
-                  </a>
-                ))}
+                {renderCvOptions(() => setIsCvOpen(false))}
               </div>
             )}
           </div>
@@ -384,7 +388,10 @@ export default function TopNavbar() {
           <button
             ref={mobileMenuButtonRef}
             type="button"
-            onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+            onClick={() => {
+              setIsMobileMenuOpen((prev) => !prev);
+              setIsMobileCvOpen(false);
+            }}
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-nav-drawer"
             aria-label={isMobileMenuOpen ? (lang === "EN" ? "Close menu" : "Tutup menu") : (lang === "EN" ? "Open menu" : "Buka menu")}
@@ -409,7 +416,10 @@ export default function TopNavbar() {
       {isMobileMenuOpen && (
         <div
           className="xl:hidden fixed inset-0 top-[74px] z-40 bg-black/60 backdrop-blur-sm"
-          onClick={() => setIsMobileMenuOpen(false)}
+          onClick={() => {
+            setIsMobileMenuOpen(false);
+            setIsMobileCvOpen(false);
+          }}
         >
           <div
             id="mobile-nav-drawer"
@@ -459,20 +469,21 @@ export default function TopNavbar() {
                 <span>{lang === "EN" ? "Quick Search" : "Pencarian Cepat"}</span>
               </button>
 
-              {CV_OPTIONS.map((cv) => (
-                <a
-                  key={cv.id}
-                  href={cv.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex-1 min-w-[140px] min-h-[44px] inline-flex items-center justify-center gap-2 px-4 rounded-xl text-xs font-semibold text-white"
-                  style={{ backgroundColor: "var(--color-primary)" }}
-                >
-                  <Download className="w-4 h-4" aria-hidden="true" />
-                  <span>{cv.title}</span>
-                </a>
-              ))}
+              <button
+                type="button"
+                onClick={() => setIsMobileCvOpen((prev) => !prev)}
+                aria-expanded={isMobileCvOpen}
+                aria-haspopup="menu"
+                className="flex-1 min-w-[130px] min-h-[44px] inline-flex items-center justify-center gap-2 px-4 rounded-xl text-xs font-semibold text-white"
+                style={{ backgroundColor: "var(--color-primary)" }}
+              >
+                <Download className="w-4 h-4" aria-hidden="true" />
+                <span>{lang === "EN" ? "Download CV" : "Unduh CV"}</span>
+                <ChevronDown
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ${isMobileCvOpen ? "rotate-180" : ""}`}
+                  aria-hidden="true"
+                />
+              </button>
 
               <div
                 role="group"
@@ -503,6 +514,19 @@ export default function TopNavbar() {
                 })}
               </div>
             </div>
+
+            {isMobileCvOpen && (
+              <div
+                role="menu"
+                aria-label={lang === "EN" ? "CV Language Options" : "Pilihan Bahasa CV"}
+                className="surface-chip rounded-2xl p-1.5 space-y-1 animate-modal-enter"
+              >
+                {renderCvOptions(() => {
+                  setIsMobileCvOpen(false);
+                  setIsMobileMenuOpen(false);
+                })}
+              </div>
+            )}
           </div>
         </div>
       )}
