@@ -24,7 +24,7 @@ export const contactData: ContactInfo = {
   linkedin: "https://www.linkedin.com/in/handikasinaga",
   github: "https://github.com/handikasinaga",
   cvUrl: "https://drive.google.com/file/d/1IRCoEAEzW5jZE_GFdqTc6pR7S-ZG7imb/view?usp=sharing",
-  avatarUrl: "/images/profile.jpg",
+  avatarUrl: "/images/profile.jpg?v=2",
   summary:
     "Lulusan S1 Teknik Informatika Universitas Pamulang (IPK: 3,59 / 4,00) dengan pengalaman langsung di bidang Cloud Engineering dan DevOps berbasis AWS. Berpengalaman merancang serta mengimplementasikan infrastruktur AWS (EC2, RDS MySQL, VPC, Auto Scaling, Load Balancer), mengelola deployment (Nginx, PM2, Docker) dan pipeline CI/CD (Git, GitLab, GitHub) di lingkungan Linux, serta membangun sistem monitoring dan performance testing (Prometheus, Grafana, K6).",
 };

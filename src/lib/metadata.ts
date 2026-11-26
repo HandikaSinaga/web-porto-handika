@@ -5,7 +5,7 @@ export const SITE_NAME = "Handika Juan Putra Sinaga Portfolio";
 export const DEFAULT_TITLE = "Handika Juan Putra Sinaga | Cloud & DevOps Engineer Portfolio";
 export const DEFAULT_DESCRIPTION =
   "Explore Handika Juan Putra Sinaga's portfolio: production AWS architectures, Docker & CI/CD workflows, Grafana K6 benchmarks, and verified cloud credentials.";
-export const OG_IMAGE_PATH = "/images/og-cover.png";
+export const OG_IMAGE_PATH = "/images/og-cover.png?v=2";
 
 export function buildPageMetadata({
   title,
