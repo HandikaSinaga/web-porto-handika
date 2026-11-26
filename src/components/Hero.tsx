@@ -304,7 +304,7 @@ export default function Hero() {
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={contactData.avatarUrl || "/images/profile.png"}
+                  src={contactData.avatarUrl || "/images/profile.jpg"}
                   alt={contactData.name}
                   width={330}
                   height={330}
