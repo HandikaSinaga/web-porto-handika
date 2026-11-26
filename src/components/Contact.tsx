@@ -6,7 +6,6 @@ import { getContactData, CV_OPTIONS } from "@/data/portfolioData";
 import { GithubIcon, LinkedinIcon, WhatsappIcon } from "@/components/icons/SocialIcons";
 import {
   Mail,
-  Phone,
   MapPin,
   Copy,
   Check,
@@ -136,7 +135,7 @@ export default function Contact() {
                     <WhatsappIcon className="w-5 h-5" />
                   </div>
                   <div className="text-xs font-bold uppercase tracking-wider" style={{ color: "var(--color-text-muted)" }}>
-                    {isEN ? "WHATSAPP & PHONE" : "WHATSAPP & TELEPON"}
+                    WHATSAPP
                   </div>
                 </div>
                 <span
@@ -180,15 +179,6 @@ export default function Contact() {
                 <WhatsappIcon className="w-4 h-4" />
                 <span>{isEN ? "Chat WhatsApp" : "Chat WhatsApp"}</span>
                 <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
-              </a>
-
-              <a
-                href={`tel:+${intlPhone}`}
-                className="surface-chip inline-flex items-center justify-center gap-1.5 min-h-[44px] px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-colors hover:border-[var(--color-primary)] hover:text-[var(--color-primary-text)]"
-                style={{ color: "var(--color-text-main)" }}
-              >
-                <Phone className="w-3.5 h-3.5" aria-hidden="true" />
-                <span>{isEN ? "Call" : "Telepon"}</span>
               </a>
 
               <button
