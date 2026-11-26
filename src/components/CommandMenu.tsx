@@ -134,14 +134,8 @@ export default function CommandMenu({ isOpen, onClose }: CommandMenuProps) {
       category: projCategory,
       icon: FolderGit2,
       action: () => {
-        navigateToSection("portfolio");
-        setTimeout(() => {
-          window.dispatchEvent(
-            new CustomEvent("open-project-modal", {
-              detail: { projectId: "adaptive-learning-polinema", tab: "overview" },
-            })
-          );
-        }, 250);
+        onClose();
+        router.push("/portfolio/adaptive-learning-polinema");
       },
       badge: "Client",
     },
@@ -151,14 +145,8 @@ export default function CommandMenu({ isOpen, onClose }: CommandMenuProps) {
       category: projCategory,
       icon: FolderGit2,
       action: () => {
-        navigateToSection("portfolio");
-        setTimeout(() => {
-          window.dispatchEvent(
-            new CustomEvent("open-project-modal", {
-              detail: { projectId: "gazebo-samasta-reservation", tab: "overview" },
-            })
-          );
-        }, 250);
+        onClose();
+        router.push("/portfolio/gazebo-samasta-reservation");
       },
       badge: "MSIB",
     },

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useIsMounted } from "@/hooks/useIsMounted";
 import { usePortfolioData } from "@/data/portfolioData";
 import { uiTranslations } from "@/data/translations";
@@ -30,7 +30,6 @@ interface CertModalState {
 
 export default function ResumeView() {
   const router = useRouter();
-  const pathname = usePathname();
   const { experiencesData, educationData, trainingsData, lang } = usePortfolioData();
   const isEN = lang === "EN";
   const t = uiTranslations[lang];
@@ -90,17 +89,7 @@ export default function ResumeView() {
   }, []);
 
   const handleNavigateToProject = (projectId: string) => {
-    if (pathname === "/") {
-      const targetEl = document.getElementById("portfolio");
-      targetEl?.scrollIntoView({ behavior: "smooth", block: "start" });
-      setTimeout(() => {
-        window.dispatchEvent(
-          new CustomEvent("open-project-modal", { detail: { projectId, tab: "overview" } })
-        );
-      }, 250);
-    } else {
-      router.push("/#portfolio");
-    }
+    router.push(`/portfolio/${projectId}`);
   };
 
   return (

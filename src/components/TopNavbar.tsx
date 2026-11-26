@@ -129,7 +129,10 @@ export default function TopNavbar() {
     if (isHomePage) {
       return activeSection === item.domId;
     }
-    return item.routeMatch === pathname;
+    return (
+      item.routeMatch === pathname ||
+      (item.routeMatch === "/portfolio" && pathname.startsWith("/portfolio/"))
+    );
   };
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, item: NavSectionItem) => {
