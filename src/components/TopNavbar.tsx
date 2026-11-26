@@ -18,7 +18,7 @@ import {
   Download,
   ChevronDown,
   FileText,
-  Search,
+  ArrowUpRight,
   Menu,
   X,
 } from "lucide-react";
@@ -145,12 +145,42 @@ export default function TopNavbar() {
     }
   };
 
-  const openCommandPalette = () => {
-    setIsMobileMenuOpen(false);
-    window.dispatchEvent(new CustomEvent("toggle-command-menu"));
-  };
-
   const isDark = mounted ? theme === "dark" : true;
+
+  const renderLangSwitcher = (compact: boolean) => (
+    <div
+      role="group"
+      aria-label={lang === "EN" ? "Language selection" : "Pilihan bahasa"}
+      className={`items-center border ${
+        compact ? "hidden sm:flex rounded-full p-1 h-[42px]" : "flex rounded-xl p-1 min-h-[46px] shrink-0"
+      }`}
+      style={{
+        backgroundColor: compact ? "var(--color-bg-card)" : "var(--color-bg-secondary)",
+        borderColor: "var(--color-border)",
+      }}
+    >
+      {(["ID", "EN"] as const).map((code) => {
+        const selected = lang === code;
+        return (
+          <button
+            key={code}
+            type="button"
+            onClick={() => setLang(code)}
+            aria-pressed={selected}
+            className={`${
+              compact ? "h-[32px] min-w-[34px] px-2.5 rounded-full" : "min-h-[36px] min-w-[40px] px-3 rounded-lg"
+            } text-xs font-semibold transition-colors`}
+            style={{
+              backgroundColor: selected ? "var(--color-primary)" : "transparent",
+              color: selected ? "#ffffff" : "var(--color-text-muted)",
+            }}
+          >
+            {code}
+          </button>
+        );
+      })}
+    </div>
+  );
 
   const renderCvOptions = (onSelect: () => void) =>
     CV_OPTIONS.map((cv) => (
@@ -161,21 +191,28 @@ export default function TopNavbar() {
         rel="noopener noreferrer"
         role="menuitem"
         onClick={onSelect}
-        className="flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-[var(--color-primary-tint)]"
+        className="group flex items-center justify-between gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-[var(--color-primary-tint)]"
       >
-        <FileText
-          className="w-4 h-4 shrink-0"
-          style={{ color: "var(--color-primary-text)" }}
-          aria-hidden="true"
-        />
-        <span className="min-w-0">
-          <span className="block text-sm font-semibold" style={{ color: "var(--color-text-main)" }}>
-            {cv.title}
-          </span>
-          <span className="block text-xs" style={{ color: "var(--color-text-muted)" }}>
-            {cv.subtitle}
+        <span className="flex items-center gap-3 min-w-0">
+          <FileText
+            className="w-4 h-4 shrink-0"
+            style={{ color: "var(--color-primary-text)" }}
+            aria-hidden="true"
+          />
+          <span className="min-w-0">
+            <span className="block text-sm font-semibold truncate" style={{ color: "var(--color-text-main)" }}>
+              {cv.title}
+            </span>
+            <span className="block text-xs truncate" style={{ color: "var(--color-text-muted)" }}>
+              {cv.subtitle}
+            </span>
           </span>
         </span>
+        <ArrowUpRight
+          className="w-3.5 h-3.5 shrink-0 opacity-60 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+          style={{ color: "var(--color-text-muted)" }}
+          aria-hidden="true"
+        />
       </a>
     ));
 
@@ -188,7 +225,7 @@ export default function TopNavbar() {
         borderBottom: isScrolled ? "1px solid var(--color-border)" : "1px solid transparent",
       }}
     >
-      <div className="mx-auto flex h-[74px] w-full max-w-[1240px] items-center justify-between gap-4 xl:gap-8 px-4 sm:px-6">
+      <div className="mx-auto flex h-[74px] w-full max-w-[1240px] items-center justify-between gap-4 px-4 sm:px-6">
         {/* Brand Wordmark */}
         <Link
           href={getSectionHref("home", lang)}
@@ -209,7 +246,11 @@ export default function TopNavbar() {
         {/* Desktop Navigation */}
         <nav
           aria-label={lang === "EN" ? "Primary navigation" : "Navigasi utama"}
-          className="hidden xl:flex flex-1 items-center justify-center gap-0.5 pl-4"
+          className="hidden xl:flex items-center gap-1 rounded-full p-1 border"
+          style={{
+            backgroundColor: "color-mix(in srgb, var(--color-bg-card) 82%, transparent)",
+            borderColor: "var(--color-border)",
+          }}
         >
           {NAV_SECTIONS.map((item) => {
             const active = isNavItemActive(item);
@@ -219,7 +260,7 @@ export default function TopNavbar() {
                 href={getSectionHref(item.key, lang)}
                 onClick={(e) => handleNavClick(e, item)}
                 aria-current={active ? "page" : undefined}
-                className="whitespace-nowrap rounded-full px-3 py-1.5 text-[13px] transition-colors"
+                className="whitespace-nowrap rounded-full px-3.5 py-1.5 text-[13px] transition-colors hover:text-[var(--color-text-main)]"
                 style={{
                   backgroundColor: active ? "var(--color-primary-tint)" : "transparent",
                   color: active ? "var(--color-primary-text)" : "var(--color-text-muted)",
@@ -233,32 +274,7 @@ export default function TopNavbar() {
         </nav>
 
         {/* Right Controls */}
-        <div className="flex items-center gap-2 shrink-0">
-          {/* Quick Search (Desktop / Tablet) */}
-          <button
-            type="button"
-            onClick={openCommandPalette}
-            aria-label={lang === "EN" ? "Open quick search (Ctrl+K)" : "Buka pencarian cepat (Ctrl+K)"}
-            className="hidden md:inline-flex items-center gap-2 min-h-[42px] px-3 rounded-full text-xs font-medium transition-colors border"
-            style={{
-              backgroundColor: "var(--color-bg-card)",
-              borderColor: "var(--color-border)",
-              color: "var(--color-text-muted)",
-            }}
-          >
-            <Search className="w-3.5 h-3.5" aria-hidden="true" />
-            <span className="hidden 2xl:inline">{lang === "EN" ? "Search" : "Cari"}</span>
-            <kbd
-              className="rounded px-1.5 py-0.5 text-[10px] font-mono"
-              style={{
-                backgroundColor: "var(--color-bg-secondary)",
-                color: "var(--color-text-subtle)",
-              }}
-            >
-              Ctrl+K
-            </kbd>
-          </button>
-
+        <div className="flex items-center gap-2.5 shrink-0">
           {/* Download CV Dropdown (Desktop / Tablet) */}
           <div ref={cvRef} className="relative hidden sm:block">
             <button
@@ -267,11 +283,10 @@ export default function TopNavbar() {
               onClick={() => setIsCvOpen((prev) => !prev)}
               aria-expanded={isCvOpen}
               aria-haspopup="menu"
-              className="inline-flex items-center gap-2 min-h-[42px] px-4 rounded-full text-[13px] font-semibold border transition-colors"
+              className="inline-flex items-center gap-2 h-[42px] px-4 rounded-full text-[13px] font-semibold text-white transition-all hover:brightness-110 active:scale-[0.98]"
               style={{
-                backgroundColor: "var(--color-bg-card)",
-                borderColor: isCvOpen ? "var(--color-primary)" : "var(--color-border)",
-                color: "var(--color-text-main)",
+                background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%)",
+                boxShadow: "0 4px 14px var(--color-primary-glow)",
               }}
             >
               <Download className="w-3.5 h-3.5" aria-hidden="true" />
@@ -286,7 +301,7 @@ export default function TopNavbar() {
               <div
                 role="menu"
                 aria-label={lang === "EN" ? "CV Language Options" : "Pilihan Bahasa CV"}
-                className="absolute right-0 mt-2 w-60 rounded-2xl p-1.5 shadow-xl z-50 border animate-modal-enter"
+                className="absolute right-0 mt-2 w-64 rounded-2xl p-1.5 shadow-xl z-50 border animate-modal-enter"
                 style={{
                   backgroundColor: "var(--color-bg-card)",
                   borderColor: "var(--color-border)",
@@ -297,35 +312,8 @@ export default function TopNavbar() {
             )}
           </div>
 
-          {/* Language Switcher */}
-          <div
-            role="group"
-            aria-label={lang === "EN" ? "Language selection" : "Pilihan bahasa"}
-            className="hidden sm:flex items-center rounded-full p-1 border"
-            style={{
-              backgroundColor: "var(--color-bg-card)",
-              borderColor: "var(--color-border)",
-            }}
-          >
-            {(["ID", "EN"] as const).map((code) => {
-              const selected = lang === code;
-              return (
-                <button
-                  key={code}
-                  type="button"
-                  onClick={() => setLang(code)}
-                  aria-pressed={selected}
-                  className="min-h-[32px] min-w-[34px] px-2.5 rounded-full text-xs font-semibold transition-colors"
-                  style={{
-                    backgroundColor: selected ? "var(--color-primary)" : "transparent",
-                    color: selected ? "#ffffff" : "var(--color-text-muted)",
-                  }}
-                >
-                  {code}
-                </button>
-              );
-            })}
-          </div>
+          {/* Language Switcher (Desktop / Tablet) */}
+          {renderLangSwitcher(true)}
 
           {/* Theme Toggle */}
           <button
@@ -430,92 +418,64 @@ export default function TopNavbar() {
                     key={item.key}
                     href={getSectionHref(item.key, lang)}
                     onClick={(e) => handleNavClick(e, item)}
-                    className="flex items-center justify-between min-h-[44px] px-4 py-2.5 rounded-xl text-sm transition-colors"
+                    className="flex items-center justify-between min-h-[44px] px-4 py-2.5 rounded-xl text-sm border transition-colors"
                     style={{
                       backgroundColor: active ? "var(--color-primary-tint)" : "var(--color-bg-secondary)",
+                      borderColor: active ? "var(--color-primary)" : "transparent",
                       color: active ? "var(--color-primary-text)" : "var(--color-text-main)",
                       fontWeight: active ? 700 : 500,
                     }}
                   >
                     <span>{lang === "EN" ? item.labelEN : item.labelID}</span>
+                    {active && (
+                      <span
+                        className="h-2 w-2 rounded-full shrink-0"
+                        style={{ backgroundColor: "var(--color-primary-text)" }}
+                        aria-hidden="true"
+                      />
+                    )}
                   </Link>
                 );
               })}
             </nav>
 
-            <div className="pt-3 border-t flex flex-wrap items-center gap-2.5" style={{ borderColor: "var(--color-border)" }}>
-              <button
-                type="button"
-                onClick={openCommandPalette}
-                className="flex-1 min-w-[140px] min-h-[44px] inline-flex items-center justify-center gap-2 px-4 rounded-xl text-xs font-semibold border"
-                style={{
-                  backgroundColor: "var(--color-bg-secondary)",
-                  borderColor: "var(--color-border)",
-                  color: "var(--color-text-main)",
-                }}
-              >
-                <Search className="w-4 h-4" aria-hidden="true" />
-                <span>{lang === "EN" ? "Quick Search" : "Pencarian Cepat"}</span>
-              </button>
+            <div className="sm:hidden pt-3 border-t space-y-2.5" style={{ borderColor: "var(--color-border)" }}>
+              <div className="flex items-center gap-2.5">
+                <button
+                  type="button"
+                  onClick={() => setIsMobileCvOpen((prev) => !prev)}
+                  aria-expanded={isMobileCvOpen}
+                  aria-haspopup="menu"
+                  className="flex-1 min-h-[46px] inline-flex items-center justify-center gap-2 px-4 rounded-xl text-xs font-semibold text-white transition-all active:scale-[0.99]"
+                  style={{
+                    background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%)",
+                    boxShadow: "0 4px 14px var(--color-primary-glow)",
+                  }}
+                >
+                  <Download className="w-4 h-4" aria-hidden="true" />
+                  <span>{lang === "EN" ? "Download CV" : "Unduh CV"}</span>
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 transition-transform duration-200 ${isMobileCvOpen ? "rotate-180" : ""}`}
+                    aria-hidden="true"
+                  />
+                </button>
 
-              <button
-                type="button"
-                onClick={() => setIsMobileCvOpen((prev) => !prev)}
-                aria-expanded={isMobileCvOpen}
-                aria-haspopup="menu"
-                className="flex-1 min-w-[130px] min-h-[44px] inline-flex items-center justify-center gap-2 px-4 rounded-xl text-xs font-semibold text-white"
-                style={{ backgroundColor: "var(--color-primary)" }}
-              >
-                <Download className="w-4 h-4" aria-hidden="true" />
-                <span>{lang === "EN" ? "Download CV" : "Unduh CV"}</span>
-                <ChevronDown
-                  className={`w-3.5 h-3.5 transition-transform duration-200 ${isMobileCvOpen ? "rotate-180" : ""}`}
-                  aria-hidden="true"
-                />
-              </button>
-
-              <div
-                role="group"
-                aria-label={lang === "EN" ? "Language selection" : "Pilihan bahasa"}
-                className="flex items-center rounded-xl p-1 border"
-                style={{
-                  backgroundColor: "var(--color-bg-secondary)",
-                  borderColor: "var(--color-border)",
-                }}
-              >
-                {(["ID", "EN"] as const).map((code) => {
-                  const selected = lang === code;
-                  return (
-                    <button
-                      key={code}
-                      type="button"
-                      onClick={() => setLang(code)}
-                      aria-pressed={selected}
-                      className="min-h-[36px] px-3 rounded-lg text-xs font-semibold transition-colors"
-                      style={{
-                        backgroundColor: selected ? "var(--color-primary)" : "transparent",
-                        color: selected ? "#ffffff" : "var(--color-text-muted)",
-                      }}
-                    >
-                      {code}
-                    </button>
-                  );
-                })}
+                {renderLangSwitcher(false)}
               </div>
+
+              {isMobileCvOpen && (
+                <div
+                  role="menu"
+                  aria-label={lang === "EN" ? "CV Language Options" : "Pilihan Bahasa CV"}
+                  className="surface-chip rounded-2xl p-1.5 space-y-1 animate-modal-enter"
+                >
+                  {renderCvOptions(() => {
+                    setIsMobileCvOpen(false);
+                    setIsMobileMenuOpen(false);
+                  })}
+                </div>
+              )}
             </div>
-
-            {isMobileCvOpen && (
-              <div
-                role="menu"
-                aria-label={lang === "EN" ? "CV Language Options" : "Pilihan Bahasa CV"}
-                className="surface-chip rounded-2xl p-1.5 space-y-1 animate-modal-enter"
-              >
-                {renderCvOptions(() => {
-                  setIsMobileCvOpen(false);
-                  setIsMobileMenuOpen(false);
-                })}
-              </div>
-            )}
           </div>
         </div>
       )}
