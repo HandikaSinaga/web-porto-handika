@@ -180,9 +180,9 @@ export default function About() {
                       href={item.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="surface-inset group flex items-center justify-between gap-2.5 min-h-[54px] px-3.5 py-2.5 rounded-xl border transition-all hover:-translate-y-0.5 hover:border-[var(--color-primary)]"
+                      className="surface-inset group flex flex-row sm:flex-col sm:justify-between items-center sm:items-stretch justify-between gap-2.5 min-h-[54px] p-3.5 rounded-xl border transition-all hover:-translate-y-0.5 hover:border-[var(--color-primary)]"
                     >
-                      <span className="flex items-center gap-2.5 min-w-0">
+                      <span className="flex items-center sm:justify-between gap-2.5">
                         <span
                           aria-hidden="true"
                           className="h-9 w-9 rounded-lg flex items-center justify-center shrink-0"
@@ -193,17 +193,32 @@ export default function About() {
                         >
                           <Icon className="w-4 h-4" />
                         </span>
-                        <span className="min-w-0">
-                          <span className="block text-xs font-bold truncate" style={{ color: "var(--color-text-main)" }}>
+                        <span className="sm:hidden">
+                          <span className="block text-xs font-bold" style={{ color: "var(--color-text-main)" }}>
                             {item.name}
                           </span>
-                          <span className="block text-[11px] truncate" style={{ color: "var(--color-text-muted)" }}>
+                          <span className="block text-[11px]" style={{ color: "var(--color-text-muted)" }}>
                             {item.hint}
                           </span>
                         </span>
+                        <ArrowUpRight
+                          className="hidden sm:block w-3.5 h-3.5 shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                          style={{ color: "var(--color-text-muted)" }}
+                          aria-hidden="true"
+                        />
                       </span>
+
+                      <span className="hidden sm:block">
+                        <span className="block text-sm font-bold leading-tight" style={{ color: "var(--color-text-main)" }}>
+                          {item.name}
+                        </span>
+                        <span className="block text-xs mt-0.5 leading-snug" style={{ color: "var(--color-text-muted)" }}>
+                          {item.hint}
+                        </span>
+                      </span>
+
                       <ArrowUpRight
-                        className="w-3.5 h-3.5 shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                        className="sm:hidden w-3.5 h-3.5 shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                         style={{ color: "var(--color-text-muted)" }}
                         aria-hidden="true"
                       />
