@@ -181,19 +181,19 @@ export default function Hero() {
             >
               {lang === "EN" ? (
                 <>
-                  Computer Science graduate from{" "}
+                  Informatics Engineering graduate from{" "}
                   <strong style={{ color: "var(--color-text-main)" }}>
-                    Pamulang University (GPA 3.59)
+                    Universitas Pamulang (GPA 3.59 / 4.00)
                   </strong>{" "}
-                  focusing on AWS cloud architecture, Docker containers, CI/CD automation, and Linux production infrastructure.
+                  specializing in AWS cloud architecture (EC2, RDS, VPC, Auto Scaling), Nginx, PM2, Docker, CI/CD pipelines, and observability with Prometheus, Grafana, and K6.
                 </>
               ) : (
                 <>
                   Lulusan{" "}
                   <strong style={{ color: "var(--color-text-main)" }}>
-                    S1 Teknik Informatika, Universitas Pamulang (IPK 3,59)
+                    S1 Teknik Informatika, Universitas Pamulang (IPK 3,59 / 4,00)
                   </strong>{" "}
-                  yang berfokus pada arsitektur cloud AWS, container Docker, otomasi CI/CD, dan infrastruktur server Linux.
+                  dengan keahlian arsitektur cloud AWS (EC2, RDS, VPC, Auto Scaling), deployment Nginx, PM2, Docker, pipeline CI/CD, serta observabilitas Prometheus, Grafana, dan K6.
                 </>
               )}
             </p>

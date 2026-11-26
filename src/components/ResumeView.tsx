@@ -189,8 +189,8 @@ export default function ResumeView() {
                 <div className="space-y-3">
                   <p className="text-sm leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
                     {isEN
-                      ? "Graduated in Computer Science focusing on software engineering, computer networks, distributed operating systems, and cloud infrastructure."
-                      : "Menyelesaikan studi S1 Teknik Informatika dengan fokus rekayasa perangkat lunak, jaringan komputer, sistem operasi, serta arsitektur cloud."}
+                      ? "Bachelor of Computer Science (Informatics Engineering) graduate with an HKI-output thesis and national BNSP networking certification."
+                      : "Lulusan S1 Teknik Informatika dengan Tugas Akhir berluaran HKI serta sertifikasi kompetensi jaringan BNSP."}
                   </p>
                   <ul className="space-y-2 text-xs sm:text-sm list-none" style={{ color: "var(--color-text-muted)" }}>
                     {educationData.highlights.map((hl, idx) => (

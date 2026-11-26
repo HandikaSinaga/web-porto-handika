@@ -33,38 +33,38 @@ export default function About() {
   const contributions = isEN
     ? [
         {
-          title: "Production AWS Cloud Architecture",
-          desc: "Designed isolated VPC (10.0.0.0/16), tiered Security Groups, Multi-AZ Application Load Balancer, Auto Scaling EC2, and RDS MySQL for client and capstone workloads.",
+          title: "Production AWS Cloud & Cost Optimization",
+          desc: "Architected VPC (10.0.0.0/16), Multi-AZ ALB, Auto Scaling, and RDS MySQL; reduced AWS costs by ~28.8% ($123.58 to $87.96/month) via AWS Pricing Calculator while scaling RDS from t3.micro to t3.medium for 50 to 80+ users.",
         },
         {
-          title: "Fullstack Deployment & Zero-Downtime Runtime",
-          desc: "Configured Nginx reverse proxy with SSL routing (seals.id and api.seals.id) and PM2 process clustering for automated crash recovery and zero-downtime reloads.",
+          title: "Fullstack Deployment, Containers & CI/CD",
+          desc: "Managed application releases using Nginx, PM2 clustering, Docker, and GitLab CI, configuring production custom domains (seals.id), API subdomains (api.seals.id), and SSL certificates.",
         },
         {
           title: "Real-Time Observability & Load Benchmarking",
-          desc: "Built Prometheus metric scraping (port 9090) and Grafana dashboards, paired with Grafana k6 stress benchmarks handling 100 concurrent Virtual Users (20,100 requests).",
+          desc: "Built Prometheus metric scraping (port 9090), Grafana dashboards, CloudWatch and SNS alerting, plus Grafana K6 load testing (100 VUs, 20,100+ requests) to eliminate backend bottlenecks.",
         },
         {
-          title: "Cross-Functional Leadership & Industry Delivery",
-          desc: "Led a 7-member engineering team for Gazebo Samasta AWS deployment and served as MSIB Batch 7 Tribe Leader coordinating 50+ interns with mentors and stakeholders.",
+          title: "Cross-Functional Leadership & HKI Research",
+          desc: "Led a 7-member team for 6 weeks on Gazebo Samasta 3-tier AWS delivery, served as MSIB Batch 7 Tribe Leader for 50+ interns, and produced an HKI-registered cloud thesis system at PT Link Apisindo Media.",
         },
       ]
     : [
         {
-          title: "Arsitektur Cloud AWS Skala Produksi",
-          desc: "Merancang VPC terisolasi (10.0.0.0/16), Security Groups berlapis, Application Load Balancer Multi-AZ, Auto Scaling EC2, dan RDS MySQL untuk beban kerja produksi.",
+          title: "Arsitektur Cloud AWS & Optimasi Biaya",
+          desc: "Merancang VPC (10.0.0.0/16), Multi-AZ ALB, Auto Scaling, dan RDS MySQL; memangkas biaya AWS ~28,8% ($123,58 menjadi $87,96/bulan) via AWS Pricing Calculator sambil scaling RDS t3.micro ke t3.medium (50 ke 80+ pengguna).",
         },
         {
-          title: "Deployment Fullstack & Zero-Downtime Runtime",
-          desc: "Mengonfigurasi Nginx reverse proxy beserta SSL (seals.id dan api.seals.id) dan PM2 clustering untuk auto-restart dan pemeliharaan tanpa downtime.",
+          title: "Deployment Fullstack, Container & CI/CD",
+          desc: "Mengelola deployment dengan Nginx reverse proxy, PM2 clustering, Docker, dan GitLab CI termasuk konfigurasi custom domain (seals.id), API subdomain (api.seals.id), dan sertifikat SSL.",
         },
         {
           title: "Observabilitas Real-Time & Pengujian Beban",
-          desc: "Membangun scraping metrik Prometheus (port 9090) dan dashboard Grafana, dilengkapi stress test Grafana K6 sebesar 100 Virtual Users (20.100 requests).",
+          desc: "Membangun monitoring Prometheus dan Grafana, alerting CloudWatch dan SNS, serta uji beban Grafana K6 (100 VUs, 20.100+ requests) untuk mengidentifikasi bottleneck dan mengoptimalkan performa backend.",
         },
         {
-          title: "Kepemimpinan Tim & Penyerahan Proyek",
-          desc: "Memimpin tim 7 orang pada proyek akhir Gazebo Samasta di AWS serta bertugas sebagai Tribe Leader MSIB Batch 7 untuk 50+ peserta magang.",
+          title: "Kepemimpinan Tim & Karya Ilmiah Ber-HKI",
+          desc: "Memimpin tim 7 orang selama 6 minggu pada arsitektur 3-tier AWS Gazebo Samasta, menjadi Tribe Leader MSIB Batch 7 untuk 50+ peserta, serta menyusun sistem magang cloud berluaran HKI di PT Link Apisindo Media.",
         },
       ];
 
@@ -109,8 +109,8 @@ export default function About() {
               <p>{contactData.summary}</p>
               <p>
                 {isEN
-                  ? "Certified as a BNSP Network Administrator and credentialed by AWS Academy (Cloud Architecting & Cloud Foundations) as well as Alibaba Cloud (ACA & Certified Developer)."
-                  : "Tersertifikasi Kompetensi Nasional BNSP Network Administrator serta mengantongi kredensial resmi AWS Academy (Cloud Architecting & Cloud Foundations) dan Alibaba Cloud (ACA & Certified Developer)."}
+                  ? "Certified as a BNSP Network Engineer (Network Administrator) and credentialed by AWS Academy (Cloud Architecting & Cloud Foundations) and Alibaba Cloud (ACA & Certified Developer), alongside an HKI-output undergraduate thesis built for PT Link Apisindo Media."
+                  : "Tersertifikasi Nasional BNSP Network Engineer (Network Administrator) serta memiliki kredensial resmi AWS Academy (Cloud Architecting & Cloud Foundations) dan Alibaba Cloud (ACA & Certified Developer), serta skripsi berluaran HKI di PT Link Apisindo Media."}
               </p>
             </div>
           </div>

@@ -27,8 +27,11 @@ next-env.d.ts
 
 # Environment variables & secrets
 .env
+.env.*
 .env*.local
 *.env
+*.local
+*.secret
 !.env.example
 
 # Debug and package manager logs
@@ -73,14 +76,28 @@ $RECYCLE.BIN/
 *.pem
 *.key
 *.cert
+*.p12
+*.pfx
+*.jks
 
 # Vercel deployment
 .vercel
 
-# E2E test runs, AI toolings, and temporary workspace artifacts
+# E2E test runs, AI toolings, local notes, and temporary workspace artifacts
 .sokudo/
 .gemini/
 .claude/
 .cursor/
+.agent/
+.agents/
+_agent/
+_agents/
+.superpowers/
+.windsurf/
+.aider*
+IDEA.md
 *.tmp
 *.temp
+*.bak
+
+/e2e

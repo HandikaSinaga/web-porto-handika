@@ -21,7 +21,7 @@ const PILLARS: SkillPillar[] = [
     icon: Cloud,
     descriptionID: "Perancangan, isolasi jaringan VPC, dan manajemen komputasi scalable.",
     descriptionEN: "VPC network architecture, network isolation, and scalable cloud compute management.",
-    skills: ["AWS EC2", "AWS VPC", "RDS MySQL", "AWS ALB", "Auto Scaling", "Alibaba Cloud"],
+    skills: ["AWS EC2", "AWS VPC", "RDS MySQL", "AWS ALB", "Auto Scaling", "AWS Pricing Calculator", "Alibaba Cloud"],
   },
   {
     title: "CI/CD & Containers",
@@ -37,7 +37,7 @@ const PILLARS: SkillPillar[] = [
     icon: Activity,
     descriptionID: "Pemantauan kesehatan host, metrik telemetri, dan load test.",
     descriptionEN: "System telemetry monitoring, real-time alerting, and distributed load stress testing.",
-    skills: ["Prometheus", "Grafana", "Grafana K6", "CloudWatch"],
+    skills: ["Prometheus", "Grafana", "Grafana K6", "CloudWatch & SNS"],
   },
   {
     title: "OS & Web Servers",

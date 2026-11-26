@@ -30,26 +30,28 @@ Modern, high-performance portfolio website of **Handika Juan Putra Sinaga**, sho
 
 ```text
 web-porto/
-├── public/                 # Static assets (images, certificates, favicon, cv)
-│   ├── images/
-│   │   ├── certificates/   # High-resolution certificates
-│   │   └── projects/       # Architecture diagrams and system screenshots
+├── public/                 # Static assets (images, certificates, presentation deck)
+│   ├── documents/          # Downloadable presentation artifacts
+│   └── images/
+│       ├── certificates/   # High-resolution certificates
+│       └── projects/       # Architecture diagrams and system screenshots
 ├── src/
-│   ├── app/                # Next.js App Router (layout, page, globals.css, loading)
+│   ├── app/                # Next.js App Router (layout, page, subpages, app icons)
 │   ├── components/         # Reusable UI components
-│   │   ├── icons/          # Custom SVG brand icons (GitHub, LinkedIn)
-│   │   ├── About.tsx       # Experience, education, background & timeline
+│   │   ├── icons/          # Custom SVG brand icons (GitHub, LinkedIn, WhatsApp)
+│   │   ├── About.tsx       # Profile summary, tech stack & contributions
 │   │   ├── Certifications.tsx # Verified industry credentials & badges
+│   │   ├── CommandMenu.tsx # Quick navigation & search command menu
 │   │   ├── Contact.tsx     # Contact channels, email, social links
 │   │   ├── Footer.tsx      # Portfolio footer & copyright
-│   │   ├── Hero.tsx        # Hero section & core telemetry metrics
-│   │   ├── Navbar.tsx      # Navigation header with theme switch & CV link
+│   │   ├── Hero.tsx        # Hero section & core summary metrics
 │   │   ├── Projects.tsx    # Technical architecture & project dossier
-│   │   └── Skills.tsx      # Tech stack categorization & tooling meters
-│   ├── context/            # Global React context (ThemeContext)
-│   ├── data/               # Centralized portfolio data (portfolioData.ts)
+│   │   ├── ResumeView.tsx  # Education, trainings & work experience
+│   │   ├── Skills.tsx      # Tech stack categorization
+│   │   └── TopNavbar.tsx   # Navigation header, theme/language switch & CV menu
+│   ├── context/            # Global React contexts (ThemeContext, LanguageContext)
+│   ├── data/               # Bilingual portfolio datasets (EN & ID)
 │   └── types/              # TypeScript definitions & interfaces
-├── e2e/                    # End-to-end integration test flows
 ├── .gitignore              # Production-grade gitignore configuration
 ├── eslint.config.mjs       # ESLint configuration
 ├── next.config.ts          # Next.js configuration

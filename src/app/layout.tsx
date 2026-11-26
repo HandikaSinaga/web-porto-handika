@@ -26,7 +26,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Handika Juan Putra Sinaga | Cloud & DevOps Engineer",
   description:
-    "Portofolio Handika Juan Putra Sinaga, Cloud & DevOps Engineer dengan fokus pada AWS, Docker, CI/CD, Linux, serta observabilitas Prometheus dan Grafana.",
+    "Portfolio of Handika Juan Putra Sinaga, Cloud & DevOps Engineer experienced in AWS infrastructure, Docker containerization, CI/CD pipelines, Linux environments, and Prometheus, Grafana & K6 observability.",
   keywords: [
     "Handika Juan Putra Sinaga",
     "Cloud Engineer",
