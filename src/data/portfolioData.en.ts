@@ -577,6 +577,12 @@ export const projectsDataEN: Project[] = [
     },
     gallery: [
       {
+        url: "/images/projects/adaptive-learning/seals-landing-page.png",
+        title: "SEALS Web Platform Landing Page",
+        caption: "Primary web portal interface of the Smart English Adaptive Learning System (SEALS) POLINEMA hosted at seals.id.",
+        category: "SEALS Web Platform",
+      },
+      {
         url: "/images/projects/adaptive-learning/aws-vpc-dashboard.png",
         title: "AWS Virtual Private Cloud (VPC)",
         caption: "VPC dashboard for adaptivelearning-vpc (vpc-044304fdea5d70860) with IPv4 CIDR 10.0.0.0/16 allocation for isolated production networking.",
@@ -623,12 +629,6 @@ export const projectsDataEN: Project[] = [
         title: "Prometheus Scraping Target k6_metrics",
         caption: "Prometheus scraping target status verifying k6_metrics endpoint is healthy and UP (1/1) to capture stress test statistics.",
         category: "Monitoring & Testing",
-      },
-      {
-        url: "/images/projects/adaptive-learning/seals-landing-page.png",
-        title: "SEALS Web Platform Landing Page",
-        caption: "Primary web portal interface of the Smart English Adaptive Learning System (SEALS) POLINEMA hosted at seals.id.",
-        category: "SEALS Web Platform",
       },
       {
         url: "/images/projects/adaptive-learning/seals-modules-learning.png",

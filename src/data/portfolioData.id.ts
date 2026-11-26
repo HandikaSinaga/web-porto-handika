@@ -577,6 +577,12 @@ export const projectsData: Project[] = [
     },
     gallery: [
       {
+        url: "/images/projects/adaptive-learning/seals-landing-page.png",
+        title: "Landing Page Web Platform SEALS",
+        caption: "Tampilan antarmuka utama platform SEALS (Smart English Adaptive Learning System) POLINEMA dengan domain resmi seals.id.",
+        category: "Aplikasi Web SEALS",
+      },
+      {
         url: "/images/projects/adaptive-learning/aws-vpc-dashboard.png",
         title: "AWS Virtual Private Cloud (VPC)",
         caption: "Dashboard VPC adaptivelearning-vpc (vpc-044304fdea5d70860) dengan alokasi IPv4 CIDR 10.0.0.0/16 untuk isolasi jaringan lingkungan produksi.",
@@ -623,12 +629,6 @@ export const projectsData: Project[] = [
         title: "Prometheus Scraping Target k6_metrics",
         caption: "Status target scraping k6_metrics berstatus UP (1/1 up) di Prometheus untuk merekam statistik performa stress test.",
         category: "Monitoring & Testing",
-      },
-      {
-        url: "/images/projects/adaptive-learning/seals-landing-page.png",
-        title: "Landing Page Web Platform SEALS",
-        caption: "Tampilan antarmuka utama platform SEALS (Smart English Adaptive Learning System) POLINEMA dengan domain resmi seals.id.",
-        category: "Aplikasi Web SEALS",
       },
       {
         url: "/images/projects/adaptive-learning/seals-modules-learning.png",
