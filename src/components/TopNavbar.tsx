@@ -28,9 +28,9 @@ interface NavSectionItem {
 const NAV_ITEMS: NavSectionItem[] = [
   { id: "home", labelID: "Beranda", labelEN: "Home", href: "/#home", routeMatch: "/" },
   { id: "about", labelID: "Tentang Saya", labelEN: "About", href: "/#about", routeMatch: "/about" },
-  { id: "portfolio", labelID: "Portfolio", labelEN: "Portfolio", href: "/#portfolio", routeMatch: "/portfolio" },
   { id: "pendidikan", labelID: "Pendidikan", labelEN: "Education", href: "/#pendidikan", routeMatch: "/skills" },
   { id: "pengalaman", labelID: "Pengalaman", labelEN: "Experience", href: "/#pengalaman", routeMatch: "/resume" },
+  { id: "portfolio", labelID: "Portfolio", labelEN: "Portfolio", href: "/#portfolio", routeMatch: "/portfolio" },
   { id: "sertifikasi", labelID: "Sertifikasi", labelEN: "Certifications", href: "/#sertifikasi", routeMatch: "/certifications" },
   { id: "contact", labelID: "Kontak", labelEN: "Contact", href: "/#contact", routeMatch: "/contact" },
 ];

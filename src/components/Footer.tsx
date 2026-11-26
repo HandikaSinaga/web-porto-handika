@@ -47,9 +47,9 @@ export default function Footer() {
   const navLinks = [
     { id: "home", labelID: "Beranda", labelEN: "Home" },
     { id: "about", labelID: "Tentang Saya", labelEN: "About" },
-    { id: "portfolio", labelID: "Portfolio", labelEN: "Portfolio" },
     { id: "pendidikan", labelID: "Pendidikan", labelEN: "Education" },
     { id: "pengalaman", labelID: "Pengalaman", labelEN: "Experience" },
+    { id: "portfolio", labelID: "Portfolio", labelEN: "Portfolio" },
     { id: "sertifikasi", labelID: "Sertifikasi", labelEN: "Certifications" },
     { id: "contact", labelID: "Kontak", labelEN: "Contact" },
   ];

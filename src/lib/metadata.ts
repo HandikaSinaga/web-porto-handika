@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+/*  */import type { Metadata } from "next";
 
 export const SITE_URL = "https://www.handika.web.id";
 export const SITE_NAME = "Handika Juan Putra Sinaga Portfolio";

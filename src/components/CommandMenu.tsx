@@ -103,6 +103,22 @@ export default function CommandMenu({ isOpen, onClose }: CommandMenuProps) {
       badge: "#about",
     },
     {
+      id: "education",
+      title: lang === "EN" ? "Education (Informatics Engineering Unpam)" : "Pendidikan (S1 Teknik Informatika Unpam)",
+      category: resumeCategory,
+      icon: GraduationCap,
+      action: () => navigateToSection("pendidikan", "/#pendidikan"),
+      badge: "#pendidikan",
+    },
+    {
+      id: "experience",
+      title: lang === "EN" ? "Work & Internship Experience" : "Pengalaman Kerja & Magang",
+      category: resumeCategory,
+      icon: Briefcase,
+      action: () => navigateToSection("pengalaman", "/#pengalaman"),
+      badge: "#pengalaman",
+    },
+    {
       id: "portfolio",
       title: t.command.portfolioTitle,
       category: navCategory,
@@ -143,22 +159,6 @@ export default function CommandMenu({ isOpen, onClose }: CommandMenuProps) {
         }, 250);
       },
       badge: "MSIB",
-    },
-    {
-      id: "education",
-      title: lang === "EN" ? "Education (B.S. Computer Science Unpam)" : "Pendidikan (S1 Teknik Informatika Unpam)",
-      category: resumeCategory,
-      icon: GraduationCap,
-      action: () => navigateToSection("pendidikan", "/#pendidikan"),
-      badge: "#pendidikan",
-    },
-    {
-      id: "experience",
-      title: lang === "EN" ? "Work & Internship Experience" : "Pengalaman Kerja & Magang",
-      category: resumeCategory,
-      icon: Briefcase,
-      action: () => navigateToSection("pengalaman", "/#pengalaman"),
-      badge: "#pengalaman",
     },
     {
       id: "certifications",

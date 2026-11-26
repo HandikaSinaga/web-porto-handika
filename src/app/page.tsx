@@ -19,8 +19,8 @@ export default function HomePage() {
     <div className="w-full">
       <Hero />
       <About />
-      <Projects />
       <ResumeView />
+      <Projects />
       <Certifications />
       <Contact />
     </div>
