@@ -24,7 +24,7 @@ export const contactDataEN: ContactInfo = {
   linkedin: "https://www.linkedin.com/in/handikasinaga",
   github: "https://github.com/handikasinaga",
   cvUrl: "https://drive.google.com/file/d/1nAtYP-Pxg6rC4X-wh6P-fAYxnh4HoefI/view?usp=sharing",
-  avatarUrl: "/images/profile.jpg",
+  avatarUrl: "/images/profile.png",
   summary:
     "Bachelor of Informatics Engineering graduate from Universitas Pamulang (GPA: 3.59 / 4.00) with hands-on experience in AWS-based Cloud Engineering and DevOps. Experienced in designing and implementing AWS infrastructure (EC2, RDS MySQL, VPC, Auto Scaling, Load Balancer), managing deployments (Nginx, PM2, Docker) and CI/CD pipelines (Git, GitLab, GitHub) in Linux environments, as well as building monitoring and performance testing systems (Prometheus, Grafana, K6).",
 };
