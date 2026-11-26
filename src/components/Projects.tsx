@@ -15,7 +15,7 @@ import {
   FileText,
   Briefcase,
   AlertCircle,
-  Eye,
+  BookOpen,
   Server,
   Cloud,
   ArrowRight,
@@ -29,7 +29,13 @@ import {
   Layers,
   Search,
   FolderGit2,
+  ShieldCheck,
+  Images,
+  Cpu,
 } from "lucide-react";
+
+type ModalView = "story" | "gallery";
+type IncomingTab = "overview" | "gallery" | "architecture" | "challenges";
 
 export default function Projects() {
   const { projectsData, lang } = usePortfolioData();
@@ -37,10 +43,10 @@ export default function Projects() {
   const t = uiTranslations[lang];
 
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [activeTab, setActiveTab] = useState<"overview" | "gallery" | "architecture" | "challenges">("overview");
+  const [activeView, setActiveView] = useState<ModalView>("story");
   const [lightboxImage, setLightboxImage] = useState<ProjectImage | null>(null);
-  const [galleryCategory, setGalleryCategory] = useState<string>("Semua");
-  const [projectFilter, setProjectFilter] = useState<string>("Semua");
+  const [galleryCategory, setGalleryCategory] = useState<string>("All");
+  const [projectFilter, setProjectFilter] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const isMounted = useIsMounted();
@@ -65,13 +71,13 @@ export default function Projects() {
     if (modalBodyRef.current) {
       modalBodyRef.current.scrollTop = 0;
     }
-  }, [activeTab]);
+  }, [activeView, selectedProject]);
 
   useEffect(() => {
     const handleOpenProjectModal = (e: Event) => {
       const customEvent = e as CustomEvent<{
         projectId?: string;
-        tab?: "overview" | "gallery" | "architecture" | "challenges";
+        tab?: IncomingTab;
       }>;
       const { projectId, tab } = customEvent.detail || {};
       if (!projectId) return;
@@ -79,7 +85,7 @@ export default function Projects() {
       const project = projectsData.find((p) => p.id === projectId);
       if (project) {
         setSelectedProject(project);
-        if (tab) setActiveTab(tab);
+        setActiveView(tab === "gallery" ? "gallery" : "story");
       }
     };
 
@@ -90,6 +96,7 @@ export default function Projects() {
   }, [projectsData]);
 
   const allLabel = isEN ? "All" : "Semua";
+
   const availableCategories = useMemo(() => {
     if (!activeProject?.gallery) return [];
     const cats = Array.from(
@@ -149,6 +156,12 @@ export default function Projects() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [lightboxImage, selectedProject, handlePrevLightbox, handleNextLightbox]);
 
+  const openProject = (project: Project, view: ModalView = "story") => {
+    setSelectedProject(project);
+    setGalleryCategory(allLabel);
+    setActiveView(view);
+  };
+
   const handleNavigateToExperience = (expId: string) => {
     setSelectedProject(null);
     setTimeout(() => {
@@ -163,7 +176,7 @@ export default function Projects() {
   const filteredProjects = useMemo(() => {
     return projectsData.filter((p) => {
       const matchesCategory =
-        projectFilter === "Semua" ||
+        projectFilter === "All" ||
         (projectFilter === "Client" && p.category.toLowerCase().includes("client")) ||
         (projectFilter === "MSIB" &&
           (p.category.toLowerCase().includes("msib") || p.organization.toLowerCase().includes("seal")));
@@ -183,10 +196,19 @@ export default function Projects() {
   }, [projectsData, projectFilter, searchQuery]);
 
   const filterButtons = [
-    { key: "Semua", label: isEN ? "All" : "Semua" },
+    { key: "All", label: isEN ? "All" : "Semua" },
     { key: "Client", label: isEN ? "Client Projects" : "Proyek Klien" },
     { key: "MSIB", label: isEN ? "MSIB Capstone" : "Proyek MSIB" },
   ];
+
+  const primaryActionUrl = activeProject?.liveUrl || activeProject?.presentationUrl || activeProject?.documentationUrl;
+  const primaryActionLabel = activeProject?.liveUrl
+    ? isEN
+      ? "Visit Live Site"
+      : "Buka Situs"
+    : isEN
+    ? "View Slides"
+    : "Lihat Slide";
 
   return (
     <section
@@ -195,7 +217,7 @@ export default function Projects() {
     >
       <div id="projects" className="scroll-mt-20" />
       <div className="mx-auto w-full max-w-[1240px] px-4 sm:px-6 space-y-8">
-        {/* Centered Section Header */}
+        {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto space-y-2.5">
           <div
             className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em]"
@@ -305,7 +327,7 @@ export default function Projects() {
             <button
               type="button"
               onClick={() => {
-                setProjectFilter("Semua");
+                setProjectFilter("All");
                 setSearchQuery("");
               }}
               className="min-h-[42px] px-4 py-2 rounded-full text-xs font-semibold text-white"
@@ -326,13 +348,16 @@ export default function Projects() {
                   className="surface-card surface-card-interactive rounded-2xl overflow-hidden flex flex-col justify-between"
                 >
                   <div>
-                    {/* Preview Media */}
-                    <div
-                      className="relative aspect-[16/9] w-full overflow-hidden border-b group"
+                    {/* Preview Media (Clickable to open Case Study) */}
+                    <button
+                      type="button"
+                      onClick={() => openProject(project, "story")}
+                      className="relative aspect-[16/9] w-full overflow-hidden border-b group block text-left"
                       style={{
                         backgroundColor: "var(--color-bg-secondary)",
                         borderColor: "var(--color-border)",
                       }}
+                      aria-label={`${isEN ? "Open case study for" : "Buka studi kasus"} ${project.title}`}
                     >
                       {coverImage ? (
                         <Image
@@ -340,17 +365,25 @@ export default function Projects() {
                           alt={project.title}
                           fill
                           sizes="(max-width: 1024px) 100vw, 50vw"
-                          className="object-cover object-top transition-transform duration-300 group-hover:scale-[1.04]"
+                          className="object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]"
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">
                           <Cloud className="w-10 h-10" style={{ color: "var(--color-primary-text)" }} aria-hidden="true" />
                         </div>
                       )}
-                    </div>
+                      {project.gallery && project.gallery.length > 0 && (
+                        <span className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-black/75 text-white backdrop-blur-xs">
+                          <Images className="w-3 h-3" aria-hidden="true" />
+                          <span>
+                            {project.gallery.length} {isEN ? "Artifacts" : "Artefak"}
+                          </span>
+                        </span>
+                      )}
+                    </button>
 
                     {/* Card Content */}
-                    <div className="p-6 space-y-4">
+                    <div className="p-5 sm:p-6 space-y-4">
                       <div className="flex flex-wrap items-center justify-between gap-2">
                         <span
                           className="surface-chip px-2.5 py-0.5 rounded-full text-[11px] font-semibold"
@@ -368,10 +401,10 @@ export default function Projects() {
 
                       <div className="space-y-1.5">
                         <div className="text-xs font-medium" style={{ color: "var(--color-primary-text)" }}>
-                          {project.role} {project.period ? `(${project.period})` : ""}
+                          {project.role} {project.period ? `• ${project.period}` : ""}
                         </div>
                         <h3
-                          className="font-heading text-xl font-bold leading-snug"
+                          className="font-heading text-lg sm:text-xl font-bold leading-snug"
                           style={{ color: "var(--color-text-main)" }}
                         >
                           {project.title}
@@ -407,20 +440,17 @@ export default function Projects() {
 
                   {/* Card Footer */}
                   <div
-                    className="px-6 py-4 border-t flex flex-wrap items-center justify-between gap-3"
+                    className="px-5 sm:px-6 py-4 border-t flex items-center justify-between gap-3"
                     style={{ borderColor: "var(--color-border)" }}
                   >
                     <button
                       type="button"
-                      onClick={() => {
-                        setSelectedProject(project);
-                        setActiveTab("overview");
-                      }}
-                      className="inline-flex items-center gap-2 min-h-[42px] px-4 py-2 rounded-full text-xs sm:text-sm font-semibold text-white transition-colors"
+                      onClick={() => openProject(project, "story")}
+                      className="inline-flex items-center gap-2 min-h-[44px] px-4 py-2 rounded-full text-xs sm:text-sm font-semibold text-white transition-all hover:brightness-110"
                       style={{ backgroundColor: "var(--color-primary)" }}
                     >
-                      <Eye className="w-4 h-4" aria-hidden="true" />
-                      <span>{isEN ? "Project Blueprint & Gallery" : "Detail & Artefak Proyek"}</span>
+                      <BookOpen className="w-4 h-4 shrink-0" aria-hidden="true" />
+                      <span>{isEN ? "Read Case Study" : "Baca Detail Proyek"}</span>
                     </button>
 
                     {project.liveUrl ? (
@@ -428,10 +458,10 @@ export default function Projects() {
                         href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 min-h-[42px] px-3 py-2 text-xs sm:text-sm font-semibold hover:underline"
+                        className="inline-flex items-center gap-1.5 min-h-[44px] px-3 py-2 text-xs sm:text-sm font-semibold hover:underline shrink-0"
                         style={{ color: "var(--color-text-main)" }}
                       >
-                        <span>{isEN ? "Visit Live Site" : "Kunjungi Situs"}</span>
+                        <span>{isEN ? "Live Site" : "Situs Live"}</span>
                         <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
                       </a>
                     ) : project.presentationUrl ? (
@@ -439,10 +469,10 @@ export default function Projects() {
                         href={project.presentationUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 min-h-[42px] px-3 py-2 text-xs sm:text-sm font-semibold hover:underline"
+                        className="inline-flex items-center gap-1.5 min-h-[44px] px-3 py-2 text-xs sm:text-sm font-semibold hover:underline shrink-0"
                         style={{ color: "var(--color-text-main)" }}
                       >
-                        <span>{isEN ? "Pitch Deck" : "Slide Presentasi"}</span>
+                        <span>{isEN ? "Pitch Deck" : "Slide"}</span>
                         <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
                       </a>
                     ) : null}
@@ -454,80 +484,73 @@ export default function Projects() {
         )}
       </div>
 
-      {/* PROJECT DETAIL MODAL */}
+      {/* INDUSTRY-GRADE EDITORIAL CASE STUDY MODAL (Full-screen sheet on mobile, centered dialog on desktop) */}
       {isMounted &&
         activeProject &&
         createPortal(
           <div
-            className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 bg-black/75 backdrop-blur-sm"
+            className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center sm:p-6 bg-black/75 backdrop-blur-sm"
             onClick={() => setSelectedProject(null)}
             role="dialog"
             aria-modal="true"
             aria-label={activeProject.title}
           >
             <div
-              className="relative w-full max-w-5xl rounded-3xl border shadow-2xl overflow-hidden max-h-[92vh] flex flex-col animate-modal-enter"
+              className="relative w-full h-[100dvh] sm:h-auto sm:max-h-[90dvh] sm:max-w-5xl rounded-none sm:rounded-3xl sm:border shadow-2xl overflow-hidden flex flex-col animate-modal-enter"
               style={{
                 backgroundColor: "var(--color-bg-card)",
                 borderColor: "var(--color-border)",
               }}
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Modal Header */}
+              {/* Slim Sticky Top Bar (Keeps mobile viewport focused on reading content) */}
               <div
-                className="p-4 sm:p-6 border-b flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 shrink-0"
+                className="px-4 sm:px-6 h-16 border-b flex items-center justify-between gap-3 shrink-0"
                 style={{
                   backgroundColor: "var(--color-bg-secondary)",
                   borderColor: "var(--color-border)",
                 }}
               >
-                <div className="space-y-1 min-w-0">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span
-                      className="text-xs font-mono uppercase tracking-wider font-semibold"
+                <div className="min-w-0 flex items-center gap-2.5">
+                  <span
+                    className="hidden sm:inline-flex px-2.5 py-1 rounded-full text-[11px] font-semibold text-white shrink-0"
+                    style={{ backgroundColor: "var(--color-primary)" }}
+                  >
+                    {activeProject.category}
+                  </span>
+                  <div className="min-w-0">
+                    <div
+                      className="text-[11px] font-mono font-semibold truncate"
                       style={{ color: "var(--color-primary-text)" }}
                     >
                       {activeProject.organization} • {activeProject.period}
-                    </span>
-                    {activeProject.teamName && (
-                      <span
-                        className="px-2.5 py-0.5 rounded-full text-[11px] font-medium border"
-                        style={{
-                          backgroundColor: "var(--color-primary-tint)",
-                          borderColor: "var(--color-border)",
-                          color: "var(--color-primary-text)",
-                        }}
-                      >
-                        {activeProject.teamName}
-                      </span>
-                    )}
+                    </div>
+                    <div
+                      className="text-sm font-bold truncate"
+                      style={{ color: "var(--color-text-main)" }}
+                    >
+                      {activeProject.title}
+                    </div>
                   </div>
-                  <h3 className="font-heading text-lg sm:text-2xl font-extrabold leading-tight" style={{ color: "var(--color-text-main)" }}>
-                    {activeProject.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm" style={{ color: "var(--color-text-muted)" }}>
-                    {activeProject.subtitle}
-                  </p>
                 </div>
 
-                <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
-                  {activeProject.documentationUrl && (
+                <div className="flex items-center gap-2 shrink-0">
+                  {primaryActionUrl && (
                     <a
-                      href={activeProject.documentationUrl}
+                      href={primaryActionUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 min-h-[42px] px-4 py-2 rounded-full text-xs font-semibold text-white"
+                      className="hidden sm:inline-flex items-center gap-1.5 min-h-[40px] px-3.5 py-1.5 rounded-full text-xs font-semibold text-white transition-all hover:brightness-110"
                       style={{ backgroundColor: "var(--color-primary)" }}
                     >
-                      <FileText className="w-3.5 h-3.5" aria-hidden="true" />
-                      <span>{isEN ? "Deck & Docs" : "Slide & Dokumen"}</span>
-                      <ExternalLink className="w-3 h-3" aria-hidden="true" />
+                      <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
+                      <span>{primaryActionLabel}</span>
                     </a>
                   )}
                   <button
                     type="button"
                     onClick={() => setSelectedProject(null)}
-                    aria-label={isEN ? "Close modal" : "Tutup modal"}
+                    aria-label={isEN ? "Close project detail" : "Tutup detail proyek"}
                     className="h-11 w-11 inline-flex items-center justify-center rounded-full border transition-colors"
                     style={{
                       backgroundColor: "var(--color-bg-card)",
@@ -540,130 +563,401 @@ export default function Projects() {
                 </div>
               </div>
 
-              {/* Tabs */}
+              {/* Clean 2-Option Segmented View Switcher (Fits effortlessly at every phone width) */}
               <div
-                role="tablist"
-                aria-label={isEN ? "Project sections" : "Bagian proyek"}
-                className="px-4 sm:px-6 border-b flex items-center gap-1 sm:gap-2 overflow-x-auto shrink-0 scrollbar-thin"
+                className="px-4 sm:px-6 py-2.5 border-b flex items-center justify-between gap-3 shrink-0"
                 style={{
                   backgroundColor: "var(--color-bg-card)",
                   borderColor: "var(--color-border)",
                 }}
               >
-                {(
-                  [
-                    { id: "overview", label: t.projects.tabOverview },
-                    { id: "gallery", label: t.projects.tabGallery, count: activeProject.gallery?.length || 0 },
-                    { id: "architecture", label: t.projects.tabArchitecture },
-                    { id: "challenges", label: t.projects.tabChallenges },
-                  ] as const
-                ).map((tab) => {
-                  const selected = activeTab === tab.id;
-                  return (
-                    <button
-                      key={tab.id}
-                      type="button"
-                      role="tab"
-                      aria-selected={selected}
-                      onClick={() => setActiveTab(tab.id)}
-                      className="min-h-[44px] py-3 px-3.5 text-xs sm:text-sm font-semibold border-b-2 transition-colors whitespace-nowrap inline-flex items-center gap-1.5"
-                      style={{
-                        borderColor: selected ? "var(--color-primary)" : "transparent",
-                        color: selected ? "var(--color-primary-text)" : "var(--color-text-muted)",
-                      }}
-                    >
-                      <span>{tab.label}</span>
-                      {"count" in tab && (
-                        <span
-                          className="text-[10px] px-1.5 py-0.5 rounded-full font-mono"
-                          style={{
-                            backgroundColor: "var(--color-primary-tint)",
-                            color: "var(--color-primary-text)",
-                          }}
-                        >
-                          {tab.count}
-                        </span>
-                      )}
-                    </button>
-                  );
-                })}
+                <div
+                  role="tablist"
+                  aria-label={isEN ? "Project views" : "Tampilan proyek"}
+                  className="grid grid-cols-2 sm:inline-flex w-full sm:w-auto rounded-xl p-1 border gap-1"
+                  style={{
+                    backgroundColor: "var(--color-bg-secondary)",
+                    borderColor: "var(--color-border)",
+                  }}
+                >
+                  {(
+                    [
+                      {
+                        id: "story" as const,
+                        label: isEN ? "Case Study" : "Ringkasan & Kasus",
+                        icon: BookOpen,
+                      },
+                      {
+                        id: "gallery" as const,
+                        label: isEN ? "Visuals & Artifacts" : "Galeri & Topologi",
+                        count: activeProject.gallery?.length || 0,
+                        icon: Images,
+                      },
+                    ]
+                  ).map((tab) => {
+                    const selected = activeView === tab.id;
+                    const Icon = tab.icon;
+                    return (
+                      <button
+                        key={tab.id}
+                        type="button"
+                        role="tab"
+                        aria-selected={selected}
+                        onClick={() => setActiveView(tab.id)}
+                        className="min-h-[40px] px-3 sm:px-4 rounded-lg text-xs sm:text-sm font-semibold transition-all inline-flex items-center justify-center gap-1.5"
+                        style={{
+                          backgroundColor: selected ? "var(--color-primary)" : "transparent",
+                          color: selected ? "#ffffff" : "var(--color-text-muted)",
+                        }}
+                      >
+                        <Icon className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                        <span className="truncate">{tab.label}</span>
+                        {"count" in tab && (
+                          <span
+                            className="text-[10px] px-1.5 py-0.5 rounded-full font-mono shrink-0"
+                            style={{
+                              backgroundColor: selected ? "rgba(255,255,255,0.2)" : "var(--color-primary-tint)",
+                              color: selected ? "#ffffff" : "var(--color-primary-text)",
+                            }}
+                          >
+                            {tab.count}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {primaryActionUrl && (
+                  <a
+                    href={primaryActionUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="sm:hidden inline-flex items-center gap-1 min-h-[40px] px-3 rounded-xl text-xs font-semibold shrink-0 border"
+                    style={{
+                      backgroundColor: "var(--color-bg-secondary)",
+                      borderColor: "var(--color-border)",
+                      color: "var(--color-primary-text)",
+                    }}
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
+                    <span>{isEN ? "Open" : "Buka"}</span>
+                  </a>
+                )}
               </div>
 
-              {/* Modal Body */}
-              <div ref={modalBodyRef} className="p-4 sm:p-6 overflow-y-auto space-y-6 flex-1">
-                {activeTab === "overview" && (
-                  <div className="space-y-6">
-                    {activeProject.relatedExperienceId && (
-                      <div className="surface-inset p-4 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                        <div className="flex items-center gap-3">
-                          <div
-                            className="w-10 h-10 rounded-xl text-white flex items-center justify-center shrink-0"
-                            style={{ backgroundColor: "var(--color-primary)" }}
-                          >
-                            <Briefcase className="w-5 h-5" aria-hidden="true" />
-                          </div>
-                          <div>
-                            <div
-                              className="text-[11px] font-bold uppercase tracking-wider"
-                              style={{ color: "var(--color-primary-text)" }}
-                            >
-                              {isEN ? "Related Experience" : "Terkait Pengalaman Kerja / Magang"}
-                            </div>
-                            <div className="text-sm sm:text-base font-bold" style={{ color: "var(--color-text-main)" }}>
-                              {activeProject.relatedExperienceRole} {isEN ? "at" : "di"} {activeProject.relatedExperienceCompany}
-                            </div>
-                          </div>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => handleNavigateToExperience(activeProject.relatedExperienceId!)}
-                          className="inline-flex items-center justify-center gap-2 min-h-[42px] px-4 py-2 rounded-full text-xs sm:text-sm font-semibold text-white shrink-0"
+              {/* Scrollable Reading Body */}
+              <div ref={modalBodyRef} className="p-4 sm:p-8 overflow-y-auto flex-1">
+                {activeView === "story" && (
+                  <div className="mx-auto max-w-4xl space-y-7 pb-6">
+                    {/* Case Study Hero Header (Scrolls naturally so mobile screen isn't cramped) */}
+                    <header className="space-y-4">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span
+                          className="px-2.5 py-1 rounded-full text-[11px] font-semibold text-white"
                           style={{ backgroundColor: "var(--color-primary)" }}
                         >
-                          <span>{isEN ? "Open Experience" : "Lihat Pengalaman"}</span>
-                          <ArrowRight className="w-4 h-4" aria-hidden="true" />
-                        </button>
+                          {activeProject.category}
+                        </span>
+                        {activeProject.teamName && (
+                          <span
+                            className="surface-chip px-2.5 py-1 rounded-full text-[11px] font-medium"
+                            style={{ color: "var(--color-primary-text)" }}
+                          >
+                            {activeProject.teamName}
+                          </span>
+                        )}
                       </div>
-                    )}
 
-                    <div className="surface-inset p-5 rounded-2xl space-y-2">
-                      <h4 className="text-xs font-bold uppercase tracking-wider" style={{ color: "var(--color-primary-text)" }}>
-                        {isEN ? "Executive Summary" : "Deskripsi Ringkas"}
+                      <div className="space-y-2">
+                        <h3
+                          className="font-heading text-xl sm:text-3xl font-extrabold tracking-tight leading-snug"
+                          style={{ color: "var(--color-text-main)" }}
+                        >
+                          {activeProject.title}
+                        </h3>
+                        <p className="text-sm sm:text-base leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
+                          {activeProject.subtitle}
+                        </p>
+                      </div>
+
+                      {/* Quick Metadata Grid */}
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+                        <div className="surface-inset p-3.5 rounded-xl">
+                          <div className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: "var(--color-text-muted)" }}>
+                            {isEN ? "Role" : "Peran"}
+                          </div>
+                          <div className="text-xs sm:text-sm font-bold mt-1" style={{ color: "var(--color-text-main)" }}>
+                            {activeProject.role}
+                          </div>
+                        </div>
+                        <div className="surface-inset p-3.5 rounded-xl">
+                          <div className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: "var(--color-text-muted)" }}>
+                            {isEN ? "Organization" : "Organisasi"}
+                          </div>
+                          <div className="text-xs sm:text-sm font-bold mt-1" style={{ color: "var(--color-text-main)" }}>
+                            {activeProject.organization}
+                          </div>
+                        </div>
+                        <div className="surface-inset p-3.5 rounded-xl">
+                          <div className="text-[11px] font-semibold uppercase tracking-wider" style={{ color: "var(--color-text-muted)" }}>
+                            {isEN ? "Timeline" : "Periode"}
+                          </div>
+                          <div className="text-xs sm:text-sm font-bold mt-1" style={{ color: "var(--color-text-main)" }}>
+                            {activeProject.period}
+                          </div>
+                        </div>
+                      </div>
+                    </header>
+
+                    {/* Section 1: Summary & Context */}
+                    <section className="space-y-3 pt-5 border-t" style={{ borderColor: "var(--color-border)" }}>
+                      <h4 className="font-heading text-base sm:text-lg font-bold flex items-center gap-2" style={{ color: "var(--color-text-main)" }}>
+                        <FileText className="w-4 h-4 shrink-0" style={{ color: "var(--color-primary-text)" }} aria-hidden="true" />
+                        <span>{isEN ? "Project Overview & Context" : "Ringkasan & Konteks Proyek"}</span>
                       </h4>
-                      <p className="text-sm sm:text-base leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
+                      <p className="text-sm sm:text-[15px] leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
                         {activeProject.description}
                       </p>
-                    </div>
+                      {activeProject.backgroundSummary && (
+                        <div
+                          className="surface-inset p-4 rounded-xl border-l-4 text-xs sm:text-sm leading-relaxed"
+                          style={{
+                            borderLeftColor: "var(--color-primary)",
+                            color: "var(--color-text-main)",
+                          }}
+                        >
+                          <strong className="block text-[11px] uppercase tracking-wider mb-1" style={{ color: "var(--color-primary-text)" }}>
+                            {isEN ? "Problem Statement" : "Latar Belakang Masalah"}
+                          </strong>
+                          {activeProject.backgroundSummary}
+                        </div>
+                      )}
+                    </section>
 
-                    {activeProject.details && activeProject.details.length > 0 && (
-                      <div className="space-y-3">
-                        <h4 className="text-xs font-bold uppercase tracking-wider" style={{ color: "var(--color-text-main)" }}>
-                          {isEN ? "Key Deliverables & Impact" : "Capaian Utama & Hasil Proyek"}
+                    {/* Section 2: System Flow & Infrastructure Architecture */}
+                    {(activeProject.nodeFlow?.length || activeProject.architectureDetails) && (
+                      <section className="space-y-4 pt-5 border-t" style={{ borderColor: "var(--color-border)" }}>
+                        <h4 className="font-heading text-base sm:text-lg font-bold flex items-center gap-2" style={{ color: "var(--color-text-main)" }}>
+                          <Layers className="w-4 h-4 shrink-0" style={{ color: "var(--color-primary-text)" }} aria-hidden="true" />
+                          <span>{isEN ? "System Architecture & Data Flow" : "Arsitektur Sistem & Alur Infrastruktur"}</span>
                         </h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+
+                        {activeProject.nodeFlow && activeProject.nodeFlow.length > 0 && (
+                          <div className="surface-inset p-4 rounded-2xl">
+                            <div className="text-[11px] font-mono font-bold uppercase tracking-wider mb-3" style={{ color: "var(--color-primary-text)" }}>
+                              {isEN ? "Request & Infrastructure Flow" : "Alur Trafik & Infrastruktur"}
+                            </div>
+                            <ol className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2">
+                              {activeProject.nodeFlow.map((node, idx) => (
+                                <li key={node} className="flex items-center gap-2">
+                                  <span
+                                    className="surface-chip px-3 py-1.5 rounded-lg text-xs font-medium w-full sm:w-auto flex items-center gap-2"
+                                    style={{ color: "var(--color-text-main)" }}
+                                  >
+                                    <span
+                                      className="font-mono text-[10px] font-bold px-1.5 py-0.5 rounded"
+                                      style={{
+                                        backgroundColor: "var(--color-primary-tint)",
+                                        color: "var(--color-primary-text)",
+                                      }}
+                                    >
+                                      0{idx + 1}
+                                    </span>
+                                    <span>{node}</span>
+                                  </span>
+                                  {idx < activeProject.nodeFlow!.length - 1 && (
+                                    <ArrowRight
+                                      className="hidden sm:block w-3.5 h-3.5 shrink-0"
+                                      style={{ color: "var(--color-text-muted)" }}
+                                      aria-hidden="true"
+                                    />
+                                  )}
+                                </li>
+                              ))}
+                            </ol>
+                          </div>
+                        )}
+
+                        {activeProject.architectureDetails && (
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+                            <div className="surface-chip p-4 rounded-xl space-y-2">
+                              <div className="flex items-center gap-2 text-xs font-bold uppercase" style={{ color: "var(--color-text-main)" }}>
+                                <Server className="w-4 h-4 shrink-0" style={{ color: "var(--color-primary-text)" }} aria-hidden="true" />
+                                <span>{isEN ? "Web & App Layer" : "Lapisan Web & App"}</span>
+                              </div>
+                              <p className="text-xs sm:text-[13px] leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
+                                {activeProject.architectureDetails.webTier}
+                              </p>
+                              <p className="text-xs sm:text-[13px] pt-2 border-t leading-relaxed" style={{ color: "var(--color-text-muted)", borderColor: "var(--color-border)" }}>
+                                {activeProject.architectureDetails.appTier}
+                              </p>
+                            </div>
+
+                            <div className="surface-chip p-4 rounded-xl space-y-2">
+                              <div className="flex items-center gap-2 text-xs font-bold uppercase" style={{ color: "var(--color-text-main)" }}>
+                                <ShieldCheck className="w-4 h-4 shrink-0" style={{ color: "var(--color-primary-text)" }} aria-hidden="true" />
+                                <span>{isEN ? "Network & Region" : "Jaringan & Keamanan"}</span>
+                              </div>
+                              <p className="text-xs font-mono font-semibold" style={{ color: "var(--color-primary-text)" }}>
+                                {activeProject.architectureDetails.region} ({activeProject.architectureDetails.zones.join(", ")})
+                              </p>
+                              <p className="text-xs sm:text-[13px] leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
+                                {activeProject.architectureDetails.networkSecurity}
+                              </p>
+                            </div>
+
+                            <div className="surface-chip p-4 rounded-xl space-y-2">
+                              <div className="flex items-center gap-2 text-xs font-bold uppercase" style={{ color: "var(--color-text-main)" }}>
+                                <Database className="w-4 h-4 shrink-0" style={{ color: "var(--color-primary-text)" }} aria-hidden="true" />
+                                <span>{isEN ? "Database & Telemetry" : "Database & Monitoring"}</span>
+                              </div>
+                              <p className="text-xs sm:text-[13px] leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
+                                {activeProject.architectureDetails.dbTier}
+                              </p>
+                              <p className="text-xs sm:text-[13px] pt-2 border-t leading-relaxed" style={{ color: "var(--color-text-muted)", borderColor: "var(--color-border)" }}>
+                                {activeProject.architectureDetails.monitoring}
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                      </section>
+                    )}
+
+                    {/* Section 3: Key Deliverables & Impact (Clean Scannable Checklist) */}
+                    {activeProject.details && activeProject.details.length > 0 && (
+                      <section className="space-y-3 pt-5 border-t" style={{ borderColor: "var(--color-border)" }}>
+                        <h4 className="font-heading text-base sm:text-lg font-bold flex items-center gap-2" style={{ color: "var(--color-text-main)" }}>
+                          <CheckCircle2 className="w-4 h-4 shrink-0" style={{ color: "var(--color-emerald)" }} aria-hidden="true" />
+                          <span>{isEN ? "Key Deliverables & Impact" : "Capaian Utama & Dampak"}</span>
+                        </h4>
+                        <ul className="space-y-2.5">
                           {activeProject.details.map((hl, idx) => (
-                            <div
-                              key={idx}
-                              className="surface-chip p-3.5 rounded-xl flex items-start gap-2.5"
-                            >
-                              <CheckCircle2
-                                className="w-4 h-4 shrink-0 mt-0.5"
-                                style={{ color: "var(--color-emerald)" }}
-                                aria-hidden="true"
-                              />
-                              <span className="text-xs sm:text-sm leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
+                            <li key={idx} className="flex items-start gap-3">
+                              <span
+                                className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[11px] font-mono font-bold"
+                                style={{
+                                  backgroundColor: "var(--color-emerald-tint)",
+                                  color: "var(--color-emerald)",
+                                }}
+                              >
+                                {idx + 1}
+                              </span>
+                              <span className="text-sm leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
                                 {hl}
                               </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </section>
+                    )}
+
+                    {/* Section 4: Operational Challenges & Solutions */}
+                    {activeProject.challenges && activeProject.challenges.length > 0 && (
+                      <section className="space-y-3 pt-5 border-t" style={{ borderColor: "var(--color-border)" }}>
+                        <h4 className="font-heading text-base sm:text-lg font-bold flex items-center gap-2" style={{ color: "var(--color-text-main)" }}>
+                          <AlertCircle className="w-4 h-4 shrink-0" style={{ color: "var(--color-primary-text)" }} aria-hidden="true" />
+                          <span>{isEN ? "Challenges & Solutions" : "Tantangan & Solusi Rekayasa"}</span>
+                        </h4>
+                        <div className="space-y-3">
+                          {activeProject.challenges.map((ch, idx) => (
+                            <div key={idx} className="surface-inset p-4 sm:p-5 rounded-2xl space-y-2.5">
+                              <div className="flex items-start gap-2.5">
+                                <span
+                                  className="px-2 py-0.5 rounded text-[10px] font-bold uppercase shrink-0 mt-0.5"
+                                  style={{
+                                    backgroundColor: "var(--color-primary-tint)",
+                                    color: "var(--color-primary-text)",
+                                  }}
+                                >
+                                  {isEN ? "Issue" : "Kendala"}
+                                </span>
+                                <p className="text-sm font-semibold leading-snug" style={{ color: "var(--color-text-main)" }}>
+                                  {ch.challenge}
+                                </p>
+                              </div>
+                              <div className="flex items-start gap-2.5 pt-2 border-t" style={{ borderColor: "var(--color-border)" }}>
+                                <span
+                                  className="px-2 py-0.5 rounded text-[10px] font-bold uppercase shrink-0 mt-0.5"
+                                  style={{
+                                    backgroundColor: "var(--color-emerald-tint)",
+                                    color: "var(--color-emerald)",
+                                  }}
+                                >
+                                  {isEN ? "Fix" : "Solusi"}
+                                </span>
+                                <p className="text-xs sm:text-sm leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
+                                  {ch.solution}
+                                </p>
+                              </div>
                             </div>
                           ))}
                         </div>
-                      </div>
+                      </section>
                     )}
+
+                    {/* Section 5: Complete Tech Stack */}
+                    <section className="space-y-3 pt-5 border-t" style={{ borderColor: "var(--color-border)" }}>
+                      <h4 className="font-heading text-base sm:text-lg font-bold flex items-center gap-2" style={{ color: "var(--color-text-main)" }}>
+                        <Cpu className="w-4 h-4 shrink-0" style={{ color: "var(--color-primary-text)" }} aria-hidden="true" />
+                        <span>{isEN ? "Technologies Used" : "Teknologi yang Digunakan"}</span>
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {activeProject.techStack.map((tech) => (
+                          <span
+                            key={tech}
+                            className="surface-chip px-3 py-1.5 rounded-lg text-xs font-medium"
+                            style={{ color: "var(--color-text-main)" }}
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </section>
+
+                    {/* Footer Cross-Links: Related Experience + Jump to Visuals */}
+                    <div
+                      className="pt-5 border-t flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                      style={{ borderColor: "var(--color-border)" }}
+                    >
+                      {activeProject.relatedExperienceId ? (
+                        <button
+                          type="button"
+                          onClick={() => handleNavigateToExperience(activeProject.relatedExperienceId!)}
+                          className="surface-chip inline-flex items-center justify-center sm:justify-start gap-2.5 min-h-[44px] px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-colors hover:border-[var(--color-primary)]"
+                          style={{ color: "var(--color-text-main)" }}
+                        >
+                          <Briefcase className="w-4 h-4 shrink-0" style={{ color: "var(--color-primary-text)" }} aria-hidden="true" />
+                          <span className="truncate">
+                            {isEN ? "See Experience:" : "Lihat Pengalaman:"} {activeProject.relatedExperienceCompany}
+                          </span>
+                        </button>
+                      ) : (
+                        <div />
+                      )}
+
+                      {activeProject.gallery && activeProject.gallery.length > 0 && (
+                        <button
+                          type="button"
+                          onClick={() => setActiveView("gallery")}
+                          className="inline-flex items-center justify-center gap-2 min-h-[44px] px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold text-white transition-all hover:brightness-110"
+                          style={{ backgroundColor: "var(--color-primary)" }}
+                        >
+                          <Images className="w-4 h-4 shrink-0" aria-hidden="true" />
+                          <span>
+                            {isEN
+                              ? `View ${activeProject.gallery.length} Visual Artifacts`
+                              : `Lihat ${activeProject.gallery.length} Galeri & Topologi`}
+                          </span>
+                          <ArrowRight className="w-4 h-4 shrink-0" aria-hidden="true" />
+                        </button>
+                      )}
+                    </div>
                   </div>
                 )}
 
-                {activeTab === "gallery" && (
-                  <div className="space-y-6">
+                {activeView === "gallery" && (
+                  <div className="mx-auto max-w-5xl space-y-6 pb-6">
                     {activeProject.id === "gazebo-samasta-reservation" && (
                       <div className="surface-inset p-4 sm:p-5 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div className="flex items-start sm:items-center gap-3.5">
@@ -746,13 +1040,13 @@ export default function Projects() {
                           <div>
                             <h4 className="text-sm sm:text-base font-bold" style={{ color: "var(--color-text-main)" }}>
                               {isEN
-                                ? "AWS Blueprint Artifacts, Grafana k6 & SEALS Platform"
+                                ? "AWS Blueprint Artifacts, Grafana K6 & SEALS Platform"
                                 : "Artefak Blueprint AWS, Grafana K6 & Platform SEALS"}
                             </h4>
                             <p className="text-xs leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
                               {isEN
-                                ? "Isolated VPC (10.0.0.0/16), EC2 t3.medium, Nginx Reverse Proxy seals.id, and k6 100 VUs stress testing."
-                                : "VPC terisolasi (10.0.0.0/16), EC2 t3.medium, Nginx Reverse Proxy seals.id, serta stress test K6 100 VUs."}
+                                ? "Isolated VPC (10.0.0.0/16), EC2 & RDS t3.medium, Nginx Reverse Proxy seals.id, and K6 100 VUs testing."
+                                : "VPC terisolasi (10.0.0.0/16), EC2 & RDS t3.medium, Nginx Reverse Proxy seals.id, serta uji beban K6 100 VUs."}
                             </p>
                           </div>
                         </div>
@@ -761,7 +1055,7 @@ export default function Projects() {
                           href={activeProject.liveUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 min-h-[42px] px-4 py-2 rounded-full text-xs font-semibold text-white shrink-0"
+                          className="inline-flex items-center justify-center gap-2 min-h-[42px] px-4 py-2 rounded-full text-xs font-semibold text-white shrink-0"
                           style={{ backgroundColor: "var(--color-primary)" }}
                         >
                           <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
@@ -771,7 +1065,7 @@ export default function Projects() {
                     )}
 
                     {availableCategories.length > 1 && (
-                      <div className="flex flex-wrap items-center gap-2 pb-2 border-b" style={{ borderColor: "var(--color-border)" }}>
+                      <div className="flex flex-wrap items-center gap-2 pb-3 border-b" style={{ borderColor: "var(--color-border)" }}>
                         {availableCategories.map((cat) => {
                           const count =
                             cat === allLabel
@@ -784,7 +1078,7 @@ export default function Projects() {
                               key={cat}
                               type="button"
                               onClick={() => setGalleryCategory(cat)}
-                              className={`min-h-[38px] px-3.5 py-1.5 rounded-full text-xs font-semibold border transition-colors flex items-center gap-1.5 ${isActive ? "" : "surface-chip"}`}
+                              className={`min-h-[40px] px-3.5 py-1.5 rounded-full text-xs font-semibold border transition-colors flex items-center gap-1.5 ${isActive ? "" : "surface-chip"}`}
                               style={
                                 isActive
                                   ? {
@@ -812,7 +1106,7 @@ export default function Projects() {
                             key={img.url}
                             type="button"
                             onClick={() => setLightboxImage(img)}
-                            className="surface-chip group text-left rounded-2xl overflow-hidden transition-all flex flex-col hover:-translate-y-0.5"
+                            className="surface-chip group text-left rounded-2xl overflow-hidden transition-all flex flex-col hover:-translate-y-0.5 active:scale-[0.99]"
                           >
                             <div className="relative aspect-video w-full bg-black overflow-hidden">
                               <Image
@@ -832,7 +1126,7 @@ export default function Projects() {
                                   #{String(idx + 1).padStart(2, "0")}
                                 </span>
                               </div>
-                              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
+                              <div className="hidden sm:flex absolute inset-0 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
                                 <span
                                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-white text-xs font-semibold"
                                   style={{ backgroundColor: "var(--color-primary)" }}
@@ -853,13 +1147,13 @@ export default function Projects() {
                                 </p>
                               </div>
                               <div
-                                className="flex items-center justify-between pt-2 border-t text-[11px]"
+                                className="flex items-center justify-between pt-2 border-t text-[11px] font-medium"
                                 style={{
                                   borderColor: "var(--color-border)",
                                   color: "var(--color-primary-text)",
                                 }}
                               >
-                                <span>{isEN ? "Inspect image" : "Lihat gambar"}</span>
+                                <span>{isEN ? "Tap to inspect" : "Ketuk untuk perbesar"}</span>
                                 <ZoomIn className="w-3.5 h-3.5" aria-hidden="true" />
                               </div>
                             </div>
@@ -867,9 +1161,7 @@ export default function Projects() {
                         ))}
                       </div>
                     ) : (
-                      <div
-                        className="surface-inset p-10 text-center rounded-2xl border-dashed space-y-3"
-                      >
+                      <div className="surface-inset p-10 text-center rounded-2xl border-dashed space-y-3">
                         <Layers className="w-8 h-8 mx-auto" style={{ color: "var(--color-text-muted)" }} aria-hidden="true" />
                         <p className="text-sm font-semibold" style={{ color: "var(--color-text-main)" }}>
                           {isEN ? "No artifacts in this category" : "Tidak ada artefak dalam kategori ini"}
@@ -877,100 +1169,13 @@ export default function Projects() {
                         <button
                           type="button"
                           onClick={() => setGalleryCategory(allLabel)}
-                          className="min-h-[40px] px-4 py-1.5 rounded-full text-xs font-semibold text-white"
+                          className="min-h-[42px] px-4 py-1.5 rounded-full text-xs font-semibold text-white"
                           style={{ backgroundColor: "var(--color-primary)" }}
                         >
                           {isEN ? "Show All" : "Tampilkan Semua"}
                         </button>
                       </div>
                     )}
-                  </div>
-                )}
-
-                {activeTab === "architecture" && activeProject.architectureDetails && (
-                  <div className="space-y-6">
-                    <div className="surface-inset p-4 rounded-2xl">
-                      <h4 className="text-xs font-mono font-bold uppercase tracking-wider mb-1.5" style={{ color: "var(--color-primary-text)" }}>
-                        {isEN ? "Region & Networking" : "Region & Jaringan"}
-                      </h4>
-                      <p className="text-xs sm:text-sm leading-relaxed" style={{ color: "var(--color-text-main)" }}>
-                        Region: {activeProject.architectureDetails.region} • Availability Zones:{" "}
-                        {activeProject.architectureDetails.zones.join(", ")}
-                      </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div className="surface-chip p-4 rounded-xl space-y-2">
-                        <div className="flex items-center gap-2 text-xs font-bold uppercase" style={{ color: "var(--color-text-main)" }}>
-                          <Server className="w-4 h-4" style={{ color: "var(--color-primary-text)" }} aria-hidden="true" />
-                          <span>Web & App Layer</span>
-                        </div>
-                        <p className="text-xs leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
-                          {activeProject.architectureDetails.webTier}
-                        </p>
-                        <p className="text-xs pt-2 border-t" style={{ color: "var(--color-text-muted)", borderColor: "var(--color-border)" }}>
-                          {activeProject.architectureDetails.appTier}
-                        </p>
-                      </div>
-
-                      <div className="surface-chip p-4 rounded-xl space-y-2">
-                        <div className="flex items-center gap-2 text-xs font-bold uppercase" style={{ color: "var(--color-text-main)" }}>
-                          <Cloud className="w-4 h-4" style={{ color: "var(--color-primary-text)" }} aria-hidden="true" />
-                          <span>{isEN ? "Network Security" : "Keamanan Jaringan"}</span>
-                        </div>
-                        <p className="text-xs leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
-                          {activeProject.architectureDetails.networkSecurity}
-                        </p>
-                      </div>
-
-                      <div className="surface-chip p-4 rounded-xl space-y-2">
-                        <div className="flex items-center gap-2 text-xs font-bold uppercase" style={{ color: "var(--color-text-main)" }}>
-                          <Database className="w-4 h-4" style={{ color: "var(--color-primary-text)" }} aria-hidden="true" />
-                          <span>Database & Monitoring</span>
-                        </div>
-                        <p className="text-xs leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
-                          {activeProject.architectureDetails.dbTier}
-                        </p>
-                        <p className="text-xs pt-2 border-t" style={{ color: "var(--color-text-muted)", borderColor: "var(--color-border)" }}>
-                          {activeProject.architectureDetails.monitoring}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {activeTab === "challenges" && activeProject.challenges && (
-                  <div className="space-y-4">
-                    {activeProject.challenges.map((ch, idx) => (
-                      <div
-                        key={idx}
-                        className="surface-inset p-5 rounded-2xl space-y-3"
-                      >
-                        <div className="flex items-start gap-2.5">
-                          <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" style={{ color: "var(--color-primary-text)" }} aria-hidden="true" />
-                          <div>
-                            <div className="text-xs font-bold uppercase" style={{ color: "var(--color-primary-text)" }}>
-                              {isEN ? "Operational Challenge" : "Tantangan Operasional"}
-                            </div>
-                            <div className="text-sm sm:text-base font-bold" style={{ color: "var(--color-text-main)" }}>
-                              {ch.challenge}
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="flex items-start gap-2.5 pt-2 border-t" style={{ borderColor: "var(--color-border)" }}>
-                          <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5" style={{ color: "var(--color-emerald)" }} aria-hidden="true" />
-                          <div className="w-full">
-                            <div className="text-xs font-bold uppercase mb-1" style={{ color: "var(--color-emerald)" }}>
-                              {isEN ? "Engineering Solution & Outcome" : "Solusi Rekayasa & Hasil"}
-                            </div>
-                            <p className="text-xs sm:text-sm leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
-                              {ch.solution}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
                   </div>
                 )}
               </div>
@@ -1067,7 +1272,7 @@ export default function Projects() {
                   key={lightboxImage.url}
                   src={lightboxImage.url}
                   alt={lightboxImage.caption}
-                  containerClassName="h-[58vh] sm:h-[66vh]"
+                  containerClassName="h-[52dvh] sm:h-[66dvh]"
                   isEN={isEN}
                 />
               </div>
